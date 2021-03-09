@@ -14,4 +14,10 @@
     <body>
         {% block body %}{% endblock %}
     </body>
+    {% for flash in app.flashes('success') %}
+        <span class="d-none js-alert" data-message="{{ flash }}" data-type="success"></span>
+    {% endfor %}
+    {% for flash in app.flashes('error') %}
+        <span class="d-none js-alert" data-message="{{ flash }}" data-type="error"></span>
+    {% endfor %}
 </html>
