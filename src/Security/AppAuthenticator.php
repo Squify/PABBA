@@ -105,6 +105,9 @@ class AppAuthenticator extends AbstractFormLoginAuthenticator implements Passwor
             return new RedirectResponse($targetPath);
         }
 
+        dump($token->getUser());
+        dump("Vous êtes connecté");
+        die;
         return new RedirectResponse('/');
     }
 

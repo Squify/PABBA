@@ -7,6 +7,7 @@ use App\Event\User\UserChangePasswordConfirmEvent;
 use App\Event\User\UserChangePasswordEvent;
 use App\Form\Security\ChangePasswordType;
 use App\Form\Security\ResetPasswordType;
+use App\Form\User\UserProfileType;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -23,9 +24,6 @@ class SecurityController extends AbstractController
     private UserRepository $userRepository;
     private EntityManagerInterface $em;
     private EventDispatcherInterface $eventDispatcher;
-    /**
-     * @var UserPasswordEncoderInterface
-     */
     private UserPasswordEncoderInterface $userPasswordEncoder;
 
     /**
@@ -147,6 +145,35 @@ class SecurityController extends AbstractController
         return $this->render('security/resetPassword.html.twig', [
             'form' => $form->createView(),
             'user' => $user
+        ]);
+    }
+
+    /**
+     * @Route(path="/inscription", name="register")
+     * @param Request $request
+     */
+    public function register(Request $request){
+        $user = new User();
+        $form = $this->createForm(UserProfileType::class, $user);
+
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()){
+            $user
+                ->setRoles(['ROLE_USER'])
+                ->setToken(md5(uniqid()))
+                ->setEnable(false)
+                ->setPassword(md5(uniqid()));
+            $this->em->persist($user);
+            $this->em->flush();
+            $this->eventDispatcher->dispatch(new UserChangePasswordEvent($user));
+
+            $this->addFlash("success", "Félicitation, c'est presque terminé. Un email vient d'être envoyé à " . $user->getEmail() . " pour créer votre mot de passe");
+
+        }
+
+        return $this->render('security/register.html.twig', [
+            'form' => $form->createView()
         ]);
     }
 }

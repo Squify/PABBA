@@ -31,7 +31,14 @@
             <input type="hidden" name="_csrf_token"
                    value="{{ csrf_token('authenticate') }}"
             >
-            <button class="w-100 btn btn-lg btn-primary" type="submit">Connexion</button>
+            <div class="row">
+                <div class="col-12 col-md-6">
+                    <a class=" w-100 btn btn-success" href="{{ path('register') }}">Inscription</a>
+                </div>
+                <div class="col-12 col-md-6">
+                    <button class="w-100 btn btn-primary" type="submit">Connexion</button>
+                </div>
+            </div>
         </form>
     </div>
 {% endblock %}

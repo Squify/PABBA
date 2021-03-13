@@ -39,6 +39,7 @@ services:
       - /app-logs
 
   phpmyadmin:
+    container_name: pabba_phpmyadmin
     image: phpmyadmin/phpmyadmin
     links:
       - mysql:mysql
