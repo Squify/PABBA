@@ -76,7 +76,6 @@ class SecurityController extends AbstractController
      */
     public function getResetPassword(Request $request)
     {
-        // check enabled
         $form = $this->createForm(ResetPasswordType::class);
 
         $form->handleRequest($request);

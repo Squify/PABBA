@@ -5,7 +5,7 @@ Default docker configuration :
    > **user** : root  
      **password** : root  
      **external-port** : 3350  
-     **internal-port** : 3350   
+     **internal-port** : 3306   
      **url** : mysql://root:root@mysql:3306/pabba   
 - PhpMyAdmin <br>
     > **host** : http://localhost:5003  
