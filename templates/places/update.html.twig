@@ -1,30 +1,62 @@
 {% extends 'base.html.twig' %}
+{% block jardin_navbar %}active{% endblock %}
 
-{% block title %}Nouveau lieu{% endblock %}
+{% block title %}Modifier le lieu{% endblock %}
 {% block body %}
 
-    {{ form_start(form) }}
-    {{ form_errors(form) }}
+    <div class="card">
+        <div class="card-body">
+            {{ form_start(form) }}
+            {{ form_errors(form) }}
 
-    <div class="row">
-        <div class="col-6">
-            {{ form_row(form.address) }}
-        </div>
-        <div class="col-6">
-            {{ form_row(form.type) }}
-        </div>
-        <div class="col-6">
-            {{ form_row(form.iat) }}
-        </div>
-        <div class="col-6">
-            {{ form_row(form.ion) }}
-        </div>
+            <div class="row">
+                <div class="col-6">
+                    {{ form_row(form.address, {'id': 'address', 'type': 'search', 'placeholder': 'Commencer à écrire ...'}) }}
+                </div>
+                <div class="col-6">
+                    {{ form_row(form.type) }}
+                </div>
+                <div class="col-6">
+                    {{ form_row(form.iat, {'id': 'lat'}) }}
+                </div>
+                <div class="col-6">
+                    {{ form_row(form.ion, {'id': 'long'}) }}
+                </div>
+            </div>
 
-        <button type="submit" class="btn btn-success">
-            modifier
-        </button>
+            <button type="submit" class="btn btn-success">
+                modifier
+            </button>
+
+            {{ form_end(form) }}
+        </div>
     </div>
 
-    {{ form_end(form) }}
+    <script src="https://cdn.jsdelivr.net/npm/places.js@1.19.0"></script>
+    <script>
+        (function() {
+            const placesAutocomplete = places({
+                appId: '{{ appId }}',
+                apiKey: '{{ apiKey }}',
+                container: document.querySelector('#address')
+            });
+
+            const $address = document.querySelector('#address')
+            const $longitude = document.querySelector('#long')
+            const $latitude = document.querySelector('#lat')
+            placesAutocomplete.on('change', function(e) {
+                $address.value = e.suggestion.value
+                $longitude.value = e.suggestion.latlng.lng
+                $latitude.value = e.suggestion.latlng.lat
+            });
+
+            placesAutocomplete.on('clear', function() {
+                $address.value = 'none';
+                $longitude.value = 'none';
+                $latitude.value = 'none';
+            });
+
+        })();
+    </script>
 
 {% endblock %}

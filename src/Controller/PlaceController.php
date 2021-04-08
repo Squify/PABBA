@@ -74,7 +74,9 @@ class PlaceController extends AbstractController
 
         return $this->render("places/update.html.twig", [
             "form" => $form->createView(),
-            "place" => $place
+            "place" => $place,
+            "apiKey" => $this->getParameter('ALGOLIA_API_KEY'),
+            "appId" => $this->getParameter('ALGOLIA_APP_ID')
         ]);
     }
 
