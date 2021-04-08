@@ -1,5 +1,5 @@
 import toastr from 'toastr';
-require ('../scss/_alert.scss')
+require ('../scss/base.scss')
 
 document.querySelectorAll('.js-alert').forEach((alert) => {
     const {type, message} = alert.dataset;

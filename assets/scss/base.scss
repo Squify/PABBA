@@ -1,1 +1,23 @@
 @import "~bootstrap/scss/bootstrap.scss";
+@import "~toastr/build/toastr.css";
+
+body {
+  background-color: #F6F6F6;
+}
+
+.container {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.navbar {
+  background: linear-gradient(90deg, #50A7C2 0%, #B7F8DB 100%)!important;
+}
+
+.card {
+  .card-body {
+
+  }
+}

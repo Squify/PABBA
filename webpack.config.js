@@ -6,32 +6,33 @@ if (!Encore.isRuntimeEnvironmentConfigured()) {
 }
 
 Encore
-.setOutputPath('public/build/')
-.setPublicPath('/build')
+    .setOutputPath('public/build/')
+    .setPublicPath('/build')
 
-.addEntry('app', './assets/js/app.js')
-.addStyleEntry('login', './assets/scss/login.scss')
+    .addEntry('app', './assets/js/app.js')
+    .addStyleEntry('login', './assets/scss/login.scss')
+    .addStyleEntry('base', './assets/scss/base.scss')
 
-.splitEntryChunks()
-.enableSingleRuntimeChunk()
+    .splitEntryChunks()
+    .enableSingleRuntimeChunk()
 
-.cleanupOutputBeforeBuild()
-.enableBuildNotifications()
-.enableSourceMaps(!Encore.isProduction())
-.enableVersioning(Encore.isProduction())
+    .cleanupOutputBeforeBuild()
+    .enableBuildNotifications()
+    .enableSourceMaps(!Encore.isProduction())
+    .enableVersioning(Encore.isProduction())
 
-.configureBabelPresetEnv((config) => {
-    config.useBuiltIns = 'usage';
-    config.corejs = 3;
-})
+    .configureBabelPresetEnv((config) => {
+        config.useBuiltIns = 'usage';
+        config.corejs = 3;
+    })
 
-.addAliases({
-    prestaimage: path.resolve(__dirname, 'public/bundles/prestaimage')
-})
+    .addAliases({
+        prestaimage: path.resolve(__dirname, 'public/bundles/prestaimage')
+    })
 
-.enableSassLoader()
-.enableIntegrityHashes(Encore.isProduction())
-.autoProvidejQuery()
+    .enableSassLoader()
+    .enableIntegrityHashes(Encore.isProduction())
+    .autoProvidejQuery()
 ;
 
 module.exports = Encore.getWebpackConfig();

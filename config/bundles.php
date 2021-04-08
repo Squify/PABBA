@@ -15,4 +15,5 @@ return [
     Symfony\WebpackEncoreBundle\WebpackEncoreBundle::class => ['all' => true],
     Mailjet\MailjetBundle\MailjetBundle::class => ['all' => true],
     EasyCorp\Bundle\EasyAdminBundle\EasyAdminBundle::class => ['all' => true],
+    Algolia\SearchBundle\AlgoliaSearchBundle::class => ['all' => true],
 ];
