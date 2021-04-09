@@ -1,0 +1,22 @@
+<nav class="navbar sticky-top navbar-expand-lg secondary-navbar">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            {% set route_name = app.request.attributes.get('_route') %}
+            {% if route_name starts with 'tuto' %}
+                <li class="breadcrumb-item"><a href="#">Library</a></li>
+            {% elseif route_name starts with 'event' %}
+                <li class="breadcrumb-item" aria-current="page">Data</li>
+            {% elseif route_name starts with 'place_update' %}
+                <li class="breadcrumb-item" aria-current="page"><a href="{{ path('place_index') }}">Lieux</a></li>
+                <li class="breadcrumb-item" aria-current="page">Modification d'un lieu</li>
+            {% elseif route_name starts with 'place_create' %}
+                <li class="breadcrumb-item" aria-current="page"><a href="{{ path('place_index') }}">Lieux</a></li>
+                <li class="breadcrumb-item" aria-current="page">Création d'un lieu</li>
+            {% elseif route_name starts with 'place_index' %}
+                <li class="breadcrumb-item" aria-current="page">Lieux</li>
+            {% else %}
+                <li class="breadcrumb-item"><a href="#">Home</a></li>
+            {% endif %}
+        </ol>
+    </nav>
+</nav>

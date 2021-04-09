@@ -1,0 +1,8 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Lieux{% endblock %}
+{% block body %}
+    <button type="button" class="btn filter-btn"><i class="bi bi-filter"></i>Filtres</button>
+
+    <button type="button" class="btn add-btn"><a href="{{ path('place_create') }}"><i class="bi bi-plus-circle-fill"></i></a></button>
+{% endblock %}

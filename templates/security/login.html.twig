@@ -1,4 +1,4 @@
-{% extends 'layouts/base_layout.html.twig' %}
+{% extends 'admin/base_layout.html.twig' %}
 
 {% block title %}Connexion{% endblock %}
 
@@ -7,7 +7,7 @@
     {{ encore_entry_link_tags('login') }}
 {% endblock %}
 
-{% block content %}
+{% block body %}
     <div class=" form-signin">
         <form method="post">
             {% if error %}

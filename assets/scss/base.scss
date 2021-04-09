@@ -7,7 +7,7 @@ body {
 }
 
 .container {
-  margin-top: 10px;
+  margin-top: 20px;
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -15,6 +15,7 @@ body {
 
 .navbar {
   background: linear-gradient(90deg, #50A7C2 0%, #B7F8DB 100%)!important;
+
   #logo {
     width: 3%!important;
     padding: 5px;
@@ -41,6 +42,51 @@ body {
   }
 }
 
+.secondary-navbar {
+  position: unset!important; //To remove if navbar don't scroll with the page
+  background: white!important;
+
+  ol.breadcrumb {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 0.75rem 1rem;
+    margin-bottom: 0!important;
+    list-style: none;
+    background-color: transparent!important;
+    border-radius: 0!important;
+
+    li {
+      font-size: 22px !important;
+      line-height: 24px !important;
+      color: #105367 !important;
+      a {
+        font-size: 22px !important;
+        line-height: 24px !important;
+        color: #105367 !important;
+      }
+    }
+  }
+}
+
+.add-btn {
+  position: fixed;
+  bottom: 40px;
+  right: 40px;
+  font-size: 50px;
+  a {
+    color: #044154!important;
+  }
+}
+
+.filter-btn {
+  position: fixed;
+  right: 130px;
+  top: 118px;
+  background: white;
+  border-radius: 17px;
+  border: 1px solid #B9B9B9;;
+  width: 150px;
+}
 
 .card {
   .card-body {

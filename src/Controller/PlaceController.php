@@ -24,6 +24,14 @@ class PlaceController extends AbstractController
     }
 
     /**
+     * @Route("/lieu", name="place_index")
+     */
+    public function index()
+    {
+        return $this->render("places/index.html.twig", []);
+    }
+
+    /**
      * @Route("/lieu/creer", name="place_create")
      */
     public function create(Request $request, EntityManagerInterface $manager, Security $security)
@@ -38,7 +46,7 @@ class PlaceController extends AbstractController
             $manager->persist($place);
             $manager->flush();
 
-            return $this->redirectToRoute("place_create");
+            return $this->redirectToRoute("place_index");
         }
 
         return $this->render("places/create.html.twig", [
@@ -69,7 +77,7 @@ class PlaceController extends AbstractController
         if ($form->isSubmitted()) {
             $manager->flush();
 
-            return $this->redirectToRoute("place_create");
+            return $this->redirectToRoute("place_index");
         }
 
         return $this->render("places/update.html.twig", [
