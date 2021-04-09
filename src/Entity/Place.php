@@ -35,12 +35,12 @@ class Place
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $iat;
+    private $latitude;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $ion;
+    private $longitude;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="places")
@@ -93,26 +93,26 @@ class Place
         return $this;
     }
 
-    public function getIat(): ?string
+    public function getLatitude(): ?string
     {
-        return $this->iat;
+        return $this->latitude;
     }
 
-    public function setIat(?string $iat): self
+    public function setLatitude(?string $latitude): self
     {
-        $this->iat = $iat;
+        $this->latitude = $latitude;
 
         return $this;
     }
 
-    public function getIon(): ?string
+    public function getLongitude(): ?string
     {
-        return $this->ion;
+        return $this->longitude;
     }
 
-    public function setIon(?string $ion): self
+    public function setLongitude(?string $longitude): self
     {
-        $this->ion = $ion;
+        $this->longitude = $longitude;
 
         return $this;
     }

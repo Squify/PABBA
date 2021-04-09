@@ -18,6 +18,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Collection\FieldCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FilterCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Dto\ActionDto;
+use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 
 class PlaceCrudController extends AbstractCrudController
 {
@@ -27,15 +28,15 @@ class PlaceCrudController extends AbstractCrudController
         return Place::class;
     }
 
-    public function createIndexQueryBuilder(SearchDto $searchDto, EntityDto $entityDto, FieldCollection $fields, FilterCollection $filters): QueryBuilder
-    {
-        parent::createIndexQueryBuilder($searchDto, $entityDto, $fields, $filters);
+    // public function createIndexQueryBuilder(SearchDto $searchDto, EntityDto $entityDto, FieldCollection $fields, FilterCollection $filters): QueryBuilder
+    // {
+    //     parent::createIndexQueryBuilder($searchDto, $entityDto, $fields, $filters);
 
-        $response = $this->get(EntityRepository::class)->createQueryBuilder($searchDto, $entityDto, $fields, $filters);
-        $response->where('entity.isValid = 0');
+    //     $response = $this->get(EntityRepository::class)->createQueryBuilder($searchDto, $entityDto, $fields, $filters);
+    //     $response->where('entity.isValid = 0');
 
-        return $response;
-    }
+    //     return $response;
+    // }
 
     public function configureCrud(Crud $crud): Crud
     {
@@ -54,12 +55,24 @@ class PlaceCrudController extends AbstractCrudController
             ->linkToCrudAction('refusePlace')
             ->setCssClass("btn btn-danger");
 
-        
+
 
         return $actions
-            ->disable(Action::NEW, Action::EDIT, Action::DELETE)
-            ->add(Crud::PAGE_INDEX, $refuser)
-            ->add(Crud::PAGE_INDEX, $valider);
+            ->remove(Crud::PAGE_INDEX, Action::EDIT)
+            ->disable(Action::NEW)
+            ->update(Crud::PAGE_INDEX, Action::DELETE, function (Action $action) {
+                return $action
+                    ->displayIf(static function ($entity) {
+                        if ($entity->getIsValid()) {
+                            return;
+                        }
+                        return true;
+                    })
+                    ->setLabel("Refuser");
+            });
+        // ->disable(Action::NEW, Action::EDIT, Action::DELETE)
+        // ->add(Crud::PAGE_INDEX, $refuser)
+        // ->add(Crud::PAGE_INDEX, $valider);
     }
 
     public function configureFields(string $pageName): iterable
@@ -68,8 +81,9 @@ class PlaceCrudController extends AbstractCrudController
             AssociationField::new('user', 'Proposé par'),
             AssociationField::new('type', 'Type'),
             TextField::new('address', 'Adresse'),
-            TextField::new('iat', 'IAT'),
-            TextField::new('ion', 'ION'),
+            TextField::new('latitude', 'Latitude'),
+            TextField::new('longitude', 'Longitude'),
+            BooleanField::new('isValid', 'Validé ?'),
         ];
     }
 
