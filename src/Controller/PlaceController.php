@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Place;
 use App\Form\PlaceType;
 use App\Repository\PlaceRepository;
+use App\Repository\TypeRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,11 +16,12 @@ use Algolia\SearchBundle\SearchService;
 class PlaceController extends AbstractController
 {
 
-    private PlaceRepository $PlaceRepository;
+    private $typeRepository;
     protected $searchService;
 
-    public function __construct(SearchService $searchService)
+    public function __construct(SearchService $searchService, TypeRepository $typeRepository)
     {
+        $this->typeRepository = $typeRepository;
         $this->searchService = $searchService;
     }
 
@@ -28,7 +30,10 @@ class PlaceController extends AbstractController
      */
     public function index()
     {
-        return $this->render("places/index.html.twig", []);
+        $types = $this->typeRepository->findAll();
+        return $this->render("places/index.html.twig", [
+            'types' => $types
+        ]);
     }
 
     /**

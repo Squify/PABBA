@@ -2,7 +2,36 @@
 
 {% block title %}Lieux{% endblock %}
 {% block body %}
-    <button type="button" class="btn filter-btn"><i class="bi bi-filter"></i>Filtres</button>
-
+    <button type="button" data-toggle="modal" data-target="#filterModal" class="btn filter-btn"><i class="bi bi-filter"></i>Filtres</button>
     <button type="button" class="btn add-btn"><a href="{{ path('place_create') }}"><i class="bi bi-plus-circle-fill"></i></a></button>
+
+    <!-- Modal -->
+    <div class="modal fade" id="filterModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Filtres</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <h1>Type de lieu</h1>
+
+                    {% for type in types %}
+                    <div class="form-check">
+                        <input class="styled-checkbox" type="checkbox" value="" id="{{ type.id }}">
+                        <label class="checkbox-label" for="{{ type.id }}">
+                            {{ type.label }}
+                        </label>
+                    </div>
+                    {% endfor %}
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary">Appliquer</button>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
