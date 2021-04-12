@@ -79,4 +79,24 @@ class PlaceController extends AbstractController
     }
 
 
+    /**
+     * @Route("/lieu/afficher/{id}", name="place_details")
+     * @param int $id
+     * @param PlaceRepository $placeRepository
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     */
+    public function details (int $id, PlaceRepository $placeRepository)
+    {
+        $place = $placeRepository->find($id);
+
+        if (!$place) {
+            $this->addFlash("danger", "lieu non trouvé");
+            return $this->redirectToRoute("place_create");
+        }
+        return $this->render("places/details.html.twig", [
+            "place" => $place
+        ]);
+    }
+
+
 }

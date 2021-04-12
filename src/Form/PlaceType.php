@@ -19,11 +19,11 @@ class PlaceType extends AbstractType
             ->add('address', TextType::class, [
                 'label' => 'Adresse'
             ])
-            ->add('iat', TextType::class, [
-                "label" => "IAT ???"
+            ->add('latitude', TextType::class, [
+                "label" => "latidude"
             ])
-            ->add('ion', TextType::class, [
-                "label" => "ION ???"
+            ->add('longitude', TextType::class, [
+                "label" => "longitude"
             ])
             ->add('type', EntityType::class, [
                 'class' => Type::class,

@@ -52,6 +52,11 @@ class Place
      */
     private $type;
 
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $open;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -137,6 +142,18 @@ class Place
     public function setType(?Type $type): self
     {
         $this->type = $type;
+
+        return $this;
+    }
+
+    public function getOpen(): ?string
+    {
+        return $this->open;
+    }
+
+    public function setOpen(?string $open): self
+    {
+        $this->open = $open;
 
         return $this;
     }
