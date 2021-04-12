@@ -65,7 +65,10 @@ class AppFixtures extends Fixture
                 ->setType($faker->randomElement($type))
                 ->setAddress($faker->address)
                 ->setIsValid(0)
-                ->setOpen($faker->paragraph);
+                ->setOpen($faker->paragraph)
+                ->setLatitude($faker->latitude(47.60, 48.00))
+                ->setLongitude($faker->longitude(1.70, 2.10));
+                // ([47.843601, 1.939258])
 
             $manager->persist($place);
         }

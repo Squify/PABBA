@@ -1,31 +1,34 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {{ encore_entry_link_tags('app') }}
-        {% block stylesheets %}
-        {% endblock %}
+	<head>
+		<meta charset="UTF-8">
+		<title>
+			{% block title %}Welcome!
+			{% endblock %}
+		</title>
+		{% block stylesheets %}
+			{{ encore_entry_link_tags('app') }}
+		{% endblock %}
 
-        {{ encore_entry_script_tags('app') }}
-        {% block javascripts %}
-        {% endblock %}
-    </head>
-    <body>
-    {% for rubrik, messages in app.flashes %}
-        <div class="alert alert-{{ rubrik }}">
-            {% for message in messages %}
-                <p>{{ message }}</p>
-            {% endfor %}
-        </div>
-    {% endfor %}
-        {% block body %}{% endblock %}
-    </body>
-    {% for flash in app.flashes('success') %}
-        <span class="d-none js-alert" data-message="{{ flash }}" data-type="success"></span>
-    {% endfor %}
-    {% for flash in app.flashes('error') %}
-        <span class="d-none js-alert" data-message="{{ flash }}" data-type="error"></span>
-    {% endfor %}
+		{% block javascripts %}
+			{{ encore_entry_script_tags('app') }}
+		{% endblock %}
+	</head>
+	<body>
+		{% for rubrik, messages in app.flashes %}
+			<div class="alert alert-{{ rubrik }}">
+				{% for message in messages %}
+					<p>{{ message }}</p>
+				{% endfor %}
+			</div>
+		{% endfor %}
+		{% block body %}{% endblock %}
+	</body>
+	{% for flash in app.flashes('success') %}
+		<span class="d-none js-alert" data-message="{{ flash }}" data-type="success"></span>
+	{% endfor %}
+	{% for flash in app.flashes('error') %}
+		<span class="d-none js-alert" data-message="{{ flash }}" data-type="error"></span>
+	{% endfor %}
 
 </html>
