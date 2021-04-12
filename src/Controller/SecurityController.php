@@ -150,6 +150,7 @@ class SecurityController extends AbstractController
     /**
      * @Route(path="/inscription", name="register")
      * @param Request $request
+     * @return Response
      */
     public function register(Request $request){
         $user = new User();
