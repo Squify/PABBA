@@ -858,6 +858,9 @@
     mkdirp "^1.0.4"
     rimraf "^3.0.2"
 
+"@php-flasher/flasher-symfony@file:vendor/php-flasher/flasher-symfony/Resources/assets":
+  version "0.1.0"
+
 "@symfony/webpack-encore@^1.1.0":
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/@symfony/webpack-encore/-/webpack-encore-1.1.2.tgz#fd5122b97e8d106b71440b0e2c397b8111f1e3ce"
