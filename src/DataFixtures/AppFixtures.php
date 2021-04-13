@@ -64,8 +64,9 @@ class AppFixtures extends Fixture
             $place->setUser($admin)
                 ->setType($faker->randomElement($type))
                 ->setAddress($faker->address)
-                ->setIsValid(0)
+                ->setIsValid($faker->boolean)
                 ->setOpen($faker->paragraph)
+                ->setComments($faker->paragraph)
                 ->setLatitude($faker->latitude(47.60, 48.00))
                 ->setLongitude($faker->longitude(1.70, 2.10));
                 // ([47.843601, 1.939258])

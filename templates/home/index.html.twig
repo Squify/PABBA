@@ -11,7 +11,9 @@
 {% block body %}
 
 	{% for place in places %}
+		{% if place.isValid  %}
 		<div class="js-marker" data-lat="{{ place.latitude }}" data-lng="{{ place.longitude }}" data-type="{{ place.type.label }}" data-addr=" {{ place.address }}", data-comments="{{ place.comments }}"></div>
+		{% endif %}
 		{# <p>{{ place.address }}</p> #}
 	{% endfor %}
 
