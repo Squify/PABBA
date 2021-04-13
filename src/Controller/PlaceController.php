@@ -77,6 +77,5 @@ class PlaceController extends AbstractController
             "place" => $place
         ]);
     }
-
-
+    
 }

@@ -23,7 +23,7 @@ class Place
     private $address;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="text", length=255, nullable=true)
      */
     private $comments;
 
@@ -51,6 +51,11 @@ class Place
      * @ORM\ManyToOne(targetEntity=Type::class, inversedBy="places")
      */
     private $type;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $open;
 
     public function getId(): ?int
     {
@@ -137,6 +142,18 @@ class Place
     public function setType(?Type $type): self
     {
         $this->type = $type;
+
+        return $this;
+    }
+
+    public function getOpen(): ?string
+    {
+        return $this->open;
+    }
+
+    public function setOpen(?string $open): self
+    {
+        $this->open = $open;
 
         return $this;
     }
