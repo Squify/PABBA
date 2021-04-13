@@ -13,10 +13,10 @@ map.addLayer(new L.StamenTileLayer('terrain', {
 
 
 Array.from(document.querySelectorAll(".js-marker")).forEach((item) => {
-    addMarker(map, item.dataset.lat, item.dataset.lng, item.dataset.type)
+    addMarker(map, item.dataset.lat, item.dataset.lng, item.dataset.type, item.dataset.addr, item.dataset.comments)
 })
 
-function addMarker(map, lat, lng, type) {
+function addMarker(map, lat, lng, type, addr, comments) {
     let color = ""
     switch (type) {
         case "jardin":
@@ -41,8 +41,15 @@ function addMarker(map, lat, lng, type) {
         iconAnchor: [22, 94],
         popupAnchor: [-3, -76],
     });
+    let html = `
+        <h4>Détails</h4>
+        <h6>${type}</h6>
+        Adresse: ${addr}<br>
+        Commentaire: <br>${comments}
+                `
     L.marker()
         .setLatLng([lat, lng])
         .setIcon(icon)
+        .bindPopup(html)
         .addTo(map)
 }

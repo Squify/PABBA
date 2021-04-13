@@ -11,7 +11,7 @@
 {% block body %}
 
 	{% for place in places %}
-		<div class="js-marker" data-lat="{{ place.latitude }}" data-lng="{{ place.longitude }}" data-type="{{ place.type.label }}"></div>
+		<div class="js-marker" data-lat="{{ place.latitude }}" data-lng="{{ place.longitude }}" data-type="{{ place.type.label }}" data-addr=" {{ place.address }}", data-comments="{{ place.comments }}"></div>
 		{# <p>{{ place.address }}</p> #}
 	{% endfor %}
 
