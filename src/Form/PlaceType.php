@@ -6,7 +6,7 @@ use App\Entity\Place;
 use App\Entity\Type;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -20,10 +20,10 @@ class PlaceType extends AbstractType
             ->add('address', TextType::class, [
                 'label' => 'Adresse du nouveau lieu'
             ])
-            ->add('latitude', TextType::class, [
+            ->add('latitude', HiddenType::class, [
                 "label" => "Latidude"
             ])
-            ->add('longitude', TextType::class, [
+            ->add('longitude', HiddenType::class, [
                 "label" => "Longitude"
             ])
             ->add('type', EntityType::class, [

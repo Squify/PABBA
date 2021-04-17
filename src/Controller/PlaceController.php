@@ -9,6 +9,7 @@ use App\Repository\TypeRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
 use Algolia\SearchBundle\SearchService;
@@ -27,12 +28,23 @@ class PlaceController extends AbstractController
 
     /**
      * @Route("/lieu", name="place_index")
+     * @param PlaceRepository $placeRepository
+     * @param Request $request
+     * @return Response
      */
-    public function index()
+    public function index(PlaceRepository $placeRepository, Request $request)
     {
+        $filters = $request->request->keys();
+        if ($filters)
+            $places = $placeRepository->findByType($filters);
+        else
+            $places = $placeRepository->findAll();
+
         $types = $this->typeRepository->findAll();
         return $this->render("places/index.html.twig", [
-            'types' => $types
+            'types' => $types,
+            'places' => $places,
+            'filters' => $filters
         ]);
     }
 
