@@ -24,3 +24,5 @@ yarn-error.log
 ###< symfony/webpack-encore-bundle ###
 /.docker/data
 .DS_Store
+
+.env

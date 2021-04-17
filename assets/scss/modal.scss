@@ -1,0 +1,26 @@
+#filterModal {
+  .modal-title {
+    font-size: 36px !important;
+    line-height: 50px !important;
+    color: #105367 !important;
+  }
+
+  .modal-body {
+    h1 {
+      font-size: 24px !important;
+      line-height: 33px !important;
+      color: #1D7591 !important;
+      padding-bottom: 5px;
+    }
+
+    .checkbox-label {
+      font-size: 18px;
+      line-height: 20px;
+      color: #777777;
+    }
+  }
+
+  .modal-footer {
+    border: unset;
+  }
+}

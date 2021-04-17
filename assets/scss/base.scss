@@ -2,6 +2,11 @@
 @import "~toastr/build/toastr.css";
 @import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css");
 
+@import "navbar.scss";
+@import "input.scss";
+@import "button.scss";
+@import "modal.scss";
+
 body {
   background-color: #F6F6F6;
 }
@@ -11,85 +16,5 @@ body {
   display: flex;
   flex-direction: row;
   justify-content: center;
-}
-
-.navbar {
-  background: linear-gradient(90deg, #50A7C2 0%, #B7F8DB 100%)!important;
-
-  #logo {
-    width: 3%!important;
-    padding: 5px;
-  }
-
-  a {
-    color: #1D7590!important;
-  }
-
-  .title {
-    font-size: 32px;
-    line-height: 44px;
-    margin-left: 10px;
-
-    color: #FFFFFF!important;
-  }
-
-  li.active {
-    a {
-      color: #105367!important;
-      font-weight: bold!important;
-    }
-    border-bottom: #105367 2px solid;
-  }
-}
-
-.secondary-navbar {
-  position: unset!important; //To remove if navbar don't scroll with the page
-  background: white!important;
-
-  ol.breadcrumb {
-    display: flex;
-    flex-wrap: wrap;
-    padding: 0.75rem 1rem;
-    margin-bottom: 0!important;
-    list-style: none;
-    background-color: transparent!important;
-    border-radius: 0!important;
-
-    li {
-      font-size: 22px !important;
-      line-height: 24px !important;
-      color: #105367 !important;
-      a {
-        font-size: 22px !important;
-        line-height: 24px !important;
-        color: #105367 !important;
-      }
-    }
-  }
-}
-
-.add-btn {
-  position: fixed;
-  bottom: 40px;
-  right: 40px;
-  font-size: 50px;
-  a {
-    color: #044154!important;
-  }
-}
-
-.filter-btn {
-  position: fixed;
-  right: 130px;
-  top: 118px;
-  background: white;
-  border-radius: 17px;
-  border: 1px solid #B9B9B9;;
-  width: 150px;
-}
-
-.card {
-  .card-body {
-
-  }
+  z-index: -1;
 }
