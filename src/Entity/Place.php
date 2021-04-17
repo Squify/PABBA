@@ -23,7 +23,7 @@ class Place
     private $address;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="text", length=255, nullable=true)
      */
     private $comments;
 
@@ -35,12 +35,12 @@ class Place
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $iat;
+    private $latitude;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $ion;
+    private $longitude;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="places")
@@ -51,6 +51,11 @@ class Place
      * @ORM\ManyToOne(targetEntity=Type::class, inversedBy="places")
      */
     private $type;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $open;
 
     public function getId(): ?int
     {
@@ -93,26 +98,26 @@ class Place
         return $this;
     }
 
-    public function getIat(): ?string
+    public function getLatitude(): ?string
     {
-        return $this->iat;
+        return $this->latitude;
     }
 
-    public function setIat(?string $iat): self
+    public function setLatitude(?string $latitude): self
     {
-        $this->iat = $iat;
+        $this->latitude = $latitude;
 
         return $this;
     }
 
-    public function getIon(): ?string
+    public function getLongitude(): ?string
     {
-        return $this->ion;
+        return $this->longitude;
     }
 
-    public function setIon(?string $ion): self
+    public function setLongitude(?string $longitude): self
     {
-        $this->ion = $ion;
+        $this->longitude = $longitude;
 
         return $this;
     }
@@ -137,6 +142,18 @@ class Place
     public function setType(?Type $type): self
     {
         $this->type = $type;
+
+        return $this;
+    }
+
+    public function getOpen(): ?string
+    {
+        return $this->open;
+    }
+
+    public function setOpen(?string $open): self
+    {
+        $this->open = $open;
 
         return $this;
     }

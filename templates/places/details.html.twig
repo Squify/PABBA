@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Detail lieu{% endblock %}
+{% block body %}
+
+    {{ place.id }}
+    {{ place.address }}
+    {{ place.comments }}
+    {{ place.isValid }}
+    {{ place.latitude }}
+    {{ place.longitude }}
+
+{% endblock %}

@@ -92,6 +92,5 @@ class PlaceController extends AbstractController
             "appId" => $this->getParameter('ALGOLIA_APP_ID')
         ]);
     }
-
-
+    
 }

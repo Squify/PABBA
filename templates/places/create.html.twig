@@ -15,10 +15,10 @@
                     {{ form_row(form.type) }}
                 </div>
                 <div class="col-6">
-                    {{ form_row(form.iat, {'id': 'lat'}) }}
+                    {{ form_row(form.latitude, {'id': 'lat'}) }}
                 </div>
                 <div class="col-6">
-                    {{ form_row(form.ion, {'id': 'long'}) }}
+                    {{ form_row(form.longitude, {'id': 'long'}) }}
                 </div>
             </div>
 
@@ -28,6 +28,7 @@
 
             {{ form_end(form) }}
         </div>
+
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/places.js@1.19.0"></script>
