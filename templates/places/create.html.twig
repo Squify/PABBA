@@ -2,30 +2,59 @@
 
 {% block title %}Nouveau lieu{% endblock %}
 {% block body %}
+    <div class="card">
+        <div class="card-body">
+            {{ form_start(form) }}
+            {{ form_errors(form) }}
 
-    {{ form_start(form) }}
-    {{ form_errors(form) }}
+            <div class="row">
+                <div class="col-6">
+                    {{ form_row(form.address, {'id': 'address', 'type': 'search', 'placeholder': 'Commencer à écrire ...'}) }}
+                </div>
+                <div class="col-6">
+                    {{ form_row(form.type) }}
+                </div>
+                <div class="col-6">
+                    {{ form_row(form.latitude, {'id': 'lat'}) }}
+                </div>
+                <div class="col-6">
+                    {{ form_row(form.longitude, {'id': 'long'}) }}
+                </div>
+            </div>
 
-    <div class="row">
-        <div class="col-6">
-            {{ form_row(form.address) }}
+            <button type="submit" class="btn btn-success">
+                ajouter
+            </button>
+
+            {{ form_end(form) }}
         </div>
-        <div class="col-6">
-            {{ form_row(form.type) }}
-        </div>
-        <div class="col-6">
-            {{ form_row(form.iat) }}
-        </div>
-        <div class="col-6">
-            {{ form_row(form.ion) }}
-        </div>
+
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/places.js@1.19.0"></script>
+    <script>
+        (function() {
+            const placesAutocomplete = places({
+                appId: '{{ appId }}',
+                apiKey: '{{ apiKey }}',
+                container: document.querySelector('#address')
+            });
 
-    <button type="submit" class="btn btn-success">
-        ajouter
-    </button>
+            const $address = document.querySelector('#address')
+            const $longitude = document.querySelector('#long')
+            const $latitude = document.querySelector('#lat')
+            placesAutocomplete.on('change', function(e) {
+                $address.value = e.suggestion.value
+                $longitude.value = e.suggestion.latlng.lng
+                $latitude.value = e.suggestion.latlng.lat
+            });
 
-    {{ form_end(form) }}
+            placesAutocomplete.on('clear', function() {
+                $address.value = '';
+                $longitude.value = '';
+                $latitude.value = '';
+            });
 
+        })();
+    </script>
 {% endblock %}

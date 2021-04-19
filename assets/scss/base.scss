@@ -1,1 +1,20 @@
 @import "~bootstrap/scss/bootstrap.scss";
+@import "~toastr/build/toastr.css";
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css");
+
+@import "navbar.scss";
+@import "input.scss";
+@import "button.scss";
+@import "modal.scss";
+
+body {
+  background-color: #F6F6F6;
+}
+
+.container {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  z-index: -1;
+}

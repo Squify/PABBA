@@ -1,5 +1,6 @@
 {
   "devDependencies": {
+    "@php-flasher/flasher-symfony": "file:vendor/php-flasher/flasher-symfony/Resources/assets",
     "@symfony/webpack-encore": "^1.1.0",
     "core-js": "^3.0.0",
     "extract-text-webpack-plugin": "^3.0.2",
@@ -20,9 +21,11 @@
     "axios": "^0.21.1",
     "babel-loader": "^8.2.2",
     "bootstrap": "^4.6.0",
+    "bootstrap-icons": "^1.4.1",
     "bootstrap-select": "^1.13.18",
     "ckeditor": "^4.12.1",
     "css-loader": "^5.0.2",
+    "jquery": "^3.6.0",
     "popper.js": "^1.16.1",
     "sass": "^1.32.6",
     "toastr": "^2.1.4",

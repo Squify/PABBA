@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Test!{% endblock %}</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Alata&display=swap" rel="stylesheet">
+    {{ encore_entry_link_tags('base') }}
+    {% block stylesheets %}
+    {% endblock %}
+    {{ encore_entry_script_tags('app') }}
+    {% block javascripts %}
+    {% endblock %}
+</head>
+
+<body>
+{% for rubrik, messages in app.flashes %}
+    <div class="alert alert-{{ rubrik }}">
+        {% for message in messages %}
+            <p>{{ message }}</p>
+        {% endfor %}
+    </div>
+{% endfor %}
+<div class="container">
+    {% block body %}{% endblock %}
+</div>
+</body>
+
+{% for flash in app.flashes('success') %}
+    <span class="d-none js-alert" data-message="{{ flash }}" data-type="success"></span>
+{% endfor %}
+{% for flash in app.flashes('error') %}
+    <span class="d-none js-alert" data-message="{{ flash }}" data-type="error"></span>
+{% endfor %}
+
+</html>

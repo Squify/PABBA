@@ -1,28 +1,51 @@
 <?php
 
-
 namespace App\Controller;
 
-
 use App\Entity\Place;
-use App\Entity\User;
 use App\Form\PlaceType;
 use App\Repository\PlaceRepository;
+use App\Repository\TypeRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
+use Algolia\SearchBundle\SearchService;
 
 class PlaceController extends AbstractController
 {
 
+    private $typeRepository;
+    protected $searchService;
 
-    private PlaceRepository $PlaceRepository;
-
-    public function __construct()
+    public function __construct(SearchService $searchService, TypeRepository $typeRepository)
     {
+        $this->typeRepository = $typeRepository;
+        $this->searchService = $searchService;
+    }
 
+    /**
+     * @Route("/lieu", name="place_index")
+     * @param PlaceRepository $placeRepository
+     * @param Request $request
+     * @return Response
+     */
+    public function index(PlaceRepository $placeRepository, Request $request)
+    {
+        $filters = $request->request->keys();
+        if ($filters)
+            $places = $placeRepository->findByType($filters);
+        else
+            $places = $placeRepository->findAll();
+
+        $types = $this->typeRepository->findAll();
+        return $this->render("places/index.html.twig", [
+            'types' => $types,
+            'places' => $places,
+            'filters' => $filters
+        ]);
     }
 
     /**
@@ -34,18 +57,20 @@ class PlaceController extends AbstractController
         $form = $this->createForm(PlaceType::class, $place);
 
         $form->handleRequest($request);
-        if($form->isSubmitted()) {
+        if ($form->isSubmitted()) {
             $place->setIsValid(false)
                 ->setUser($this->getUser());
             $manager->persist($place);
             $manager->flush();
 
-            return $this->redirectToRoute("place_create");
+            return $this->redirectToRoute("place_index");
         }
 
         return $this->render("places/create.html.twig", [
             "form" => $form->createView(),
-            "place" => $place
+            "place" => $place,
+            "apiKey" => $this->getParameter('ALGOLIA_API_KEY'),
+            "appId" => $this->getParameter('ALGOLIA_APP_ID')
         ]);
     }
 
@@ -55,7 +80,7 @@ class PlaceController extends AbstractController
      * @param Int $id
      * @param Request $request
      */
-    public function update(EntityManagerInterface $manager,int $id, Request $request, PlaceRepository $placeRepository)
+    public function update(EntityManagerInterface $manager, int $id, Request $request, PlaceRepository $placeRepository)
     {
         $place = $placeRepository->find($id);
         if (!$place) {
@@ -66,17 +91,18 @@ class PlaceController extends AbstractController
         $form = $this->createForm(PlaceType::class, $place);
 
         $form->handleRequest($request);
-        if($form->isSubmitted()) {
+        if ($form->isSubmitted()) {
             $manager->flush();
 
-            return $this->redirectToRoute("place_create");
+            return $this->redirectToRoute("place_index");
         }
 
         return $this->render("places/update.html.twig", [
             "form" => $form->createView(),
-            "place" => $place
+            "place" => $place,
+            "apiKey" => $this->getParameter('ALGOLIA_API_KEY'),
+            "appId" => $this->getParameter('ALGOLIA_APP_ID')
         ]);
     }
-
-
+    
 }

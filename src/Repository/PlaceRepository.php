@@ -19,6 +19,21 @@ class PlaceRepository extends ServiceEntityRepository
         parent::__construct($registry, Place::class);
     }
 
+     /**
+      * @return Place[] Returns an array of Place objects
+      */
+    public function findByType($types)
+    {
+        $qb = $this->createQueryBuilder('p');
+        return $qb
+            ->add('where', $qb->expr()->in('p.type', ':types'))
+            ->setParameter('types', $types)
+            ->orderBy('p.id', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
     // /**
     //  * @return Place[] Returns an array of Place objects
     //  */
