@@ -56,21 +56,19 @@ class TutorialController extends AbstractController
         $client = new Client();
         $client->setAuthConfig(realpath(__DIR__ . '/../../var/credentials.json'));
         $client->setApplicationName("test upload");
-        $client->setScopes(['https://www.googleapis.com/auth/youtube.readonly']);
+        $client->setScopes(['https://www.googleapis.com/auth/youtube.upload']);
         $youtube = new Google_Service_YouTube($client);
 
-        $response = $youtube->search->listSearch('id,snippet', [
-            'q' => 'racoon',
-            'order' => 'relevance',
-            'maxResults' => 10,
-            'type' => 'video'
-        ]);
-
-
-        $first = $youtube->videos->listVideos('id,snippet,contentDetails', [
-            'id' => $response['items'][0]['id']['videoId']
-        ]);
-        dump($response, $first);
+        $response = $youtube->videos->insert(
+            'id',
+            new \Google_Service_YouTube_Video(),
+            [
+                'data' => file_get_contents('/Users/benjamin/Pictures/Screenshot/test.mov'),
+                'mimeType' => 'application/octet-stream',
+                'uploadType' => 'multipart'
+            ]
+        );
+        dump($response);
         die;
 
 
