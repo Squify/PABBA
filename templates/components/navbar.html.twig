@@ -20,8 +20,8 @@
             <li {% if route_name starts with 'lend' %} class="nav-item active" {% else %} class='nav-item' {% endif %}>
                 <a class="nav-link" href="#"><i class="bi bi-screwdriver"></i> Prêt du matériel</a>
             </li>
-            <li {% if route_name starts with 'tuto' %} class="nav-item active" {% else %} class='nav-item' {% endif %}>
-                <a class="nav-link" href="#"><i class="bi bi-journal-text"></i> Tutoriels</a>
+            <li {% if route_name starts with 'tutorial' %} class="nav-item active" {% else %} class='nav-item' {% endif %}>
+                <a class="nav-link" href="{{ path('tutorial_index') }}"><i class="bi bi-journal-text"></i> Tutoriels</a>
             </li>
         </ul>
     </div>
