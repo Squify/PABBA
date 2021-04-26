@@ -50,7 +50,7 @@ class Tutorial
     private $type;
 
     /**
-     * @ORM\ManyToMany(targetEntity=ToolType::class, inversedBy="tutorials", nullable=true)
+     * @ORM\ManyToMany(targetEntity=ToolType::class, inversedBy="tutorials")
      */
     private $tools;
 
