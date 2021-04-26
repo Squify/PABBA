@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}PABBA - Tutoriels{% endblock %}
+
+{% block body %}
+    {{ dump(tutorials) }}
+    <button type="button" class="btn add-btn">
+        <a href="{{ path('tutorial_create') }}"><i
+                class="bi bi-plus-circle-fill"></i></a>
+    </button>
+{% endblock %}

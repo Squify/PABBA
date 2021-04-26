@@ -2,10 +2,18 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             {% set route_name = app.request.attributes.get('_route') %}
-            {% if route_name starts with 'tuto' %}
-                <li class="breadcrumb-item"><a href="#">Library</a></li>
-            {% elseif route_name starts with 'event' %}
-                <li class="breadcrumb-item" aria-current="page">Data</li>
+
+            {#Routes tutoriels#}
+            {% if route_name starts with 'tutorial_index' %}
+                <li class="breadcrumb-item" aria-current="page">Tutoriels</li>
+            {% elseif route_name starts with 'tutorial_create' %}
+                <li class="breadcrumb-item" aria-current="page"><a href="{{ path('tutorial_index') }}">Tutoriels</a></li>
+                <li class="breadcrumb-item" aria-current="page">Création d'un tutoriel</li>
+            {% elseif route_name starts with 'tutorial_update' %}
+                <li class="breadcrumb-item" aria-current="page"><a href="{{ path('tutorial_index') }}">Tutoriels</a></li>
+                <li class="breadcrumb-item" aria-current="page">Modification d'un tutoriel</li>
+
+            {#Routes lieux#}
             {% elseif route_name starts with 'place_update' %}
                 <li class="breadcrumb-item" aria-current="page"><a href="{{ path('place_index') }}">Lieux</a></li>
                 <li class="breadcrumb-item" aria-current="page">Modification d'un lieu</li>
@@ -14,6 +22,11 @@
                 <li class="breadcrumb-item" aria-current="page">Création d'un lieu</li>
             {% elseif route_name starts with 'place_index' %}
                 <li class="breadcrumb-item" aria-current="page">Lieux</li>
+
+            {#Routes événement#}
+            {% elseif route_name starts with 'event' %}
+                <li class="breadcrumb-item" aria-current="page">Data</li>
+
             {% else %}
                 <li class="breadcrumb-item"><a href="#">Home</a></li>
             {% endif %}

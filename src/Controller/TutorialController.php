@@ -1,111 +1,94 @@
 <?php
 
-
 namespace App\Controller;
 
-use App\Repository\PlaceRepository;
+use App\Entity\Tutorial;
+use App\Form\TutorialType;
+use App\Repository\TutorialRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Google\Client;
-use Google_Client;
-use Google_Service_YouTube;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
-use Algolia\SearchBundle\SearchService;
-
 
 class TutorialController extends AbstractController
 {
 
+    private $tutorialRepository;
 
+    public function __construct(TutorialRepository $tutorialRepository)
+    {
+        $this->tutorialRepository = $tutorialRepository;
+    }
 
     /**
-     * @Route("/tutoriel", name="tutorial_list")
+     * @Route("/tutoriel", name="tutorial_index")
+     * @param Request $request
      * @return Response
      */
-    public function list()
+    public function index(Request $request)
     {
-        $client = new Google_Client();
-        $client->setDeveloperKey('AIzaSyCOFBDunCLrvJ9378MUll0fMWsVaVU-gmc');
-
-        $youtube = new \Google_Service_YouTube($client);
-        $response = $youtube->search->listSearch('id,snippet', [
-            'q' => 'racoon',
-            'order' => 'relevance',
-            'maxResults' => 10,
-            'type' => 'video'
-        ]);
-
-
-        $first = $youtube->videos->listVideos('id,snippet,contentDetails', [
-            'id' => $response['items'][0]['id']['videoId']
-        ]);
-        return $this->render("tutorial/list.html.twig", [
-            'item' => $response['items'],
-            'first' => $first['items'][0],
+        return $this->render("tutorials/index.html.twig", [
+            'tutorials' => $this->tutorialRepository->findByUser($this->getUser())
         ]);
     }
 
     /**
-     * @Route("/tutoriel/upload", name="tutorial_upload")
+     * @Route("/tutoriel/creer", name="tutorial_create")
      */
-    public function upload()
+    public function create(Request $request, EntityManagerInterface $manager, Security $security)
     {
-        $connect = 0;
-        $client = new Google_Client();
-/*        $client = new Client();
-        $client->setAuthConfig(realpath(__DIR__ . '/../../var/credentials.json'));
-        $client->setApplicationName("test upload");*/
-        $client->setClientId('972402334252-o6l8kn2quaqsko00ejmlnaf0403hd1jd.apps.googleusercontent.com');
-        $client->setClientSecret('HTHz_hdrgPxFiatJODd3sX7e');
-        $client->setRedirectUri('http://localhost:33/tutoriel/upload');
-        $client->setScopes(['https://www.googleapis.com/auth/youtube']);
+        $tutorial = new Tutorial();
+        $form = $this->createForm(TutorialType::class, $tutorial);
 
-        $youtube = new Google_Service_YouTube($client);
-        if(isset( $_GET['code'])) {
-            $token = $client->fetchAccessTokenWithAuthCode($_GET['code']);
-            dump($token);
-            $connect = 1;
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted()) {
+            $tutorial
+                ->setDisable(false)
+                ->setUpdatedAt(new \DateTime())
+                ->setUser($this->getUser());
+            $manager->persist($tutorial);
+            $manager->flush();
+
+            return $this->redirectToRoute("tutorial_index");
         }
 
-        // gérer le fait de ne pas avoir à se reconnecter à chaque fois qu'on reload la page
-        /*  if(isset($_SESSION['token']))
-        {
-            $client->setAccessToken($_SESSION['token']);
-        }*/
-        dd(__DIR__);
-        if($client->getAccessToken()) {
-
-            $snippet = new \Google_Service_YouTube_VideoSnippet();
-            $snippet->setTitle('Vidéo de test');
-            $snippet->setDescription('Test de description');
-            $snippet->setTags(['tag1', 'tag2', 'tag3']);
-            $snippet->setCategoryId('17');
-
-            $status = new \Google_Service_YouTube_VideoStatus();
-            $status->setPrivacyStatus('private'); // PRIVATE / UNLISTED / PUBLIC
-
-
-            $video = new \Google_Service_YouTube_Video();
-            $video->setSnippet($snippet);
-            $video->setStatus($status);
-
-            $client->setDefer(true);
-            $request = $youtube->videos->insert('status,snippet', $video);
-            $file = dirname(__DIR__).'/video.mp4';
-            $media = new \Google_Http_MediaFileUpload($client, $request, 'video/*', file_get_contents($file));
-
-            $video = $client->execute($request);
-            dump($video);
-        }
-
-        return $this->render("tutorial/upload.html.twig", [
-            'client' => $client,
-            'authUrl' => $client->createAuthUrl(),
-            'connect' => $connect,
+        return $this->render("tutorials/create.html.twig", [
+            "form" => $form->createView(),
+            "tutorial" => $tutorial,
         ]);
     }
 
+    /**
+     * @Route("/tutoriel/editer/{id}", name="tutorial_update")
+     * @param EntityManagerInterface $manager
+     * @param Int $id
+     * @param Request $request
+     * @return RedirectResponse|Response
+     */
+    public function update(EntityManagerInterface $manager, int $id, Request $request, TutorialRepository $tutorialRepository)
+    {
+        $tutorial = $tutorialRepository->find($id);
+        if (!$tutorial) {
+            $this->addFlash("danger", "STOPPPPP");
+            return $this->redirectToRoute("tutorial_create");
+        }
+
+        $form = $this->createForm(TutorialType::class, $tutorial);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted()) {
+            $manager->flush();
+
+            return $this->redirectToRoute("tutorial_index");
+        }
+
+        return $this->render("tutorials/update.html.twig", [
+            "form" => $form->createView(),
+            "tutorial" => $tutorial,
+        ]);
+    }
 }

@@ -24,6 +24,7 @@
     "bootstrap-select": "^1.13.18",
     "ckeditor": "^4.12.1",
     "css-loader": "^5.0.2",
+    "file-loader": "^6.2.0",
     "jquery": "^3.6.0",
     "popper.js": "^1.16.1",
     "sass": "^1.32.6",

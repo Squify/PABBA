@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}PABBA - Nouveau tutoriel{% endblock %}
+{% block body %}
+    {{ form_start(form, {'class': 'form-test'}) }}
+    {{ form_errors(form) }}
+    <div class="form-card-container">
+        <div class="card card-left">
+            <div class="card-body">
+                {{ form_row(form.imageFile) }}
+                {{ form_row(form.title, {'id': 'title'}) }}
+                {{ form_row(form.type) }}
+                {{ form_row(form.tools) }}
+                {{ form_row(form.supplies) }}
+            </div>
+        </div>
+        <div class="card card-right">
+            <div class="card-body">
+                {{ form_row(form.description, {'id': 'description'}) }}
+                {{ form_row(form.videoFile) }}
+            </div>
+        </div>
+    </div>
+    <button type="submit" class="btn add-btn"><i class="bi bi-arrow-right-circle-fill"></i></button>
+    {{ form_end(form) }}
+{% endblock %}
