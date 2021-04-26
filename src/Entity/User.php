@@ -79,9 +79,15 @@ class User implements UserInterface
      */
     private $places;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Tutorial::class, mappedBy="user")
+     */
+    private $tutorials;
+
     public function __construct()
     {
         $this->places = new ArrayCollection();
+        $this->tutorials = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -300,5 +306,35 @@ class User implements UserInterface
     public function __toString(): string
     {
         return $this->email;
+    }
+
+    /**
+     * @return Collection|Tutorial[]
+     */
+    public function getTutorials(): Collection
+    {
+        return $this->tutorials;
+    }
+
+    public function addTutorial(Tutorial $tutorial): self
+    {
+        if (!$this->tutorials->contains($tutorial)) {
+            $this->tutorials[] = $tutorial;
+            $tutorial->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTutorial(Tutorial $tutorial): self
+    {
+        if ($this->tutorials->removeElement($tutorial)) {
+            // set the owning side to null (unless already changed)
+            if ($tutorial->getUser() === $this) {
+                $tutorial->setUser(null);
+            }
+        }
+
+        return $this;
     }
 }

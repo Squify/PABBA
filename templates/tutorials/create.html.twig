@@ -1,33 +1,26 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Nouveau tutoriel{% endblock %}
+{% block title %}PABBA - Nouveau tutoriel{% endblock %}
 {% block body %}
-    <div class="card">
-        <div class="card-body">
-            {{ form_start(form) }}
-            {{ form_errors(form) }}
-
-            <div class="row">
-                <div class="col-6">
-                    {{ form_row(form.title, {'id': 'title'}) }}
-                </div>
-                <div class="col-6">
-                    {{ form_row(form.description, {'id': 'description'}) }}
-                </div>
-                <div class="col-6">
-                    {{ form_row(form.videoLink, {'id': 'videoLink'}) }}
-                </div>
-                <div class="col-6">
-                    {{ form_row(form.type) }}
-                </div>
+    {{ form_start(form, {'class': 'form-test'}) }}
+    {{ form_errors(form) }}
+    <div class="form-card-container">
+        <div class="card card-left">
+            <div class="card-body">
+                {{ form_row(form.imageFile) }}
+                {{ form_row(form.title, {'id': 'title'}) }}
+                {{ form_row(form.type) }}
+                {{ form_row(form.tools) }}
+                {{ form_row(form.supplies) }}
             </div>
-
-            <button type="submit" class="btn btn-success">
-                ajouter
-            </button>
-
-            {{ form_end(form) }}
         </div>
-
+        <div class="card card-right">
+            <div class="card-body">
+                {{ form_row(form.description, {'id': 'description'}) }}
+                {{ form_row(form.videoFile) }}
+            </div>
+        </div>
     </div>
+    <button type="submit" class="btn add-btn"><i class="bi bi-arrow-right-circle-fill"></i></button>
+    {{ form_end(form) }}
 {% endblock %}

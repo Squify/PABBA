@@ -2,15 +2,15 @@
 
 namespace App\Entity;
 
-use App\Repository\SupplyRepository;
+use App\Repository\ToolTypeRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=SupplyRepository::class)
+ * @ORM\Entity(repositoryClass=ToolTypeRepository::class)
  */
-class TutorialSupply
+class ToolType
 {
     /**
      * @ORM\Id
@@ -25,7 +25,7 @@ class TutorialSupply
     private $label;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Tutorial::class, mappedBy="supplies")
+     * @ORM\ManyToMany(targetEntity=Tutorial::class, mappedBy="tools")
      */
     private $tutorials;
 
@@ -63,7 +63,7 @@ class TutorialSupply
     {
         if (!$this->tutorials->contains($tutorial)) {
             $this->tutorials[] = $tutorial;
-            $tutorial->setType($this);
+            $tutorial->setSupplies($this);
         }
 
         return $this;
@@ -73,16 +73,11 @@ class TutorialSupply
     {
         if ($this->tutorials->removeElement($tutorial)) {
             // set the owning side to null (unless already changed)
-            if ($tutorial->getType() === $this) {
-                $tutorial->setType(null);
+            if ($tutorial->getSupplies() === $this) {
+                $tutorial->setSupplies(null);
             }
         }
 
         return $this;
-    }
-
-    public function __toString(): string
-    {
-        return $this->label;
     }
 }
