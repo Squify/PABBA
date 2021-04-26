@@ -30,6 +30,7 @@ class TutorialController extends AbstractController
     public function index(Request $request)
     {
         return $this->render("tutorials/index.html.twig", [
+            'tutorials' => $this->tutorialRepository->findByUser($this->getUser())
         ]);
     }
 
@@ -42,9 +43,11 @@ class TutorialController extends AbstractController
         $form = $this->createForm(TutorialType::class, $tutorial);
 
         $form->handleRequest($request);
+
         if ($form->isSubmitted()) {
             $tutorial
                 ->setDisable(false)
+                ->setUpdatedAt(new \DateTime())
                 ->setUser($this->getUser());
             $manager->persist($tutorial);
             $manager->flush();
