@@ -1,12 +1,11 @@
-<nav class="navbar sticky-top navbar-expand-lg">
-    <img id="logo" src="{{ asset('images/logo.png')}}" alt="">
+<nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
+    <img id="{{ isMobile ? 'logo-mobile' : 'logo' }}" src="{{ asset('images/logo.png') }}" alt="">
     <a class="navbar-brand title" href="{{ path('index') }}">PABBA</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
-
-    <div class="collapse navbar-collapse d-flex flex-row-reverse" id="navbarSupportedContent">
-        <ul class="navbar-nav ml-auto">
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav  {{ isMobile ? 'navbar-mobile' : '' }}">
             {% set route_name = app.request.attributes.get('_route') %}
             <li {% if route_name starts with 'place' %} class="nav-item active" {% else %} class='nav-item' {% endif %}>
                 <a class="nav-link" href="{{ path('place_index') }}"><i class="bi bi-map"></i> Liste des jardins</a>

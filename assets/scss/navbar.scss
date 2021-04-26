@@ -1,10 +1,14 @@
 .navbar {
   background: linear-gradient(90deg, #50A7C2 0%, #B7F8DB 100%) !important;
-  height: 70px;
+  justify-content: unset!important;
 
   #logo {
     width: 3% !important;
     padding: 5px;
+  }
+
+  #logo-mobile {
+    width: 16% !important;
   }
 
   a {
@@ -16,6 +20,11 @@
     line-height: 44px;
     margin-left: 10px;
 
+    color: #FFFFFF !important;
+  }
+
+  .navbar-mobile {
+    background: linear-gradient(90deg, #50A7C2 0%, #B7F8DB 100%);
     color: #FFFFFF !important;
   }
 

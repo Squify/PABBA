@@ -63,7 +63,7 @@ class Tutorial
      * NOTE: This is not a mapped field of entity metadata, just a simple property.
     *
     * @Vich\UploadableField(mapping="tutorial_image", fileNameProperty="imageName")
-    * @Assert\File(maxSize="200M")
+    * @Assert\File(maxSize="5M")
     * @var File|null
      */
     private $imageFile;
@@ -77,7 +77,7 @@ class Tutorial
 
     /**
     * @Vich\UploadableField(mapping="tutorial_video", fileNameProperty="videoName")
-    * @Assert\File(maxSize="200M")
+    * @Assert\File(maxSize="50M")
     * @var File|null
      */
     private $videoFile;

@@ -11,12 +11,32 @@ body {
   background-color: #F6F6F6;
 }
 
+form {
+  width: 90%;
+}
+
+.mobile-card-form form {
+  width: 100%;
+}
+
 .container {
   margin-top: 20px;
   display: flex;
   flex-direction: row;
   justify-content: center;
   z-index: -1;
+  max-width: unset!important;
+  width: 90%;
+}
+
+.container-mobile {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  z-index: -1;
+  max-width: unset!important;
+  width: 100%;
 }
 
 .form-card-container {

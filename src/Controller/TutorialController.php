@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
+use Mobile_Detect;
 
 class TutorialController extends AbstractController
 {
@@ -55,10 +56,13 @@ class TutorialController extends AbstractController
 
             return $this->redirectToRoute("tutorial_index");
         }
+        $detect = new Mobile_Detect;
 
         return $this->render("tutorials/create.html.twig", [
             "form" => $form->createView(),
             "tutorial" => $tutorial,
+            "isTablet" => $detect->isTablet(),
+            "isMobile" => $detect->isMobile(),
         ]);
     }
 
