@@ -84,7 +84,7 @@ class PlaceController extends AbstractController
     {
         $place = $placeRepository->find($id);
         if (!$place) {
-            $this->addFlash("danger", "STOPPPPP");
+            $this->addFlash("danger", "Le lieu demandé n'existe pas, veuillez en créer un nouveau");
             return $this->redirectToRoute("place_create");
         }
 

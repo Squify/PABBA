@@ -73,7 +73,7 @@ class TutorialController extends AbstractController
     {
         $tutorial = $tutorialRepository->find($id);
         if (!$tutorial) {
-            $this->addFlash("danger", "STOPPPPP");
+            $this->addFlash("danger", "Le tutoriel demandé n'existe pas, veuillez en créer un nouveau");
             return $this->redirectToRoute("tutorial_create");
         }
 
