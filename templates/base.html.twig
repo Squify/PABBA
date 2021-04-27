@@ -26,11 +26,14 @@
             {% endfor %}
         </div>
     {% endfor %}
-    {% include 'components/navbar.html.twig' with {'isMobile': isMobile} %}
-    {% if not isMobile %}
+
+    {% include 'components/navbar.html.twig' %}
+
+    {% if not (isMobile() or isTablet()) %}
         {% include 'components/secondary-navbar.html.twig' %}
     {% endif %}
-    <div class="{{ isMobile ? 'container-mobile' : 'container' }}">
+
+    <div class="{{ (isMobile() or isTablet()) ? 'container-mobile' : 'container' }}">
         {% block body %}{% endblock %}
     </div>
 

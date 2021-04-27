@@ -4,8 +4,7 @@
 {% block body %}
     {{ form_start(form) }}
     {{ form_errors(form) }}
-
-    {% if isMobile or isTablet %}
+    {% if (isMobile() or isTablet()) %}
         <div class="card">
             <div class="card-body">
                 {{ form_row(form.imageFile) }}
