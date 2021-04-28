@@ -6,13 +6,15 @@
 
     <div class="row">
     {% for tutorial in tutorials %}
+{#        {{ dump(tutorial) }}#}
         <div class="card" style="width: 18rem;">
-            <img class="card-img-top" src="..." alt="Card image cap">
+            <img class="card-img-top" src="" alt="Card image cap">
             <div class="card-body">
                 <h5 class="card-title">{{ tutorial.title }}</h5>
                 <p class="card-text">{{ tutorial.description }}</p>
                 <p class="card-text">{{ tutorial.supplies }}</p>
                 <a href="{{ path('details_tutorial', {'id': tutorial.id}) }}" class="btn btn-primary">Voir détail</a>
+                <a href="{{ path('delete_tutorial', {'id': tutorial.id}) }}" class="btn btn-danger">Supprimer</a>
             </div>
         </div>
     {%  endfor %}

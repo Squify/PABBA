@@ -134,4 +134,24 @@ class TutorialController extends AbstractController
             'tutorial' => $tutorial,
         ]);
     }
+
+    /**
+     * @Route("/tutoriel/supprimer/{id}", name="delete_tutorial")
+     * @param EntityManagerInterface $manager
+     * @param int $id
+     * @param Request $request
+     * @param TutorialRepository $tutorialRepository
+     */
+    public function delete(EntityManagerInterface $manager, int $id, Request $request, TutorialRepository $tutorialRepository)
+    {
+        $tutorial = $tutorialRepository->find($id);
+        if (!$tutorial) {
+            $this->addFlash("danger", "Le tutoriel supprimé n'existe pas, veuillez en séléctionner un nouveau");
+            return $this->redirectToRoute("user_tutorial");
+        }
+
+        $manager->remove($tutorial);
+        $manager->flush();
+        return $this->redirectToRoute("user_tutorial");
+    }
 }
