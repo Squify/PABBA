@@ -73,6 +73,7 @@ class AppFixtures extends Fixture
             $tutorialType = new TutorialType();
             $tutorialType->setLabel($label);
             $manager->persist($tutorialType);
+            $tabTutorial[]=$tutorialType;
         }
 
 //      Tool Type Fixtures
@@ -89,6 +90,7 @@ class AppFixtures extends Fixture
         for($i=0; $i<5; $i++) {
             $tutorial = new Tutorial();
             $tutorial->setTitle($faker->text(10))
+                ->setType($faker->randomElement($tabTutorial))
                 ->setDescription($faker->text(100))
                 ->setUser($admin)
                 ->setDisable($faker->boolean)

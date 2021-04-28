@@ -4,13 +4,22 @@
 
 {% block body %}
 
+    <div class="row">
     {% for tutorial in tutorials %}
-        {{ tutorial.id }}
-        {{ tutorial.title }}
-        {{ tutorial.description }}
-        {{ tutorial.type }}
-        {{ tutorial.supplies }}
+        <div class="card" style="width: 18rem;">
+            <img class="card-img-top" src="..." alt="Card image cap">
+            <div class="card-body">
+                <h5 class="card-title">{{ tutorial.title }}</h5>
+                <p class="card-text">{{ tutorial.description }}</p>
+                <p class="card-text">{{ tutorial.supplies }}</p>
+                <a href="#" class="btn btn-primary">Voir détail</a>
+            </div>
+        </div>
     {%  endfor %}
+    </div>
+
+
+
     <button type="button" class="btn add-btn">
         <a href="{{ path('tutorial_create') }}"><i
                     class="bi bi-plus-circle-fill"></i></a>

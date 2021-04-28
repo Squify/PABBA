@@ -101,7 +101,7 @@ class TutorialController extends AbstractController
 
 
     /**
-     * @Route("/profile/tutorial", name="user_tutorial")
+     * @Route("/profile/tutoriel", name="user_tutorial")
      * @param Request $request
      * @param TutorialRepository $tutorialRepository
      * @IsGranted("ROLE_USER")
@@ -110,6 +110,7 @@ class TutorialController extends AbstractController
     public function myTutorial(Request $request, TutorialRepository $tutorialRepository)
     {
         $tutorial =  $this->tutorialRepository->findByUser($this->getUser());
+        dump($tutorial);
 
         return $this->render("profile/tutorial.html.twig", [
             'tutorials' => $tutorial,
