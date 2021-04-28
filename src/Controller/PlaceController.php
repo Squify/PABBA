@@ -57,12 +57,13 @@ class PlaceController extends AbstractController
         $form = $this->createForm(PlaceType::class, $place);
 
         $form->handleRequest($request);
-        if ($form->isSubmitted()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $place->setIsValid(false)
                 ->setUser($this->getUser());
             $manager->persist($place);
             $manager->flush();
 
+            $this->addFlash("notice", "Le lieu a bien été créé");
             return $this->redirectToRoute("place_index");
         }
 
@@ -91,9 +92,10 @@ class PlaceController extends AbstractController
         $form = $this->createForm(PlaceType::class, $place);
 
         $form->handleRequest($request);
-        if ($form->isSubmitted()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $manager->flush();
 
+            $this->addFlash("notice", "Le lieu a bien été modifié");
             return $this->redirectToRoute("place_index");
         }
 

@@ -45,7 +45,7 @@ class TutorialController extends AbstractController
 
         $form->handleRequest($request);
 
-        if ($form->isSubmitted()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $tutorial
                 ->setDisable(false)
                 ->setUpdatedAt(new \DateTime())
@@ -53,6 +53,7 @@ class TutorialController extends AbstractController
             $manager->persist($tutorial);
             $manager->flush();
 
+            $this->addFlash("notice", "Le tutoriel a bien été créé");
             return $this->redirectToRoute("tutorial_index");
         }
 
@@ -80,9 +81,10 @@ class TutorialController extends AbstractController
         $form = $this->createForm(TutorialType::class, $tutorial);
 
         $form->handleRequest($request);
-        if ($form->isSubmitted()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $manager->flush();
 
+            $this->addFlash("notice", "Le tutoriel a bien été modifié");
             return $this->redirectToRoute("tutorial_index");
         }
 
