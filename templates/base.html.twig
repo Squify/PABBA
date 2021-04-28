@@ -25,7 +25,7 @@
     {% if not (isMobile() or isTablet()) %}
         {% include 'components/secondary-navbar.html.twig' %}
     {% endif %}
-    
+
     {% for rubrik, messages in app.flashes %}
         <div class="alert alert-{{ rubrik }}">
             {% for message in messages %}
