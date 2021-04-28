@@ -6,6 +6,7 @@ use App\Entity\Tutorial;
 use App\Form\TutorialType;
 use App\Repository\TutorialRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -28,8 +29,12 @@ class TutorialController extends AbstractController
      * @param Request $request
      * @return Response
      */
-    public function index(Request $request)
+    public function index(Request $request, TutorialRepository $tutorialRepository)
     {
+        $tutorial = $tutorialRepository->findby(
+            ['disable' => 0]
+        );
+
         return $this->render("tutorials/index.html.twig", [
             'tutorials' => $this->tutorialRepository->findByUser($this->getUser())
         ]);
@@ -91,6 +96,23 @@ class TutorialController extends AbstractController
         return $this->render("tutorials/update.html.twig", [
             "form" => $form->createView(),
             "tutorial" => $tutorial,
+        ]);
+    }
+
+
+    /**
+     * @Route("/profile/tutorial", name="user_tutorial")
+     * @param Request $request
+     * @param TutorialRepository $tutorialRepository
+     * @IsGranted("ROLE_USER")
+     * @return Response
+     */
+    public function myTutorial(Request $request, TutorialRepository $tutorialRepository)
+    {
+        $tutorial =  $this->tutorialRepository->findByUser($this->getUser());
+
+        return $this->render("profile/tutorial.html.twig", [
+            'tutorials' => $tutorial,
         ]);
     }
 }

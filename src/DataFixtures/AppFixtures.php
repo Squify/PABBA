@@ -4,6 +4,7 @@ namespace App\DataFixtures;
 
 use App\Entity\Place;
 use App\Entity\ToolType;
+use App\Entity\Tutorial;
 use App\Entity\Type;
 use App\Entity\User;
 use App\Entity\TutorialType;
@@ -82,6 +83,20 @@ class AppFixtures extends Fixture
             $toolTip = new ToolType();
             $toolTip->setLabel($label);
             $manager->persist($toolTip);
+        }
+
+        /// Tutorial fixtures
+        for($i=0; $i<5; $i++) {
+            $tutorial = new Tutorial();
+            $tutorial->setTitle($faker->text(10))
+                ->setDescription($faker->text(100))
+                ->setUser($admin)
+                ->setDisable($faker->boolean)
+                ->setSupplies($faker->text)
+                ->setUpdatedAt($faker->dateTime('now'))
+            ;
+            // ([47.843601, 1.939258])
+            $manager->persist($tutorial);
         }
 
         $manager->flush();
