@@ -84,10 +84,16 @@ class User implements UserInterface
      */
     private $tutorials;
 
+    /**
+     * @ORM\OneToMany(targetEntity=CommentTutorial::class, mappedBy="auteur", orphanRemoval=true)
+     */
+    private $commentTutorials;
+
     public function __construct()
     {
         $this->places = new ArrayCollection();
         $this->tutorials = new ArrayCollection();
+        $this->commentTutorials = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -332,6 +338,36 @@ class User implements UserInterface
             // set the owning side to null (unless already changed)
             if ($tutorial->getUser() === $this) {
                 $tutorial->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|CommentTutorial[]
+     */
+    public function getCommentTutorials(): Collection
+    {
+        return $this->commentTutorials;
+    }
+
+    public function addCommentTutorial(CommentTutorial $commentTutorial): self
+    {
+        if (!$this->commentTutorials->contains($commentTutorial)) {
+            $this->commentTutorials[] = $commentTutorial;
+            $commentTutorial->setAuteur($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCommentTutorial(CommentTutorial $commentTutorial): self
+    {
+        if ($this->commentTutorials->removeElement($commentTutorial)) {
+            // set the owning side to null (unless already changed)
+            if ($commentTutorial->getAuteur() === $this) {
+                $commentTutorial->setAuteur(null);
             }
         }
 
