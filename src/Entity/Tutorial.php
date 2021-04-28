@@ -96,9 +96,15 @@ class Tutorial
      */
     private $updatedAt;
 
+    /**
+     * @ORM\OneToMany(targetEntity=CommentTutorial::class, mappedBy="tutorial", orphanRemoval=true)
+     */
+    private $commentTutorials;
+
     public function __construct()
     {
         $this->tools = new ArrayCollection();
+        $this->commentTutorials = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -279,6 +285,36 @@ class Tutorial
     public function setTools(?ToolType $tools): self
     {
         $this->tools = $tools;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|CommentTutorial[]
+     */
+    public function getCommentTutorials(): Collection
+    {
+        return $this->commentTutorials;
+    }
+
+    public function addCommentTutorial(CommentTutorial $commentTutorial): self
+    {
+        if (!$this->commentTutorials->contains($commentTutorial)) {
+            $this->commentTutorials[] = $commentTutorial;
+            $commentTutorial->setTutorial($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCommentTutorial(CommentTutorial $commentTutorial): self
+    {
+        if ($this->commentTutorials->removeElement($commentTutorial)) {
+            // set the owning side to null (unless already changed)
+            if ($commentTutorial->getTutorial() === $this) {
+                $commentTutorial->setTutorial(null);
+            }
+        }
 
         return $this;
     }
