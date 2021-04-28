@@ -7,10 +7,12 @@ use App\Entity\Tutorial;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Vich\UploaderBundle\Form\Type\VichFileType;
+use Symfony\Component\Validator\Constraints\File;
 
 class TutorialType extends AbstractType
 {
@@ -24,16 +26,10 @@ class TutorialType extends AbstractType
                 'label' => 'Titre du tutoriel',
             ])
             ->add('description', CKEditorType::class, [
-//                'config' => [
-//                    'placeholder' => 'Rédiger le tutoriel ici...',
-//                ],
                 "label" => "Description",
             ])
             ->add('supplies', CKEditorType::class, [
                 "label" => "Fournitures",
-                'attr' => [
-                    'height' => '1500px',
-                ],
             ])
             ->add('type', EntityType::class, [
                 'class' => \App\Entity\TutorialType::class,
@@ -49,21 +45,29 @@ class TutorialType extends AbstractType
             ])
             ->add('imageFile', VichFileType::class, [
                 'required' => false,
-                'allow_delete' => true,
+                'allow_delete' => false,
                 'asset_helper' => true,
+                'download_uri' => false,
+                'download_label' => false,
                 'label' => "Image d'en-tête du tutoriel",
                 'attr' => [
                     'placeholder' => 'Ajouter une image',
-                ],
+                    'maxSize' => '5M',
+                    'accept' => "image/*"
+                ]
             ])
             ->add('videoFile', VichFileType::class, [
                 'required' => false,
-                'allow_delete' => true,
+                'allow_delete' => false,
                 'asset_helper' => true,
+                'download_uri' => false,
+                'download_label' => false,
                 'label' => "Vidéo",
                 'attr' => [
-                    'placeholder' => 'Ajouter une vidéo (200Mo)',
-                ],
+                    'placeholder' => 'Ajouter une vidéo (50Mo)',
+                    'maxSize' => '50M',
+                    'accept' => "video/*"
+                ]
             ]);
         ;
     }
