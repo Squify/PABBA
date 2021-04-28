@@ -116,4 +116,22 @@ class TutorialController extends AbstractController
             'tutorials' => $tutorial,
         ]);
     }
+
+    /**
+     * @Route("/tutoriel/detail/{id}", name="details_tutorial")
+     * @param Request $request
+     * @param TutorialRepository $tutorialRepository
+     */
+    public function details(Request $request, TutorialRepository $tutorialRepository, int $id)
+    {
+        $tutorial = $tutorialRepository->find($id);
+        if (!$tutorial) {
+            $this->addFlash("danger", "Le tutoriel demandé n'existe pas, veuillez en séléctionner un nouveau");
+            return $this->redirectToRoute("user_tutorial");
+        }
+
+        return $this->render("tutorials/details.html.twig", [
+            'tutorial' => $tutorial,
+        ]);
+    }
 }

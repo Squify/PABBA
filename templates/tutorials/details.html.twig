@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ tutorial.title }}{% endblock %}
+
+{% block body %}
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card" style="width: 18rem;">
+                <img class="card-img-top" src="..." alt="Card image cap">
+                <div class="card-body">
+                    <h5 class="card-title">{{ tutorial.title }}</h5>
+                    <p class="card-text">{{ tutorial.description }}</p>
+                    <p class="card-text">{{ tutorial.supplies }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+ {#   <button type="button" class="btn add-btn">
+        <a href="{{ path('tutorial_create') }}"><i
+                    class="bi bi-plus-circle-fill"></i></a>
+    </button>#}
+{% endblock %}

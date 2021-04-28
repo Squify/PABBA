@@ -12,7 +12,7 @@
                 <h5 class="card-title">{{ tutorial.title }}</h5>
                 <p class="card-text">{{ tutorial.description }}</p>
                 <p class="card-text">{{ tutorial.supplies }}</p>
-                <a href="#" class="btn btn-primary">Voir détail</a>
+                <a href="{{ path('details_tutorial', {'id': tutorial.id}) }}" class="btn btn-primary">Voir détail</a>
             </div>
         </div>
     {%  endfor %}
