@@ -198,7 +198,7 @@ class Tutorial
 
     public function getSupplies(): ?string
     {
-        return $this->title;
+        return $this->supplies;
     }
 
     public function setSupplies(string $supplies): self
