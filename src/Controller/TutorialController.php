@@ -42,6 +42,7 @@ class TutorialController extends AbstractController
 
     /**
      * @Route("/tutoriel/creer", name="tutorial_create")
+     * @IsGranted("ROLE_USER")
      */
     public function create(Request $request, EntityManagerInterface $manager, Security $security)
     {
@@ -74,6 +75,7 @@ class TutorialController extends AbstractController
      * @param Int $id
      * @param Request $request
      * @return RedirectResponse|Response
+     * @IsGranted("ROLE_USER")
      */
     public function update(EntityManagerInterface $manager, int $id, Request $request, TutorialRepository $tutorialRepository)
     {

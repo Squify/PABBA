@@ -39,7 +39,6 @@ class TutorialType extends AbstractType
             ->add('tools', EntityType::class, [
                 'class' => ToolType::class,
                 'choice_label' => 'label',
-                'expanded' => false,
                 'multiple' => true,
                 "label" => "Outils",
             ])
