@@ -48,5 +48,26 @@
             $('#tutorial_tools').select2();
         });
     </script>
+
+    <script type="text/javascript">
+        window.addEventListener('load', function () {
+            uploadVideoField = document.getElementsByClassName("videoFile").item(0);
+            uploadImageField = document.getElementsByClassName("imageFile").item(0);
+
+            uploadVideoField.onchange = function() {
+                if(this.files[0].size > 2e+7) { // 20 Mo
+                    alert("Le fichier est trop volumineux (" + (this.files[0].size / 1000000).toFixed(2) + " Mo / 20 Mo) !");
+                    this.value = "";
+                }
+            };
+
+            uploadImageField.onchange = function() {
+                if(this.files[0].size > 2e+6) { // 2 Mo
+                    alert("Le fichier est trop volumineux (" + (this.files[0].size / 1000000).toFixed(2) + " Mo/ 2 Mo) !");
+                    this.value = "";
+                }
+            };
+        })
+    </script>
     {{ encore_entry_script_tags('ckeditor') }}
 {% endblock %}
