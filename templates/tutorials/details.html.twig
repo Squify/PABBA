@@ -7,10 +7,10 @@
     <div class="row">
         <div class="col-md-12">
             <div class="card" style="width: 18rem;">
-                <img class="card-img-top" src="..." alt="Card image cap">
+                <img class="card-img-top" src="{{ vich_uploader_asset(tutorial, 'imageFile') }}" alt="{{ tutorial.title }}">
                 <div class="card-body">
                     <h5 class="card-title">{{ tutorial.title }}</h5>
-                    <p class="card-text">{{ tutorial.description }}</p>
+                    <p class="card-text">{{ tutorial.description|raw }}</p>
                     <p class="card-text">{{ tutorial.supplies }}</p>
                 </div>
             </div>
