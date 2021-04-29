@@ -1,18 +1,32 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}PABBA - Tutoriels{% endblock %}
+{% block title %}PABBA - Tutoriels
+{% endblock %}
 
 {% block body %}
 
-    {% for tutorial in tutorials %}
-        {{ tutorial.id }}
-        {{ tutorial.title }}
-        {{ tutorial.description }}
-{#        {{ tutorial.type }}#}
-        {{ tutorial.supplies }}
-    {%  endfor %}
-    <button type="button" class="btn add-btn">
-        <a href="{{ path('tutorial_create') }}"><i
-                class="bi bi-plus-circle-fill"></i></a>
-    </button>
+	<div class="row row-cols-3">
+		<div class="col-4 offset-6">
+		form
+			<input type="text" name="" id="" placeholder="Recherche..." class="form-control mb-2">
+		</div>
+
+		{% for tutorial in tutorials %}
+			<div class="col-3">
+				<div class="card">
+					<img src="{{ (tutorial.imageName) ? tutorial.imageName : asset('images/default_tuto.jpg') }}" class="card-img-top" alt="Image du tutoriel {{ tutorial.title }}">
+					<div class="card-body">
+						<h5 class="card-title">{{ tutorial.title }}</h5>
+						<p class="card-text">{{ tutorial.description }}</p>
+						<a href="{{ path('tutorial_details', {'id': tutorial.id}) }}" class="btn btn-primary">Détails</a>
+					</div>
+				</div>
+			</div>
+		{%  endfor %}
+	</div>
+	<button type="button" class="btn add-btn">
+		<a href="{{ path('tutorial_create') }}">
+			<i class="bi bi-plus-circle-fill"></i>
+		</a>
+	</button>
 {% endblock %}

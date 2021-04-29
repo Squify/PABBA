@@ -4,23 +4,22 @@
 
 {% block body %}
 
+
     <div class="row">
-        <div class="col-md-12">
-            <div class="card" style="width: 18rem;">
-                <img class="card-img-top" src="{{ vich_uploader_asset(tutorial, 'imageFile') }}" alt="{{ tutorial.title }}">
-                <div class="card-body">
-                    <h5 class="card-title">{{ tutorial.title }}</h5>
-                    <p class="card-text">{{ tutorial.description|raw }}</p>
-                    <p class="card-text">{{ tutorial.supplies }}</p>
-                </div>
-            </div>
+        <div class="align-self-center">
+            <h2>{{ tutorial.title }}</h2>
+            <h3>{{ tutorial.type.label }}</h3>
+            <h4>Proposé par : {{ tutorial.user.firstname }} - modifié le {{ tutorial.updatedAt|date('d/m/Y') }}</h4>
+            <img src="{{ vich_uploader_asset(tutorial, 'imageFile') }}" alt="image du tutoriel {{ tutorial.title }}">
         </div>
     </div>
-
-
-
- {#   <button type="button" class="btn add-btn">
-        <a href="{{ path('tutorial_create') }}"><i
-                    class="bi bi-plus-circle-fill"></i></a>
-    </button>#}
+    <div class="row">
+        <p>{{ tutorial.description | raw  }}</p>
+        <hr>
+        <h4>Fournitures</h4>
+        <p>{{ tutorial.supplies | raw  }}</p>
+        <hr>
+        <h2>La vidéo est là</h2>
+            <video src=""></video>
+    </div>
 {% endblock %}

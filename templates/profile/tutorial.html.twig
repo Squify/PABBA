@@ -4,22 +4,52 @@
 
 {% block body %}
 
-    <div class="row">
-    {% for tutorial in tutorials %}
+{#    <div class="row">#}
+{#    {% for tutorial in tutorials %}#}
 {#        {{ dump(tutorial) }}#}
-        <div class="card" style="width: 18rem;">
-            <img class="card-img-top" src="{{ vich_uploader_asset(tutorial, 'imageFile') }}" alt="{{ tutorial.title }}">
-            <div class="card-body">
-                <h5 class="card-title">{{ tutorial.title }}</h5>
-                <p class="card-text">{{ tutorial.description|raw }}</p>
-                <p class="card-text">{{ tutorial.supplies }}</p>
-                <a href="{{ path('details_tutorial', {'id': tutorial.id}) }}" class="btn btn-primary">Voir détail</a>
-                <a href="{{ path('delete_tutorial', {'id': tutorial.id}) }}" class="btn btn-danger">Supprimer</a>
-            </div>
-        </div>
-    {%  endfor %}
-    </div>
+{#        <div class="card" style="width: 18rem;">#}
+{#            <img class="card-img-top" src="{{ vich_uploader_asset(tutorial, 'imageFile') }}" alt="{{ tutorial.title }}">#}
+{#            <div class="card-body">#}
+{#                <h5 class="card-title">{{ tutorial.title }}</h5>#}
+{#                <p class="card-text">{{ tutorial.description|raw }}</p>#}
+{#                <p class="card-text">{{ tutorial.supplies }}</p>#}
+{#                <a href="{{ path('tutorial_details', {'id': tutorial.id}) }}" class="btn btn-primary">Voir détail</a>#}
+{#                <a href="{{ path('tutorial_delete', {'id': tutorial.id}) }}" class="btn btn-danger">Supprimer</a>#}
+{#            </div>#}
+{#        </div>#}
+{#    {%  endfor %}#}
+{#    </div>#}
 
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Titre</th>
+            <th>Type</th>
+            {#                <th>Outils</th>#}
+            <th>Description</th>
+            <th>Fourniture</th>
+            <th>Visible</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for tutorial in tutorials %}
+            <tr>
+                <td>{{ tutorial.title }}</td>
+                <td>{{ tutorial.type.label }}</td>
+{#                <td>{{ tutorial.outils }}</td>#}
+                <td>{{ tutorial.description|raw }}</td>
+                <td>{{ tutorial.supplies }}</td>
+                <td>{{ (tutorial.disable) ? "Non" : "Oui" }}</td>
+                <td>
+                    <a class="btn btn-primary" href="{{ path('tutorial_details', { 'id' : tutorial.id } ) }}"><i class="fas fa-eye" ></i></a>
+                    <a class="btn btn-warning" href="{{ path('tutorial_update', { 'id' : tutorial.id } ) }}"><i class="fas fa-edit"></i></a>
+                    <a class="btn btn-danger" href="{{ path('tutorial_delete', { 'id' : tutorial.id } ) }}"><i class="fas fa-trash"></i></a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
 
 
     <button type="button" class="btn add-btn">
