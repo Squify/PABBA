@@ -13,8 +13,8 @@
                 <h5 class="card-title">{{ tutorial.title }}</h5>
                 <p class="card-text">{{ tutorial.description }}</p>
                 <p class="card-text">{{ tutorial.supplies }}</p>
-                <a href="{{ path('details_tutorial', {'id': tutorial.id}) }}" class="btn btn-primary">Voir détail</a>
-                <a href="{{ path('delete_tutorial', {'id': tutorial.id}) }}" class="btn btn-danger">Supprimer</a>
+                <a href="{{ path('tutorial_details', {'id': tutorial.id}) }}" class="btn btn-primary">Voir détail</a>
+                <a href="{{ path('tutorial_delete', {'id': tutorial.id}) }}" class="btn btn-danger">Supprimer</a>
             </div>
         </div>
     {%  endfor %}

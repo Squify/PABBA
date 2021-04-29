@@ -93,7 +93,7 @@ class AppFixtures extends Fixture
                 ->setType($faker->randomElement($tabTutorial))
                 ->setDescription($faker->text(100))
                 ->setUser($admin)
-                ->setDisable($faker->boolean)
+                ->setDisable($faker->boolean(20))
                 ->setSupplies($faker->text)
                 ->setUpdatedAt($faker->dateTime('now'))
             ;

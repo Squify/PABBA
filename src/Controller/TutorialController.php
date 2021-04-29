@@ -29,14 +29,16 @@ class TutorialController extends AbstractController
      * @param Request $request
      * @return Response
      */
-    public function index(Request $request, TutorialRepository $tutorialRepository)
+    public function index(Request $request)
     {
-        $tutorial = $tutorialRepository->findby(
-            ['disable' => 0]
-        );
+        // $tutorials = $this->tutorialRepository->findby(
+        //     ['disable' => 0]
+        // );
 
         return $this->render("tutorials/index.html.twig", [
-            'tutorials' => $this->tutorialRepository->findByUser($this->getUser())
+            'tutorials' => $this->tutorialRepository->findby(
+                ['disable' => 0]
+            )
         ]);
     }
 
@@ -75,9 +77,9 @@ class TutorialController extends AbstractController
      * @param Request $request
      * @return RedirectResponse|Response
      */
-    public function update(EntityManagerInterface $manager, int $id, Request $request, TutorialRepository $tutorialRepository)
+    public function update(EntityManagerInterface $manager, int $id, Request $request)
     {
-        $tutorial = $tutorialRepository->find($id);
+        $tutorial = $this->tutorialRepository->find($id);
         if (!$tutorial) {
             $this->addFlash("danger", "Le tutoriel demandé n'existe pas, veuillez en créer un nouveau");
             return $this->redirectToRoute("tutorial_create");
@@ -103,11 +105,10 @@ class TutorialController extends AbstractController
     /**
      * @Route("/profile/tutoriel", name="user_tutorial")
      * @param Request $request
-     * @param TutorialRepository $tutorialRepository
      * @IsGranted("ROLE_USER")
      * @return Response
      */
-    public function myTutorial(Request $request, TutorialRepository $tutorialRepository)
+    public function myTutorial(Request $request)
     {
         $tutorial =  $this->tutorialRepository->findByUser($this->getUser());
         dump($tutorial);
@@ -118,13 +119,12 @@ class TutorialController extends AbstractController
     }
 
     /**
-     * @Route("/tutoriel/detail/{id}", name="details_tutorial")
+     * @Route("/tutoriel/detail/{id}", name="tutorial_details")
      * @param Request $request
-     * @param TutorialRepository $tutorialRepository
      */
-    public function details(Request $request, TutorialRepository $tutorialRepository, int $id)
+    public function details(Request $request, int $id)
     {
-        $tutorial = $tutorialRepository->find($id);
+        $tutorial = $this->tutorialRepository->find($id);
         if (!$tutorial) {
             $this->addFlash("danger", "Le tutoriel demandé n'existe pas, veuillez en séléctionner un nouveau");
             return $this->redirectToRoute("user_tutorial");
@@ -136,15 +136,14 @@ class TutorialController extends AbstractController
     }
 
     /**
-     * @Route("/tutoriel/supprimer/{id}", name="delete_tutorial")
+     * @Route("/tutoriel/supprimer/{id}", name="tutorial_delete")
      * @param EntityManagerInterface $manager
      * @param int $id
      * @param Request $request
-     * @param TutorialRepository $tutorialRepository
      */
-    public function delete(EntityManagerInterface $manager, int $id, Request $request, TutorialRepository $tutorialRepository)
+    public function delete(EntityManagerInterface $manager, int $id, Request $request   )
     {
-        $tutorial = $tutorialRepository->find($id);
+        $tutorial = $this->tutorialRepository->find($id);
         if (!$tutorial) {
             $this->addFlash("danger", "Le tutoriel supprimé n'existe pas, veuillez en séléctionner un nouveau");
             return $this->redirectToRoute("user_tutorial");
