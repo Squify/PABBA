@@ -51,7 +51,7 @@ class TutorialType extends AbstractType
                 'label' => "Image d'en-tête du tutoriel",
                 'attr' => [
                     'placeholder' => 'Ajouter une image',
-                    'maxSize' => '5M',
+                    'maxSize' => '2M',
                     'accept' => "image/*"
                 ]
             ])
@@ -63,8 +63,10 @@ class TutorialType extends AbstractType
                 'download_label' => false,
                 'label' => "Vidéo",
                 'attr' => [
-                    'placeholder' => 'Ajouter une vidéo (50Mo)',
-                    'maxSize' => '50M',
+                    'id' => 'videoFile',
+                    'class' => 'videoFile',
+                    'placeholder' => 'Ajouter une vidéo (20Mo)',
+                    'maxSize' => '20M',
                     'accept' => "video/*"
                 ]
             ]);
