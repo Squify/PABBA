@@ -7,13 +7,14 @@
 
 	<div class="row row-cols-3">
 		<div class="col-4 offset-6">
-		form
-			<input type="text" name="" id="" placeholder="Recherche..." class="form-control mb-2">
+			<form>
+				<input type="text" name="search" id="search" placeholder="Recherche..." class="form-control mb-2">
+			</form>
 		</div>
 
 		{% for tutorial in tutorials %}
 			<div class="col-3">
-				<div class="card">
+				<div class="card" data-id="{{ tutorial.id }}">
 					<img src="{{ (tutorial.imageName) ? tutorial.imageName : asset('images/default_tuto.jpg') }}" class="card-img-top" alt="Image du tutoriel {{ tutorial.title }}">
 					<div class="card-body">
 						<h5 class="card-title">{{ tutorial.title }}</h5>
@@ -29,4 +30,17 @@
 			<i class="bi bi-plus-circle-fill"></i>
 		</a>
 	</button>
+
+	<script>
+
+		let searchInput = $("#search");
+		console.log(searchInput);
+		searchInput.on("input", function(event){
+			if (condition) {
+				
+			}
+			console.log(searchInput.val());
+		});
+
+	</script>
 {% endblock %}

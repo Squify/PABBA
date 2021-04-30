@@ -43,6 +43,14 @@ class TutorialController extends AbstractController
     }
 
     /**
+     * @Route("/tutorial/search", name="tutorial_search")
+     */
+    public function search()
+    {
+        dd('toto');
+    }
+
+    /**
      * @Route("/tutoriel/creer", name="tutorial_create")
      * @IsGranted("ROLE_USER")
      */
