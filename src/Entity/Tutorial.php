@@ -25,11 +25,13 @@ class Tutorial
     private $id;
 
     /**
+     * @Assert\NotBlank(message="Vous devez remplir ce champ")
      * @ORM\Column(type="string", length=255)
      */
     private $title;
 
     /**
+     * @Assert\NotBlank(message="Vous devez remplir ce champ")
      * @ORM\Column(type="text")
      */
     private $description;
@@ -45,6 +47,7 @@ class Tutorial
     private $user;
 
     /**
+     * @Assert\NotBlank(message="Vous devez remplir ce champ")
      * @ORM\ManyToOne(targetEntity=TutorialType::class, inversedBy="tutorials")
      */
     private $type;

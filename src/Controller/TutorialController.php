@@ -18,10 +18,20 @@ class TutorialController extends AbstractController
 {
 
     private $tutorialRepository;
+    /**
+     * @var EntityManagerInterface
+     */
+    private EntityManagerInterface $em;
 
-    public function __construct(TutorialRepository $tutorialRepository)
+    /**
+     * TutorialController constructor.
+     * @param TutorialRepository $tutorialRepository
+     * @param EntityManagerInterface $em
+     */
+    public function __construct(TutorialRepository $tutorialRepository, EntityManagerInterface $em)
     {
         $this->tutorialRepository = $tutorialRepository;
+        $this->em = $em;
     }
 
     /**
@@ -45,8 +55,10 @@ class TutorialController extends AbstractController
     /**
      * @Route("/tutoriel/creer", name="tutorial_create")
      * @IsGranted("ROLE_USER")
+     * @param Request $request
+     * @return RedirectResponse|Response
      */
-    public function create(Request $request, EntityManagerInterface $manager, Security $security)
+    public function create(Request $request)
     {
         $tutorial = new Tutorial();
         $form = $this->createForm(TutorialType::class, $tutorial);
@@ -58,10 +70,10 @@ class TutorialController extends AbstractController
                 ->setDisable(false)
                 ->setUpdatedAt(new \DateTime())
                 ->setUser($this->getUser());
-            $manager->persist($tutorial);
-            $manager->flush();
+            $this->em->persist($tutorial);
+            $this->em->flush();
 
-            $this->addFlash("notice", "Le tutoriel a bien été créé");
+            $this->addFlash("success", "Le tutoriel a bien été créé");
             return $this->redirectToRoute("tutorial_index");
         }
 

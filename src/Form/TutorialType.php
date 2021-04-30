@@ -27,6 +27,7 @@ class TutorialType extends AbstractType
             ])
             ->add('description', CKEditorType::class, [
                 "label" => "Description",
+                'required' => true
             ])
             ->add('supplies', CKEditorType::class, [
                 "label" => "Fournitures",
