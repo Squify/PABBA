@@ -2,11 +2,13 @@
 
 namespace App\Services;
 
+use App\Entity\Tutorial;
 use App\Entity\User;
 use App\Repository\UserRepository;
 use Mailjet\Client;
 use Mailjet\Resources;
 use Mailjet\Response;
+use Symfony\Component\Mime\Email;
 use Twig\Environment;
 use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
@@ -99,6 +101,25 @@ class MailerService
             'To'     => $to ? $to : $_ENV['MAIL_SUPPORT'],
             'Subject'   => $subject,
             'Html-part' => $message
+        ];
+
+        return $this->client->post(Resources::$Email, ['body' => $config]);
+    }
+
+    /**
+     * @param Tutorial $tutorial
+     */
+    public function sendAlertTutorial(Tutorial $tutorial)
+    {
+        $config  = [
+            'FromEmail' => $this->noreply,
+            'To'     => $tutorial->getUser()->getEmail(),
+            'Subject'   => "Votre tutoriel n'est pas conforme",
+            'Html-part' => $this->environment->render('emails/alertTutorial.html.twig',
+            [
+                'subject' => 'Votre tutoriel n\'est pas conforme',
+                'tutorial' => $tutorial,
+            ])
         ];
 
         return $this->client->post(Resources::$Email, ['body' => $config]);
