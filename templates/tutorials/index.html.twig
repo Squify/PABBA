@@ -5,46 +5,53 @@
 
 {% block body %}
 
-	<div class="row">
-			{{ form_start(form) }}
+	<div class="container">
 
-	
-		<div class="col-3">
-			{{ form_row(form.title) }}
-		</div>
-		<div class="col-3">
-			{{ form_row(form.type) }}
-		</div>
-		<div class="col-3">
-			{{ form_row(form.videoName) }}
-		</div>
-			
-			{{ form_end(form) }}
+		{{ form_start(form) }}
+		<div class="row justify-content-end w-100 mb-3 mt-2">
 
-	</div>
-
-	<div class="row row-cols-3">
-		<div class="col-4 offset-6">
-			
+			<div class="col-3 align-self-center">
+				{{ form_widget(form.videoName) }}
+			</div>
+			<div class="col-4 align-self-center">
+				{{ form_widget(form.type) }}
+			</div>
+			<div class="col-4 align-self-center">
+				{{ form_widget(form.title) }}
+			</div>
+			<div class="col-1 align-self-center">
+				<button type="submit" class="btn btn-secondary">
+					<i class="fas fa-search"></i>
+				</button>
+			</div>
 
 		</div>
+		{{ form_end(form) }}
 
-		{% for tutorial in tutorials %}
-			<div class="col-3">
-				<div class="card" data-id="{{ tutorial.id }}">
-					<img src="{{ (tutorial.imageName) ? tutorial.imageName : asset('images/default_tuto.jpg') }}" class="card-img-top" alt="Image du tutoriel {{ tutorial.title }}">
-					<div class="card-body">
-						<h5 class="card-title">{{ tutorial.title }}</h5>
-						<p class="card-text">{{ tutorial.description }}</p>
-						<a href="{{ path('tutorial_details', {'id': tutorial.id}) }}" class="btn btn-primary">Détails</a>
+		<div class="row row-cols-3">
+			{% for tutorial in tutorials %}
+				<div class="col-3">
+					<div class="card" data-id="{{ tutorial.id }}">
+						<img src="{{ (tutorial.imageName) ? tutorial.imageName : asset('images/default_tuto.jpg') }}" class="card-img-top" alt="Image du tutoriel {{ tutorial.title }}">
+						<div class="card-body">
+							<h5 class="card-title">{{ tutorial.title }}</h5>
+							<p class="card-text">{{ tutorial.description }}</p>
+							<a href="{{ path('tutorial_details', {'id': tutorial.id}) }}" class="btn btn-primary">Détails</a>
+						</div>
 					</div>
 				</div>
-			</div>
-		{%  endfor %}
+			{%  endfor %}
+		</div>
 	</div>
 	<button type="button" class="btn add-btn">
 		<a href="{{ path('tutorial_create') }}">
 			<i class="bi bi-plus-circle-fill"></i>
 		</a>
 	</button>
+{% endblock %}
+
+{% block javascripts %}
+
+	{{ encore_entry_script_tags("searchTutorial") }}
+
 {% endblock %}

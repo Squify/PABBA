@@ -18,6 +18,9 @@ class SearchType extends AbstractType
         $builder
             ->add('title', TextType::class, [
                 "label" => "Titre",
+                "attr" => [
+                    "placeholder" => "Recherche par titre..."
+                ],
                 "required" => false
             ])
             ->add('videoName', CheckboxType::class, [
@@ -26,8 +29,10 @@ class SearchType extends AbstractType
             ])
             ->add('type', EntityType::class, [
                 "label" => "Catégorie",
+                "placeholder" => "--Sélectionnez une catégorie--",
                 "class" => TutorialType::class,
-                "choice_label" => "label"
+                "choice_label" => "label",
+                "required" => false
             ])
         ;
     }

@@ -19,22 +19,52 @@ class TutorialRepository extends ServiceEntityRepository
         parent::__construct($registry, Tutorial::class);
     }
 
-     /**
-      * @return Tutorial[] Returns an array of Tutorial objects
-      */
+    /**
+     * @return Tutorial[] Returns an array of Tutorial objects
+     */
     public function findByType($types)
     {
-        $qb = $this->createQueryBuilder('p');
+        $qb = $this->createQueryBuilder('t');
         return $qb
             ->add('where', $qb->expr()->in('t.type', ':types'))
             ->setParameter('types', $types)
             ->orderBy('t.id', 'ASC')
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
     }
 
-    
+    // public function findSearchResults($title = null, $category = null, $hasVideo = null)
+    public function findSearchResults($data)
+    {
+
+        dump($data);
+
+        $qb = $this->createQueryBuilder('t');
+        $qb->where("t.disable = 0");
+
+        foreach ($data as $key => $value) {
+            if ($value != null && $value != false) {
+                if ($key == "videoName") {
+                    $qb->andWhere("t.videoName is not NULL");
+                } elseif ($key == "type") {
+                    $qb->andWhere("t.type = :value")
+                        ->setParameter("value", $value->getId());
+                } else {
+                    $qb
+                        ->andWhere("t.{$key} LIKE :value")
+                        ->setParameter("value", "%" . $value . "%");
+                }
+            }
+        }
+
+        // dd($qb->getDQL(), $qb->getParameters());
+
+        return $qb
+            ->getQuery()
+            ->getResult();
+    }
+
+
 
     // /**
     //  * @return Tutorial[] Returns an array of Tutorial objects

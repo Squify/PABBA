@@ -51,7 +51,14 @@ class TutorialController extends AbstractController
         $searchForm->handleRequest($request);
 
         if ($searchForm->isSubmitted()) {
-            dd($searchForm->getData());
+            // dd($searchForm->getData());
+
+            return $this->render("tutorials/index.html.twig", [
+                "tutorials" => $this->tutorialRepository->findSearchResults($searchForm->getData()),
+                "form" => $searchForm->createView()
+            ]);
+
+            
         }
 
         return $this->render("tutorials/index.html.twig", [
@@ -60,14 +67,6 @@ class TutorialController extends AbstractController
             ),
             "form" => $searchForm->createView()
         ]);
-    }
-
-    /**
-     * @Route("/tutorial/search", name="tutorial_search")
-     */
-    public function search()
-    {
-        dd('toto');
     }
 
     /**
