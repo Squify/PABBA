@@ -91,7 +91,7 @@ class TutorialController extends AbstractController
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $manager->flush();
+        $manager->flush();
 
             $this->addFlash("notice", "Le tutoriel a bien été modifié");
             return $this->redirectToRoute("tutorial_index");

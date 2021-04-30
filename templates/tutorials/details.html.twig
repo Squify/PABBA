@@ -3,33 +3,39 @@
 {% block title %}{{ tutorial.title }}{% endblock %}
 
 {% block body %}
-
-    <div class="text-center">
-        <div class="row justify-content-center">
-            <h2>{{ tutorial.title }}</h2>
-        </div>
-        <img src="{{ vich_uploader_asset(tutorial, 'imageFile') }}" alt="image du tutoriel {{ tutorial.title }}" height="300">
-        <div class="row justify-content-center">
-            <h5><i>{{ tutorial.type.label }}</i></h5>
-        </div>
-        <div class="row justify-content-center">
-            <p><i>Proposé par : {{ tutorial.user.firstname }} - modifié le {{ tutorial.updatedAt|date('d/m/Y') }}</i></p>
-        </div>
+    <div class="row justify-content-center">
+        <h2>{{ tutorial.title }}</h2>
     </div>
-    <hr>
+
     <div class="row">
-        <div class="col-6">
+
+        <div id="detail1" class="col-12 col-md-6">
+            <h2>La vidéo est là</h2>
             <h4>Description</h4>
             <p>{{ tutorial.description | raw  }}</p>
         </div>
-        <div class="col-6">
-            <h4>Fournitures</h4>
-            <p>{{ tutorial.supplies | raw  }}</p>
+        <div id="detail2" class="col-12 col-md-6"></div>
+        <div class="text-center">
+
+            <div class="row justify-content-center">
+                <h5><i>{{ tutorial.type.label }}</i></h5>
+            </div>
+            <div class="row justify-content-center">
+                <p><i>Proposé par : {{ tutorial.user.firstname }} - modifié le {{ tutorial.updatedAt|date('d/m/Y') }}</i></p>
+            </div>
+        </div>
+        <div class="row">
+                <h4>Fournitures</h4>
+                <p>{{ tutorial.supplies | raw  }}</p>
+                {% for tool in tutorial.tools %}
+                    {{ dump(tool) }}
+                {% endfor %}
+        </div>
+        <hr>
+        <div class="row">
+            <h2>La vidéo est là</h2>
         </div>
     </div>
-    <hr>
-    <div class="row">
-        <h2>La vidéo est là</h2>
-    </div>
+
 {#    <video src=""></video>#}
 {% endblock %}
