@@ -74,7 +74,7 @@ class TutorialController extends AbstractController
             $this->em->flush();
 
             $this->addFlash("success", "Le tutoriel a bien été créé");
-            return $this->redirectToRoute("tutorial_index");
+            return $this->redirectToRoute("user_tutorial");
         }
 
         return $this->render("tutorials/create.html.twig", [
@@ -99,7 +99,7 @@ class TutorialController extends AbstractController
             $this->em->flush();
 
             $this->addFlash("success", "Le tutoriel a bien été modifié");
-            return $this->redirectToRoute("tutorial_index");
+            return $this->redirectToRoute("user_tutorial");
         }
 
         return $this->render("tutorials/update.html.twig", [
