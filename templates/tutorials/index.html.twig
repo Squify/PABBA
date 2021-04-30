@@ -5,11 +5,28 @@
 
 {% block body %}
 
+	<div class="row">
+			{{ form_start(form) }}
+
+	
+		<div class="col-3">
+			{{ form_row(form.title) }}
+		</div>
+		<div class="col-3">
+			{{ form_row(form.type) }}
+		</div>
+		<div class="col-3">
+			{{ form_row(form.videoName) }}
+		</div>
+			
+			{{ form_end(form) }}
+
+	</div>
+
 	<div class="row row-cols-3">
 		<div class="col-4 offset-6">
-			<form>
-				<input type="text" name="search" id="search" placeholder="Recherche..." class="form-control mb-2">
-			</form>
+			
+
 		</div>
 
 		{% for tutorial in tutorials %}
@@ -30,17 +47,4 @@
 			<i class="bi bi-plus-circle-fill"></i>
 		</a>
 	</button>
-
-	<script>
-
-		let searchInput = $("#search");
-		console.log(searchInput);
-		searchInput.on("input", function(event){
-			if (condition) {
-				
-			}
-			console.log(searchInput.val());
-		});
-
-	</script>
 {% endblock %}

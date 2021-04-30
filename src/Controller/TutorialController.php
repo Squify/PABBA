@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Tutorial;
+use App\Form\SearchType;
 use App\Form\TutorialType;
 use App\Repository\TutorialRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -45,10 +46,19 @@ class TutorialController extends AbstractController
         //     ['disable' => 0]
         // );
 
+        $searchForm = $this->createForm(SearchType::class);
+
+        $searchForm->handleRequest($request);
+
+        if ($searchForm->isSubmitted()) {
+            dd($searchForm->getData());
+        }
+
         return $this->render("tutorials/index.html.twig", [
             'tutorials' => $this->tutorialRepository->findby(
                 ['disable' => 0]
-            )
+            ),
+            "form" => $searchForm->createView()
         ]);
     }
 
