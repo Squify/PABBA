@@ -1,5 +1,6 @@
 const Encore = require('@symfony/webpack-encore');
 const path = require('path');
+var webpack = require('webpack');
 
 if (!Encore.isRuntimeEnvironmentConfigured()) {
     Encore.configureRuntimeEnvironment(process.env.NODE_ENV || 'dev');
@@ -11,6 +12,7 @@ Encore
 
     .addEntry('app', './assets/js/app.js')
     .addEntry('map', './assets/js/map.js')
+    .addEntry('tutorial', './assets/js/tutorial.js')
     // .addStyleEntry('mapStyle', './assets/scss/map.scss')
     .addStyleEntry('login', './assets/scss/login.scss')
     .addStyleEntry('base', './assets/scss/base.scss')
@@ -43,6 +45,11 @@ Encore
     .enableSassLoader()
     .enableIntegrityHashes(Encore.isProduction())
     .autoProvidejQuery()
+    .addPlugin(new webpack.ProvidePlugin({
+        $: 'jquery',
+        jQuery: 'jquery',
+        'window.jQuery': 'jquery',
+    }))
 ;
 
 module.exports = Encore.getWebpackConfig();
