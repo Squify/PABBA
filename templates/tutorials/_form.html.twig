@@ -1,0 +1,66 @@
+<div class="container my-5">
+    {{ form_start(form) }}
+    <div class="row">
+        <div class="col-12 col-xl-6 mx-auto mt-5">
+            <div class="card shadow">
+                <div class="card-body">
+                    {{ form_row(form.imageFile) }}
+                    {{ form_row(form.title, {'id': 'title'}) }}
+                    {{ form_row(form.type) }}
+                    {{ form_row(form.tools) }}
+                    {{ form_row(form.supplies) }}
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-xl-6 mx-auto mt-5">
+            <div class="card shadow">
+                <div class="card-body">
+                    {{ form_row(form.description, {'id': 'description'}) }}
+                    {{ form_row(form.videoFile) }}
+                    {{ form_row(form.disable) }}
+                    <button type="submit" class="btn add-btn"><i class="bi bi-arrow-right-circle-fill"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{ form_end(form) }}
+</div>
+{% block javascripts %}
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#tutorial_tools').select2();
+        });
+    </script>
+
+    <script type="text/javascript">
+        window.addEventListener('load', function() {
+            let uploadVideoField = document.querySelector('#tutorial_videoFile_file');
+            let uploadImageField = document.querySelector('#tutorial_imageFile_file')
+
+            uploadVideoField.addEventListener('change', (e) => {
+                let {target} = e;
+
+                if (target.files[0].size > 20971520) { // 50 Mo
+                    alert('Le fichier est trop volumineux (' + (target.files[0].size / 1000000).toFixed(2) + ' Mo / 20 Mo) !');
+                    target.value = '';
+                    target.files = []
+                }
+                target.nextSibling.innerHTML = target.files[0].name
+
+            });
+
+            uploadImageField.addEventListener('change', (e) => {
+                let {target} = e;
+
+                if (target.files[0].size > 2097152) { // 2 Mo
+                    alert('Le fichier est trop volumineux (' + (target.files[0].size / 1000000).toFixed(2) + ' Mo / 2 Mo) !');
+                    target.value = '';
+                    target.files = []
+                }
+                target.nextSibling.innerHTML = target.files[0].name
+            });
+
+        });
+    </script>
+{% endblock %}

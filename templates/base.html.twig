@@ -1,54 +1,41 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="UTF-8">
-		<title>
-			{% block title %}PABBA
-			{% endblock %}
-		</title>
-		<link rel="preconnect" href="https://fonts.gstatic.com">
-		<link href="https://fonts.googleapis.com/css2?family=Alata&display=swap" rel="stylesheet">
-		<link rel="shortcut icon" href="{{ asset('images/logo.png')}}"/>
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet"/>
+<head>
+    <meta charset="UTF-8">
+	<title>
+		{% block title %}PABBA{% endblock %}
+	</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Alata&display=swap" rel="stylesheet">
+    <link rel="shortcut icon" href="{{ asset('images/logo.png')}}" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
-		{% block stylesheets %}
-			{{ encore_entry_link_tags('base') }}
-		{% endblock %}
+    {% block stylesheets %}
+		{{ encore_entry_link_tags('base') }}
+    {% endblock %}
 
-		{{ encore_entry_script_tags('app') }}
-		<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-		{% block javascripts %}{% endblock %}
-	</head>
+    {{ encore_entry_script_tags('app') }}
+    {% block javascripts %}
 
-	<body>
-		{% include 'components/navbar.html.twig' %}
+    {% endblock %}
+</head>
 
-		{% if not (isMobile() or isTablet()) %}
-			{% include 'components/secondary-navbar.html.twig' %}
-		{% endif %}
+<body>
+    {% include 'components/navbar.html.twig' %}
 
-		{% for rubrik, messages in app.flashes %}
-			<div class="alert alert-{{ rubrik }}">
-				{% for message in messages %}
-					<p>{{ message }}</p>
-				{% endfor %}
-			</div>
-		{% endfor %}
+    {% include 'components/secondary-navbar.html.twig' %}
 
-		<div class="{{ (isMobile() or isTablet()) ? 'container-mobile' : 'container' }}"> {% block body %}{% endblock %}
-			</div>
+    {% block body %}{% endblock %}
 
-			
-			<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-			<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-			<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-		</body>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script></body>
 
-		{% for flash in app.flashes('success') %}
-			<span class="d-none js-alert" data-message="{{ flash }}" data-type="success"></span>
-		{% endfor %}
-		{% for flash in app.flashes('error') %}
-			<span class="d-none js-alert" data-message="{{ flash }}" data-type="error"></span>
-		{% endfor %}
-	</html>
+{% for flash in app.flashes('success') %}
+    <span class="d-none js-alert" data-message="{{ flash }}" data-type="success"></span>
+{% endfor %}
+{% for flash in app.flashes('error') %}
+    <span class="d-none js-alert" data-message="{{ flash }}" data-type="error"></span>
+{% endfor %}
+</html>

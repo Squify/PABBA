@@ -10,7 +10,6 @@ Encore
     .setPublicPath('/build')
 
     .addEntry('app', './assets/js/app.js')
-    .addEntry('ckeditor', './assets/js/ckeditor.js')
     .addEntry('map', './assets/js/map.js')
     // .addStyleEntry('mapStyle', './assets/scss/map.scss')
     .addStyleEntry('login', './assets/scss/login.scss')
