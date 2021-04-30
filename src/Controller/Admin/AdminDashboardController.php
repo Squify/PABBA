@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Place;
+use App\Entity\Tutorial;
 use App\Entity\User;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
@@ -30,5 +31,6 @@ class AdminDashboardController extends AbstractDashboardController
     {
         yield MenuItem::linkToCrud('Utilisateurs', 'fas fa-users', User::class);
         yield MenuItem::linkToCrud('Lieux', 'fas fa-map-marker-alt', Place::class);
+        yield MenuItem::linkToCrud('Tutoriels', 'fab fa-youtube', Tutorial::class);
     }
 }

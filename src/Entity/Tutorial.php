@@ -25,11 +25,13 @@ class Tutorial
     private $id;
 
     /**
+     * @Assert\NotBlank(message="Vous devez remplir ce champ")
      * @ORM\Column(type="string", length=255)
      */
     private $title;
 
     /**
+     * @Assert\NotBlank(message="Vous devez remplir ce champ")
      * @ORM\Column(type="text")
      */
     private $description;
@@ -45,6 +47,7 @@ class Tutorial
     private $user;
 
     /**
+     * @Assert\NotBlank(message="Vous devez remplir ce champ")
      * @ORM\ManyToOne(targetEntity=TutorialType::class, inversedBy="tutorials")
      */
     private $type;
@@ -55,7 +58,7 @@ class Tutorial
     private $tools;
 
     /**
-     * @ORM\Column(type="text", nullable=true)
+     * @ORM\Column(type="array", nullable=true)
      */
     private $supplies;
 
@@ -63,7 +66,7 @@ class Tutorial
      * NOTE: This is not a mapped field of entity metadata, just a simple property.
     *
     * @Vich\UploadableField(mapping="tutorial_image", fileNameProperty="imageName")
-    * @Assert\File(maxSize="5M", mimeTypes="image/*")
+    * @Assert\File(maxSize="2M", mimeTypes="image/*")
     * @var File|null
      */
     private $imageFile;
@@ -76,8 +79,8 @@ class Tutorial
     private $imageName;
 
     /**
-    * @Vich\UploadableField(mapping="tutorial_video", fileNameProperty="videoName", size="50M")
-    * @Assert\File(maxSize="50M", mimeTypes="video/*")
+    * @Vich\UploadableField(mapping="tutorial_video", fileNameProperty="videoName")
+    * @Assert\File(mimeTypes="video/*")
     * @var File|null
      */
     private $videoFile;
@@ -196,14 +199,20 @@ class Tutorial
         return $this;
     }
 
-    public function getSupplies(): ?string
+    public function getSupplies(): ?array
     {
         return $this->supplies;
     }
 
-    public function setSupplies(string $supplies): self
+    public function setSupplies(array $supplies): self
     {
-        $this->supplies = $supplies;
+        $data  = [];
+        foreach ($supplies as $key => $supply) {
+            if(strlen($supply) > 0){
+                $data[] = $supply;
+            }
+        }
+        $this->supplies = $data;
 
         return $this;
     }

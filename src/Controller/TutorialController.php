@@ -18,10 +18,20 @@ class TutorialController extends AbstractController
 {
 
     private $tutorialRepository;
+    /**
+     * @var EntityManagerInterface
+     */
+    private EntityManagerInterface $em;
 
-    public function __construct(TutorialRepository $tutorialRepository)
+    /**
+     * TutorialController constructor.
+     * @param TutorialRepository $tutorialRepository
+     * @param EntityManagerInterface $em
+     */
+    public function __construct(TutorialRepository $tutorialRepository, EntityManagerInterface $em)
     {
         $this->tutorialRepository = $tutorialRepository;
+        $this->em = $em;
     }
 
     /**
@@ -45,8 +55,10 @@ class TutorialController extends AbstractController
     /**
      * @Route("/tutoriel/creer", name="tutorial_create")
      * @IsGranted("ROLE_USER")
+     * @param Request $request
+     * @return RedirectResponse|Response
      */
-    public function create(Request $request, EntityManagerInterface $manager, Security $security)
+    public function create(Request $request)
     {
         $tutorial = new Tutorial();
         $form = $this->createForm(TutorialType::class, $tutorial);
@@ -58,11 +70,11 @@ class TutorialController extends AbstractController
                 ->setDisable(false)
                 ->setUpdatedAt(new \DateTime())
                 ->setUser($this->getUser());
-            $manager->persist($tutorial);
-            $manager->flush();
+            $this->em->persist($tutorial);
+            $this->em->flush();
 
-            $this->addFlash("notice", "Le tutoriel a bien été créé");
-            return $this->redirectToRoute("tutorial_index");
+            $this->addFlash("success", "Le tutoriel a bien été créé");
+            return $this->redirectToRoute("user_tutorial");
         }
 
         return $this->render("tutorials/create.html.twig", [
@@ -73,28 +85,19 @@ class TutorialController extends AbstractController
 
     /**
      * @Route("/tutoriel/editer/{id}", name="tutorial_update")
-     * @param EntityManagerInterface $manager
-     * @param Int $id
      * @param Request $request
+     * @param Tutorial $tutorial
      * @return RedirectResponse|Response
      * @IsGranted("ROLE_USER")
      */
-    public function update(EntityManagerInterface $manager, int $id, Request $request)
+    public function update(Request $request, Tutorial $tutorial)
     {
-        $tutorial = $this->tutorialRepository->find($id);
-        if (!$tutorial) {
-            $this->addFlash("danger", "Le tutoriel demandé n'existe pas, veuillez en créer un nouveau");
-            return $this->redirectToRoute("tutorial_create");
-        }
-
         $form = $this->createForm(TutorialType::class, $tutorial);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-        $manager->flush();
-
-            $this->addFlash("notice", "Le tutoriel a bien été modifié");
-            return $this->redirectToRoute("tutorial_index");
+            $this->addFlash("success", "Le tutoriel a bien été modifié");
+            return $this->redirectToRoute("user_tutorial");
         }
 
         return $this->render("tutorials/update.html.twig", [

@@ -1,5 +1,5 @@
 @import "~bootstrap/scss/bootstrap.scss";
-@import "~toastr/build/toastr.css";
+@import "~toastr/toastr.scss";
 @import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css");
 
 @import "navbar.scss";
@@ -52,4 +52,12 @@ form {
 
 .card-right {
   width: 60%;
+}
+
+.select2 {
+  width:100%!important;
+}
+
+.vich-image img {
+  @extend .img-fluid
 }

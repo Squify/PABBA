@@ -1,3 +1,8 @@
 fos_ck_editor:
   base_path: "build/ckeditor"
-  js_path:   "build/ckeditor/ckeditor.js"
+  js_path: "build/ckeditor/ckeditor.js"
+  default_config: default
+  configs:
+    default:
+      toolbar:
+        - [Bold, Italic, Underline, -, Cut, Copy, Paste, PasteText, -, Undo, Redo, -, NumberedList, BulletedList, -, Outdent, Indent, -, JustifyLeft, JustifyCenter, JustifyRight, JustifyBlock]
