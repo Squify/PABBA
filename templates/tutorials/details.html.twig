@@ -3,39 +3,51 @@
 {% block title %}{{ tutorial.title }}{% endblock %}
 
 {% block body %}
-    <div class="row justify-content-center">
-        <h2>{{ tutorial.title }}</h2>
-    </div>
 
-    <div class="row">
-
-        <div id="detail1" class="col-12 col-md-6">
-            <h2>La vidéo est là</h2>
-            <h4>Description</h4>
-            <p>{{ tutorial.description | raw  }}</p>
-        </div>
-        <div id="detail2" class="col-12 col-md-6"></div>
+    <div class="container">
         <div class="text-center">
+            <h2>{{ tutorial.title }}</h2>
+            <h5><i>{{ tutorial.type.label }}</i></h5>
+            <p><i>Proposé par : {{ tutorial.user.firstname }} - modifié le {{ tutorial.updatedAt|date('d/m/Y') }}</i></p>
+        </div>
 
-            <div class="row justify-content-center">
-                <h5><i>{{ tutorial.type.label }}</i></h5>
-            </div>
-            <div class="row justify-content-center">
-                <p><i>Proposé par : {{ tutorial.user.firstname }} - modifié le {{ tutorial.updatedAt|date('d/m/Y') }}</i></p>
-            </div>
-        </div>
         <div class="row">
-                <h4>Fournitures</h4>
-                <p>{{ tutorial.supplies | raw  }}</p>
-                {% for tool in tutorial.tools %}
-                    {{ dump(tool) }}
-                {% endfor %}
-        </div>
-        <hr>
-        <div class="row">
-            <h2>La vidéo est là</h2>
+
+            <div id="detail1" class="col-12 col-md-8 order-md-2">
+                <img class="img-fluid" src="https://via.placeholder.com/500x300.png?text=La+vidéo+est+là" alt=""/>
+                <hr class="d-none d-md-block my-4">
+                <h4>Description</h4>
+                <p>{{ tutorial.description | raw  }}</p>
+            </div>
+
+            <div id="detail2" class="col-12 col-md-4 order-md-1">
+
+                <div class="card" style="width: 18rem;">
+                    <div class="card-body">
+                        <h5 class="card-title">Fournitures</h5>
+                        <p class="card-text">
+                            {% for supply in tutorial.supplies %}
+                                <p>{{ supply }}</p>
+                            {% endfor %}
+                        </p>
+                    </div>
+                </div>
+
+                <div class="card" style="width: 18rem;">
+                    <div class="card-body">
+                        <h5 class="card-title">Outils</h5>
+                        <p class="card-text">
+                            {% for tool in tutorial.tools %}
+                                <p>{{ tool.label }}<p>
+                            {% endfor %}
+                        </p>
+                    </div>
+                </div>
+
+            </div>
         </div>
     </div>
+
 
 {#    <video src=""></video>#}
 {% endblock %}
