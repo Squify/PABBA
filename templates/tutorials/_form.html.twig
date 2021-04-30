@@ -8,7 +8,31 @@
                     {{ form_row(form.title, {'id': 'title'}) }}
                     {{ form_row(form.type) }}
                     {{ form_row(form.tools) }}
-                    {{ form_row(form.supplies) }}
+
+                    {{ form_label(form.supplies) }}
+                    {{ form_errors(form.supplies) }}
+                    <div class="" id="supplies_list" data-prototype="{{ form_widget(form.supplies.vars.prototype)|e('html_attr') }}" data-identifier="supply" data-index="{{ tutorial.supplies|length }}">
+                        {% for supply in form.supplies %}
+                            <div class="row p-2 rounded mb-1 form-floating form-group" id="supply_{{ loop.index0 }}">
+                                <div class="col-10" data-children-count="1">
+                                    {{ form_widget(supply) }}
+                                </div>
+                                <div class="col-1">
+                                    <button class="btn btn-danger js-delete-row" data-id="{{ loop.index0 }}" type="button">
+                                        <i data-id="{{ loop.index0 }}" class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <button type="button" class="btn btn-outline-primary mt-3 add_item_link" data-collectionholderclass="supplies_list">
+                                Ajouter
+                            </button>
+                        </div>
+                    </div>
+                    {{ form_widget(form.supplies) }}
                 </div>
             </div>
         </div>
@@ -28,15 +52,9 @@
 {% block javascripts %}
 
     <script type="text/javascript">
-        $(document).ready(function() {
-            $('#tutorial_tools').select2();
-        });
-    </script>
-
-    <script type="text/javascript">
         window.addEventListener('load', function() {
             let uploadVideoField = document.querySelector('#tutorial_videoFile_file');
-            let uploadImageField = document.querySelector('#tutorial_imageFile_file')
+            let uploadImageField = document.querySelector('#tutorial_imageFile_file');
 
             uploadVideoField.addEventListener('change', (e) => {
                 let {target} = e;
@@ -44,9 +62,9 @@
                 if (target.files[0].size > 20971520) { // 50 Mo
                     alert('Le fichier est trop volumineux (' + (target.files[0].size / 1000000).toFixed(2) + ' Mo / 20 Mo) !');
                     target.value = '';
-                    target.files = []
+                    target.files = [];
                 }
-                target.nextSibling.innerHTML = target.files[0].name
+                target.nextSibling.innerHTML = target.files[0].name;
 
             });
 
@@ -56,11 +74,13 @@
                 if (target.files[0].size > 2097152) { // 2 Mo
                     alert('Le fichier est trop volumineux (' + (target.files[0].size / 1000000).toFixed(2) + ' Mo / 2 Mo) !');
                     target.value = '';
-                    target.files = []
+                    target.files = [];
                 }
-                target.nextSibling.innerHTML = target.files[0].name
+                target.nextSibling.innerHTML = target.files[0].name;
             });
 
         });
     </script>
+    {{ encore_entry_script_tags('tutorial') }}
+
 {% endblock %}

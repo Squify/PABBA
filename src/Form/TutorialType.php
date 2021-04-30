@@ -32,8 +32,12 @@ class TutorialType extends AbstractType
                 "label" => "Description",
                 'required' => true
             ])
-            ->add('supplies', CKEditorType::class, [
+            ->add('supplies', CollectionType::class, [
                 "label" => "Fournitures",
+                'entry_type' => TextType::class,
+                'allow_add' => true,
+                'prototype' => true,
+                'delete_empty' => true
             ])
             ->add('type', EntityType::class, [
                 'class' => EntityTutorialType::class,
@@ -45,6 +49,9 @@ class TutorialType extends AbstractType
                 'choice_label' => 'label',
                 'multiple' => true,
                 "label" => "Outils",
+                'attr' => [
+                    "class" => 'select2'
+                ]
             ])
             ->add('imageFile', VichImageType::class, [
                 'required' => false,

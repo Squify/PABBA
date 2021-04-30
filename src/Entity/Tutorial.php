@@ -58,7 +58,7 @@ class Tutorial
     private $tools;
 
     /**
-     * @ORM\Column(type="text", nullable=true)
+     * @ORM\Column(type="array", nullable=true)
      */
     private $supplies;
 
@@ -199,14 +199,20 @@ class Tutorial
         return $this;
     }
 
-    public function getSupplies(): ?string
+    public function getSupplies(): ?array
     {
         return $this->supplies;
     }
 
-    public function setSupplies(string $supplies): self
+    public function setSupplies(array $supplies): self
     {
-        $this->supplies = $supplies;
+        $data  = [];
+        foreach ($supplies as $key => $supply) {
+            if(strlen($supply) > 0){
+                $data[] = $supply;
+            }
+        }
+        $this->supplies = $data;
 
         return $this;
     }

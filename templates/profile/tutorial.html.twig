@@ -39,7 +39,15 @@
                 <td>{{ tutorial.type.label }}</td>
 {#                <td>{{ tutorial.outils }}</td>#}
                 <td>{{ tutorial.description|raw }}</td>
-                <td>{{ tutorial.supplies }}</td>
+                <td>
+                    <ul>
+                        {% for supply in tutorial.supplies %}
+                            <li>
+                                {{ supply }}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </td>
                 <td>{{ (tutorial.disable) ? "Non" : "Oui" }}</td>
                 <td>
                     <a class="btn btn-primary" href="{{ path('tutorial_details', { 'id' : tutorial.id } ) }}"><i class="fas fa-eye" ></i></a>
