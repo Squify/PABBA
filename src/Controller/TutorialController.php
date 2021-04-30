@@ -85,27 +85,20 @@ class TutorialController extends AbstractController
 
     /**
      * @Route("/tutoriel/editer/{id}", name="tutorial_update")
-     * @param EntityManagerInterface $manager
-     * @param Int $id
      * @param Request $request
+     * @param Tutorial $tutorial
      * @return RedirectResponse|Response
      * @IsGranted("ROLE_USER")
      */
-    public function update(EntityManagerInterface $manager, int $id, Request $request)
+    public function update(Request $request, Tutorial $tutorial)
     {
-        $tutorial = $this->tutorialRepository->find($id);
-        if (!$tutorial) {
-            $this->addFlash("danger", "Le tutoriel demandé n'existe pas, veuillez en créer un nouveau");
-            return $this->redirectToRoute("tutorial_create");
-        }
-
         $form = $this->createForm(TutorialType::class, $tutorial);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $manager->flush();
+            $this->em->flush();
 
-            $this->addFlash("notice", "Le tutoriel a bien été modifié");
+            $this->addFlash("success", "Le tutoriel a bien été modifié");
             return $this->redirectToRoute("tutorial_index");
         }
 

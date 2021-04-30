@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\ToolType;
 use App\Entity\Tutorial;
+use App\Entity\TutorialType as EntityTutorialType;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -13,6 +14,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Vich\UploaderBundle\Form\Type\VichFileType;
 use Symfony\Component\Validator\Constraints\File;
+use Vich\UploaderBundle\Form\Type\VichImageType;
 
 class TutorialType extends AbstractType
 {
@@ -33,7 +35,7 @@ class TutorialType extends AbstractType
                 "label" => "Fournitures",
             ])
             ->add('type', EntityType::class, [
-                'class' => \App\Entity\TutorialType::class,
+                'class' => EntityTutorialType::class,
                 'choice_label' => 'label',
                 "label" => "Type de tutoriel",
             ])
@@ -43,7 +45,7 @@ class TutorialType extends AbstractType
                 'multiple' => true,
                 "label" => "Outils",
             ])
-            ->add('imageFile', VichFileType::class, [
+            ->add('imageFile', VichImageType::class, [
                 'required' => false,
                 'allow_delete' => false,
                 'asset_helper' => true,
@@ -66,8 +68,8 @@ class TutorialType extends AbstractType
                 'attr' => [
                     'id' => 'videoFile',
                     'class' => 'videoFile',
-                    'placeholder' => 'Ajouter une vidéo (20Mo)',
-                    'maxSize' => '20M',
+                    'placeholder' => 'Ajouter une vidéo (50Mo)',
+                    'maxSize' => '50M',
                     'accept' => "video/*"
                 ]
             ]);
