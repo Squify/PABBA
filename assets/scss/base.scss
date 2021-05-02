@@ -11,10 +11,6 @@ body {
   background-color: #F6F6F6;
 }
 
-form {
-  width: 90%;
-}
-
 .mobile-card-form form {
   width: 100%;
 }
@@ -60,4 +56,11 @@ form {
 
 .vich-image img {
   @extend .img-fluid
+}
+
+.card-header{
+  background: linear-gradient(90deg, #50A7C2 0%, #B7F8DB 100%) !important;
+  color: white!important;
+  font-size: 1.2rem;
+  text-align: center;
 }
