@@ -15,12 +15,9 @@
 
             <div id="detail1" class="col-12 col-md-8 order-md-2">
                 {% if tutorial.videoName %}
-{#                    <video src="{{ vich_uploader_asset(tutorial, 'imageFile') }}" alt=""/>#}
-                    <p>Vidéo là</p>
+                    <video src="{{ vich_uploader_asset(tutorial, 'videoFile') }}"></video>
                 {% elseif tutorial.imageName %}
                     <img class="img-fluid" src="{{ vich_uploader_asset(tutorial, 'imageFile') }}" alt="Image du tutoriel {{ tutorial.title }}"/>
-                {% else %}
-                    <img class="img-fluid" src="https://via.placeholder.com/500x300.png?text=La+vidéo+est+là" alt=""/>
                 {% endif %}
                 <hr class="d-none d-md-block my-4">
                 <p>{{ tutorial.description | raw  }}</p>

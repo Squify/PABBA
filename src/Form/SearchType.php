@@ -29,11 +29,12 @@ class SearchType extends AbstractType
             ])
             ->add('type', EntityType::class, [
                 "label" => "Catégorie",
-                "placeholder" => "--Sélectionnez une catégorie--",
+                "placeholder" => "Toutes les catégories",
                 "class" => TutorialType::class,
                 "choice_label" => "label",
                 "required" => false
             ])
+            ->setMethod('GET')
         ;
     }
 

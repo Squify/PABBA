@@ -42,22 +42,15 @@ class TutorialController extends AbstractController
      */
     public function index(Request $request)
     {
-        // $tutorials = $this->tutorialRepository->findby(
-        //     ['disable' => 0]
-        // );
-
         $searchForm = $this->createForm(SearchType::class);
 
         $searchForm->handleRequest($request);
 
         if ($searchForm->isSubmitted()) {
-
             return $this->render("tutorials/index.html.twig", [
                 "tutorials" => $this->tutorialRepository->findSearchResults($searchForm->getData()),
                 "form" => $searchForm->createView()
             ]);
-
-
         }
 
         return $this->render("tutorials/index.html.twig", [
@@ -113,6 +106,7 @@ class TutorialController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $this->addFlash("success", "Le tutoriel a bien été modifié");
+            $this->em->flush();
             return $this->redirectToRoute("user_tutorial");
         }
 
