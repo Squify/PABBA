@@ -1,0 +1,23 @@
+<div class="card">
+	<div class="card-body">
+		{{ form_start(form) }}
+		{{ form_errors(form) }}
+
+		<div class="row">
+			<div class="col-12">
+				{{ form_row(form.title, {'id': 'title', 'placeholder': 'Titre'}) }}
+			</div>
+			<div class="col-12">
+				{{ form_row(form.description, {'id': 'description', 'placeholder': 'Commentaire'}) }}
+			</div>
+		</div>
+		<div>
+			<input type="text" name="tutorial" id="tutorial" hidden value={{ tutorial.id }}>
+		</div>
+		<button type="submit" class="btn btn-success">
+			ajouter
+		</button>
+
+		{{ form_end(form) }}
+	</div>
+</div>

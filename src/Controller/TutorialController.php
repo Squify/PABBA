@@ -5,15 +5,17 @@ namespace App\Controller;
 use App\Entity\Tutorial;
 use App\Form\SearchType;
 use App\Form\TutorialType;
+use App\Entity\CommentTutorial;
+use App\Form\CommentTutorialType;
 use App\Repository\TutorialRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\Security;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Security;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class TutorialController extends AbstractController
 {
@@ -138,11 +140,23 @@ class TutorialController extends AbstractController
      * @param Tutorial $tutorial
      * @return Response
      */
-    public function details(Tutorial $tutorial)
+    public function details(Tutorial $tutorial, Request $request, EntityManagerInterface $manager,  Security $security)
     {
+        $commentTutorial = new CommentTutorial();
+        $form = $this->createForm(CommentTutorialType::class, $commentTutorial);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $commentTutorial
+                ->setTutorial($tutorial)
+                ->setAuteur($this->getUser());
+            $manager->persist($commentTutorial);
+            $manager->flush();
+        }
 
         return $this->render("tutorials/details.html.twig", [
             'tutorial' => $tutorial,
+            'form' => $form->createView()
         ]);
     }
 
