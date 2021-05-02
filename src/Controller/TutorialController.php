@@ -51,14 +51,13 @@ class TutorialController extends AbstractController
         $searchForm->handleRequest($request);
 
         if ($searchForm->isSubmitted()) {
-            // dd($searchForm->getData());
 
             return $this->render("tutorials/index.html.twig", [
                 "tutorials" => $this->tutorialRepository->findSearchResults($searchForm->getData()),
                 "form" => $searchForm->createView()
             ]);
 
-            
+
         }
 
         return $this->render("tutorials/index.html.twig", [
@@ -133,7 +132,6 @@ class TutorialController extends AbstractController
     public function myTutorial(Request $request)
     {
         $tutorial =  $this->tutorialRepository->findByUser($this->getUser());
-        dump($tutorial);
 
         return $this->render("profile/tutorial.html.twig", [
             'tutorials' => $tutorial,
@@ -159,6 +157,7 @@ class TutorialController extends AbstractController
      * @param EntityManagerInterface $manager
      * @param int $id
      * @param Request $request
+     * @return RedirectResponse
      */
     public function delete(EntityManagerInterface $manager, int $id, Request $request   )
     {

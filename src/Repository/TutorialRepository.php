@@ -36,9 +36,6 @@ class TutorialRepository extends ServiceEntityRepository
     // public function findSearchResults($title = null, $category = null, $hasVideo = null)
     public function findSearchResults($data)
     {
-
-        dump($data);
-
         $qb = $this->createQueryBuilder('t');
         $qb->where("t.disable = 0");
 
@@ -47,18 +44,15 @@ class TutorialRepository extends ServiceEntityRepository
                 if ($key == "videoName") {
                     $qb->andWhere("t.videoName is not NULL");
                 } elseif ($key == "type") {
-                    $qb->andWhere("t.type = :value")
-                        ->setParameter("value", $value->getId());
+                    $qb->andWhere("t.type = :value_" . $key)
+                        ->setParameter("value_" . $key, $value->getId());
                 } else {
                     $qb
-                        ->andWhere("t.{$key} LIKE :value")
-                        ->setParameter("value", "%" . $value . "%");
+                        ->andWhere("t.{$key} LIKE :value_" . $key)
+                        ->setParameter("value_" . $key, "%" . $value . "%");
                 }
             }
         }
-
-        // dd($qb->getDQL(), $qb->getParameters());
-
         return $qb
             ->getQuery()
             ->getResult();
