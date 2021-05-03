@@ -7,37 +7,42 @@
 {% endblock %}
 
 {% block body %}
-    <div class=" form-signin">
-        <form method="post">
-            {% if error %}
-                <div class="alert alert-danger alert-dismissible">
-                    {{ error.messageKey|trans(error.messageData, 'security') }}
-                    <button class="close" data-dismiss="alert"></button>
-                </div>
-            {% endif %}
-            <h1 class="h3 mb-3 fw-normal">Connexion</h1>
-            <p>
-                {% if app.user %}
-                    Vous êtes déjà connecté avec le compte : {{ app.user.username }},
-                    <a href="{{ path('app_logout') }}">Déconnexion</a>
-                {% else %}
-                    Accédez à votre espace personnel
-                {% endif %}
-            </p>
-            <input class="form-control form-control-lg" placeholder="E-mail" type="email" value="{{ last_username }}" name="email" id="email" required autofocus>
-            <input type="password" id="password" name="password" class="form-control" placeholder="Mot de passe" required="" >
-            <a class="link link-primary link-sm" tabindex="-1" href="{{ path('getResetPassword') }}">Mot de passe oublié ?</a>
-            <input type="hidden" name="_csrf_token"
-                   value="{{ csrf_token('authenticate') }}"
-            >
-            <div class="row">
-                <div class="col-12 col-md-6">
-                    <a class=" w-100 btn btn-success" href="{{ path('register') }}">Inscription</a>
-                </div>
-                <div class="col-12 col-md-6">
-                    <button class="w-100 btn btn-primary" type="submit">Connexion</button>
-                </div>
+    <div class="row">
+        <div class="col-12 col-md-6 mx-auto">
+            <div class=" form-signin">
+                <form method="post">
+                    {% if error %}
+                        <div class="alert alert-danger alert-dismissible">
+                            {{ error.messageKey|trans(error.messageData, 'security') }}
+                            <button class="close" data-dismiss="alert"></button>
+                        </div>
+                    {% endif %}
+                    <h1 class="h3 mb-3 fw-normal">Connexion</h1>
+                    <p>
+                        {% if app.user %}
+                            Vous êtes déjà connecté avec le compte : {{ app.user.username }},
+                            <a href="{{ path('app_logout') }}">Déconnexion</a>
+                        {% else %}
+                            Accédez à votre espace personnel
+                        {% endif %}
+                    </p>
+                    <input class="form-control form-control-lg" placeholder="E-mail" type="email" value="{{ last_username }}" name="email" id="email" required autofocus>
+                    <input type="password" id="password" name="password" class="form-control" placeholder="Mot de passe" required="" >
+                    <a class="link link-primary link-sm" tabindex="-1" href="{{ path('getResetPassword') }}">Mot de passe oublié ?</a>
+                    <input type="hidden" name="_csrf_token"
+                           value="{{ csrf_token('authenticate') }}"
+                    >
+                    <div class="row">
+                        <div class="col-12 col-md-6">
+                            <a class=" w-100 btn btn-success" href="{{ path('register') }}">Inscription</a>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <button class="w-100 btn btn-primary" type="submit">Connexion</button>
+                        </div>
+                    </div>
+                </form>
             </div>
-        </form>
+        </div>
     </div>
+
 {% endblock %}

@@ -108,6 +108,7 @@ class MailerService
 
     /**
      * @param Tutorial $tutorial
+     * @return Response
      */
     public function sendAlertTutorial(Tutorial $tutorial)
     {

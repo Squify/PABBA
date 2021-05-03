@@ -32,7 +32,7 @@
 			{% for tutorial in tutorials %}
 				<div class="col-3">
 					<div class="card" data-id="{{ tutorial.id }}">
-						<img src="{{ (tutorial.imageName) ? tutorial.imageName : asset('images/default_tuto.jpg') }}" class="card-img-top" alt="Image du tutoriel {{ tutorial.title }}">
+						<img src="{{ tutorial.imageName is not null ? vich_uploader_asset(tutorial, 'imageFile') : asset('images/default_tuto.jpg') }}" class="card-img-top" alt="Image du tutoriel {{ tutorial.title }}">
 						<div class="card-body">
 							<h5 class="card-title">{{ tutorial.title }}</h5>
 							<p class="card-text">{{ tutorial.description }}</p>

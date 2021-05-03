@@ -1,38 +1,60 @@
-{% extends 'layouts/base_layout.html.twig' %}
+{% extends 'base.html.twig' %}
 
 {% block title %}PABBA - Inscription{% endblock %}
 
 {% block stylesheets %}
     {{ parent() }}
-    {{ encore_entry_link_tags('login') }}
+    {# {{ encore_entry_link_tags('login') }} #}
 {% endblock %}
 
-{% block content %}
-    <div class="form-signin">
-        {{ form_start(form) }}
-        <div class="form-group">
-            {{ form_row(form.firstname) }}
-        </div>
-        <div class="form-group">
-            {{ form_row(form.lastname) }}
-        </div>
-        <div class="form-group">
-            {{ form_row(form.phone) }}
-        </div>
-        <div class="form-group">
-            {{ form_row(form.birthdate) }}
-        </div>
-
-        <div class="form-group">
-            <div class="row">
-                <div class="col-12">
-                    <button class="btn btn-lg btn-primary btn-block">Modification</button>
+{% block body %}
+    <div class="container my-5">
+        <div class="row">
+            <div class="col-12 col-md-8 mx-auto mt-5">
+                <div class="card shadow">
+                    <div class="card-header">
+                        Mon profile
+                    </div>
+                    <div class="card-body">
+                        {{ form_start(form) }}
+                        <div class="row">
+                            <div class="col-12 col-md-6">
+                                {{ form_row(form.firstname) }}
+                            </div>
+                            <div class="col-12 col-md-6">
+                                {{ form_row(form.lastname) }}
+                            </div>
+                            <div class="col-12 col-md-6">
+                                {{ form_row(form.phone) }}
+                            </div>
+                            <div class="col-12 col-md-6">
+                                {{ form_row(form.birthdate) }}
+                            </div>
+                            <div class="col-12">
+                                <button class="btn btn-lg btn-primary btn-block">Modification</button>
+                            </div>
+                            {{ form_end(form) }}
+                        </div>
+                    </div>
                 </div>
-                <div class="col-12 mt-3">
-                    <a href="{{ path('user.profile.change_password') }}" class="btn btn-lg btn-warning btn-block">Changement mot de passe</a>
+            </div>
+            <div class="col-12 col-md-4 mt-5 mx-auto">
+                <div class="card shadow">
+                    <div class="card-header">
+                        Mon mot de passe
+                    </div>
+                    <div class="card-body">
+                      <div class="row">
+                          <div class="col-12">
+                                <strong>Votre dernière connexion : </strong> {{ app.user.lastLogin|date('d/m/Y H:i') }}
+                          </div>
+                          <div class="col-12 mt-3">
+                              <a href="{{ path('user.profile.change_password') }}" class="btn btn-lg btn-warning btn-block">Changement du mot de passe</a>
+                          </div>
+                      </div>
+                    </div>
                 </div>
             </div>
         </div>
-        {{ form_end(form) }}
     </div>
 {% endblock %}

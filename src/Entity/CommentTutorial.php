@@ -28,7 +28,7 @@ class CommentTutorial
     private $description;
 
     /**
-     * @ORM\Column(type="array")
+     * @ORM\Column(type="array", nullable=true)
      */
     private $notes = [];
 

@@ -1,59 +1,72 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ tutorial.title }}{% endblock %}
+{% block title %}
+	{{ tutorial.title }}
+{% endblock %}
 
 {% block body %}
 
-    <div class="container">
-        <div class="text-center">
-            <h2>{{ tutorial.title }}</h2>
-            <h5><i>{{ tutorial.type.label }}</i></h5>
-            <p><i>Proposé par : {{ tutorial.user.firstname }} - modifié le {{ tutorial.updatedAt|date('d/m/Y') }}</i></p>
-        </div>
+	<div class="container">
+		<div class="text-center">
+			<h2>{{ tutorial.title }}</h2>
+			<h5>
+				<i>{{ tutorial.type.label }}</i>
+			</h5>
+			<p>
+				<i>Proposé par :
+					{{ tutorial.user.firstname }}
+					- modifié le
+					{{ tutorial.updatedAt|date('d/m/Y') }}</i>
+			</p>
+		</div>
 
-        <div class="row">
+		<div class="row">
 
-            <div id="detail1" class="col-12 col-md-8 order-md-2">
-                {% if tutorial.videoName %}
-{#                    <video src="{{ vich_uploader_asset(tutorial, 'imageFile') }}" alt=""/>#}
-                    <p>Vidéo là</p>
-                {% elseif tutorial.imageName %}
-                    <img class="img-fluid" src="{{ vich_uploader_asset(tutorial, 'imageFile') }}" alt="Image du tutoriel {{ tutorial.title }}"/>
-                {% else %}
-                    <img class="img-fluid" src="https://via.placeholder.com/500x300.png?text=La+vidéo+est+là" alt=""/>
-                {% endif %}
-                <hr class="d-none d-md-block my-4">
-                <p>{{ tutorial.description | raw  }}</p>
-            </div>
+			<div id="detail1" class="col-12 col-md-8 order-md-2">
+				{% if tutorial.videoName %}
+					<video src="{{ vich_uploader_asset(tutorial, 'videoFile') }}"></video>
+				{% elseif tutorial.imageName %}
+					<img class="img-fluid" src="{{ vich_uploader_asset(tutorial, 'imageFile') }}" alt="Image du tutoriel {{ tutorial.title }}"/>
+				{% endif %}
+				<hr class="d-none d-md-block my-4">
+				<p>{{ tutorial.description | raw  }}</p>
+			</div>
 
-            <div id="detail2" class="col-12 col-md-4 order-md-1">
+			<div id="detail2" class="col-12 col-md-4 order-md-1">
 
-                <div class="card shadow" style="width: 18rem;">
-                    <div class="card-body">
-                        <h5 class="card-title">Fournitures</h5>
-                        <p class="card-text">
-                            {% for supply in tutorial.supplies %}
-                                <p>{{ supply }}</p>
-                            {% endfor %}
-                        </p>
-                    </div>
-                </div>
+				<div class="card shadow" style="width: 18rem;">
+					<div class="card-body">
+						<h5 class="card-title">Fournitures</h5>
+						<p class="card-text">
+							{% for supply in tutorial.supplies %}
+								<p>{{ supply }}</p>
+							{% endfor %}
+						</p>
+					</div>
+				</div>
 
-                <div class="card shadow mt-3" style="width: 18rem;">
-                    <div class="card-body">
-                        <h5 class="card-title">Outils</h5>
-                        <p class="card-text">
-                            {% for tool in tutorial.tools %}
-                                <p>{{ tool.label }}<p>
-                            {% endfor %}
-                        </p>
-                    </div>
-                </div>
+				<div class="card shadow mt-3" style="width: 18rem;">
+					<div class="card-body">
+						<h5 class="card-title">Outils</h5>
+						<p class="card-text">
+							{% for tool in tutorial.tools %}
+								<p>{{ tool.label }}</p>
+								<p>
+								{% endfor %}
+							</p>
+						</p>
+					</div>
+				</div>
 
-            </div>
-        </div>
-    </div>
+			</div>
+		</div>
+		<div class="content d-flex justify-content-center mt-5">
+			<div class="col-6">
+				{% include "comment_tutorial/_create.html.twig" %}
+			</div>
+		</div>
+	</div>
 
 
-{#    <video src=""></video>#}
+	{#    <video src=""></video>#}
 {% endblock %}

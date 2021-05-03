@@ -50,7 +50,7 @@ class TutorialCrudController extends AbstractCrudController
 
         $this->mailerService->sendAlertTutorial($tutorial);
 
-        $this->addFlash('success', "L'alerte a bien été envoyée");
+        $this->addFlash('success', "L'alerte a bien été envoyée à " . $tutorial->getUser()->getEmail());
 
         return $this->redirect($this->get(CrudUrlGenerator::class)->build()->setAction(Action::INDEX)->generateUrl());
     }
