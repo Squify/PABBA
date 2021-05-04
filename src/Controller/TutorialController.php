@@ -142,6 +142,14 @@ class TutorialController extends AbstractController
      */
     public function details(Tutorial $tutorial, Request $request, EntityManagerInterface $manager,  Security $security)
     {
+        $user = $security->getUser();
+        $showCommentForm = true;
+        foreach ( $tutorial->getCommentTutorials() as $comment ){
+            if ($comment->getAuteur() == $user) {
+                $showCommentForm = false;
+            }
+        }
+
         $commentTutorial = new CommentTutorial();
         $form = $this->createForm(CommentTutorialType::class, $commentTutorial);
 
@@ -156,7 +164,8 @@ class TutorialController extends AbstractController
 
         return $this->render("tutorials/details.html.twig", [
             'tutorial' => $tutorial,
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'showCommentForm' => $showCommentForm
         ]);
     }
 

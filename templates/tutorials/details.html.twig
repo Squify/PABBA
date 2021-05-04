@@ -60,9 +60,17 @@
 
 			</div>
 		</div>
+		{% if showCommentForm %}
+			<div class="content d-flex justify-content-center mt-5">
+				<div class="col-6">
+					{% include "comment_tutorial/_create.html.twig" %}
+				</div>
+			</div>
+		{% endif %}
+
 		<div class="content d-flex justify-content-center mt-5">
 			<div class="col-6">
-				{% include "comment_tutorial/_create.html.twig" %}
+				{% include "tutorials/_comments.html.twig" %}
 			</div>
 		</div>
 	</div>
