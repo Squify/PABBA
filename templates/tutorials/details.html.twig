@@ -78,3 +78,21 @@
 
 	{#    <video src=""></video>#}
 {% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+	{{ encore_entry_script_tags('commentTutorial') }}
+
+	<script>
+		
+		let params = {
+			urls: {
+				getComment: "{{ path('comment_tutorial_get',{'id': 0}) }}",
+				updateComment: "{{ path('comment_tutorial_update',{'id': 0}) }}"
+			}
+		}
+
+		const commentTutorial = new CommentTutorial(params);
+		
+	</script>
+{% endblock %}

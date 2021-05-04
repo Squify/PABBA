@@ -14,6 +14,7 @@ Encore
     .addEntry('map', './assets/js/map.js')
     .addEntry('searchTutorial', './assets/js/tutorial_search.js')
     .addEntry('tutorial', './assets/js/tutorial.js')
+    .addEntry('commentTutorial', './assets/js/comments.js')
     // .addStyleEntry('mapStyle', './assets/scss/map.scss')
     .addStyleEntry('login', './assets/scss/login.scss')
     .addStyleEntry('base', './assets/scss/base.scss')

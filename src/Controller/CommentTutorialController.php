@@ -38,4 +38,31 @@ class CommentTutorialController extends AbstractController
             "form" => $form->createView()
         ]);
     }
+
+    /**
+     * @Route("/comment/tutorial/get/{id}", name="comment_tutorial_get")
+     */
+    public function get(CommentTutorial $commentTutorial)
+    {
+        return json_encode($commentTutorial);
+    }
+
+    /**
+     * @Route("/comment/tutorial/update/{id}", name="comment_tutorial_update")
+     */
+    public function update(CommentTutorial $commentTutorial, Request $request, EntityManagerInterface $manager)
+    {
+        $form = $this->createForm(CommentTutorialType::class, $commentTutorial);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $manager->persist($commentTutorial);
+            $manager->flush();
+
+            $this->addFlash("notice", "Le commentaire à bien été modifié");
+            return json_encode($commentTutorial);
+        }
+
+        return "error";
+    }
 }
