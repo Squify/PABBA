@@ -1,99 +1,122 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-	{{ tutorial.title }}
+    {{ tutorial.title }}
 {% endblock %}
 
 {% block body %}
 
-	<div class="container">
-		<div class="text-center">
-			<h2>{{ tutorial.title }}</h2>
-			<h5>
-				<i>{{ tutorial.type.label }}</i>
-			</h5>
-			{% if tutorial.user %}
-				<p>
-					<i>Proposé par :
-						{{ tutorial.user.firstname }}
-						- modifié le
-						{{ tutorial.updatedAt|date('d/m/Y') }}</i>
-				</p>
-			{% endif %}
-		</div>
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-md-8 offset-0 offset-md-4 pt-5">
+                <div class="text-center">
+                    <h2>{{ tutorial.title }}</h2>
+                    {% if tutorial.rate %}
+                        <p>
+                            {% for i in range(1,tutorial.rate) %}
+                                <i class="fas fa-star"></i>
+                            {% endfor %}
+                            {% if  tutorial.rate < 5 %}
+                                {% for i in range(5, tutorial.rate + 1) %}
+                                    <i class="far fa-star"></i>
+                                {% endfor %}
+                            {% endif %}
+                        </p>
+                    {% endif %}
+                    <h5>
+                        <i>{{ tutorial.type.label }}</i>
+                    </h5>
+                    {% if tutorial.user %}
+                        <p>
+                            <i>Proposé par :
+                                {{ tutorial.user.firstname }}
+                                - modifié le
+                                {{ tutorial.updatedAt|date('d/m/Y') }}</i>
+                        </p>
+                    {% endif %}
+                </div>
+            </div>
+            <div id="detail1" class="col-12 col-md-8 order-md-2">
+                {% if tutorial.videoName %}
+                    <video src="{{ vich_uploader_asset(tutorial, 'videoFile') }}"></video>
+                {% elseif tutorial.imageName %}
+                    <img class="img-fluid" src="{{ vich_uploader_asset(tutorial, 'imageFile') }}" alt="Image du tutoriel {{ tutorial.title }}"/>
+                {% else %}
+                    <img src="{{ asset('images/default_tuto.jpg') }}" class="card-img-top" alt="Image du tutoriel {{ tutorial.title }}">
+                {% endif %}
+                <hr class="d-none d-md-block my-4">
+                <p>{{ tutorial.description | raw }}</p>
+            </div>
 
-		<div class="row">
+            <div id="detail2" class="col-12 col-md-4 order-md-1">
 
-			<div id="detail1" class="col-12 col-md-8 order-md-2">
-				{% if tutorial.videoName %}
-					<video src="{{ vich_uploader_asset(tutorial, 'videoFile') }}"></video>
-				{% elseif tutorial.imageName %}
-					<img class="img-fluid" src="{{ vich_uploader_asset(tutorial, 'imageFile') }}" alt="Image du tutoriel {{ tutorial.title }}"/>
-				{% endif %}
-				<hr class="d-none d-md-block my-4">
-				<p>{{ tutorial.description | raw  }}</p>
-			</div>
+                <div class="card shadow">
+                    <div class="card-body">
+                        <h5 class="card-title">Fournitures</h5>
+                        <p class="card-text">
+                            {% for supply in tutorial.supplies %}
+                        <p>{{ supply }}</p>
+                        {% endfor %}
+                        </p>
+                    </div>
+                </div>
 
-			<div id="detail2" class="col-12 col-md-4 order-md-1">
+                <div class="card shadow mt-3">
+                    <div class="card-body">
+                        <h5 class="card-title">Outils</h5>
+                        <p class="card-text">
+                            {% for tool in tutorial.tools %}
+                        <p>{{ tool.label }}</p>
+                        <p>
+                            {% endfor %}
+                        </p>
+                        </p>
+                    </div>
+                </div>
 
-				<div class="card shadow">
-					<div class="card-body">
-						<h5 class="card-title">Fournitures</h5>
-						<p class="card-text">
-							{% for supply in tutorial.supplies %}
-								<p>{{ supply }}</p>
-							{% endfor %}
-						</p>
-					</div>
-				</div>
+            </div>
+        </div>
 
-				<div class="card shadow mt-3" >
-					<div class="card-body">
-						<h5 class="card-title">Outils</h5>
-						<p class="card-text">
-							{% for tool in tutorial.tools %}
-								<p>{{ tool.label }}</p>
-								<p>
-								{% endfor %}
-							</p>
-						</p>
-					</div>
-				</div>
+        <div class="row">
+            <div class="col-12 py-5 mx-auto text-center">
+                <h2>Commentaires de nos utilisateurs</h2>
+            </div>
+        </div>
+        <div class="row" id="tutorial_comments">
+            {% include "tutorials/_comments.html.twig" %}
+        </div>
 
-			</div>
-		</div>
+        {% if commentForm %}
+            <div class="row">
+                <div class="col-12 pt-5">
+                    <button id="add_comment" type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalComment" data-tutorial="{{ tutorial.id }}">
+                        Ajouter un commentaire
+                    </button>
+                </div>
+            </div>
+        {% endif %}
 
-
-		{% if commentForm %}
-			<button id="add_comment" type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalComment" data-tutorial="{{ tutorial.id }}">
-				Ajouter
-			</button>
-		{% endif %}
-		{% include "tutorials/_commentModal.html.twig" %}
-
-		<div class="row" id="tutorial_comments">
-			{% include "tutorials/_comments.html.twig" %}
-		</div>
-	</div>
+        {% include "tutorials/_commentModal.html.twig" %}
+    </div>
 
 
-	{#    <video src=""></video>#}
+    {# <video src=""></video> #}
 {% endblock %}
 
 {% block javascripts %}
-	{{ parent() }}
-	{{ encore_entry_script_tags('commentTutorial') }}
+    {{ parent() }}
+    {{ encore_entry_script_tags('commentTutorial') }}
 
-	<script>
+    <script>
 
-		{#let params = {#}
-		{#	urls: {#}
-		{#		getComment: "{{ path('comment_tutorial_get',{'id': 0}) }}",#}
-		{#		updateComment: "{{ path('comment_tutorial_update',{'id': 0}) }}"#}
-		{#	}#}
-		{#}#}
+        {# let params = { #}
+        {# urls: { #}
+        {# getComment: "{{ path('comment_tutorial_get',{'id': 0}) }}", #}
+        {# updateComment: "{{ path('comment_tutorial_update',{'id': 0}) }}" #}
+        {# } #}
+        {# } #}
 
-		{#const commentTutorial = new CommentTutorial(params);#}
+        {# const commentTutorial = new CommentTutorial(params); #}
 
-	</script>
+    </script>
 {% endblock %}

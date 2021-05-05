@@ -1,17 +1,52 @@
 {% for comment in tutorial.commentTutorials|reverse %}
-	<div class="col-12 col-md-6 mt-3">
-		<div class="card my-2">
-			<div class="card-body">
-				<div class="row">
-					<div class="clo-12 m-2" data-id={{ comment.id }}>
-						<h5 id="commentTitle">{{ comment.title }}</h5>
-						<p id="commentDescription">{{ comment.description }}</p>
-					</div>
-				</div>
-				{% if app.user == comment.auteur %}
-					<button class="btn btn-warning js-tutorial-comment-edit" data-toggle="modal" data-target="#modalComment" data-id={{ comment.id }}>Modifier</button>
-				{% endif %}
-			</div>
-		</div>
-	</div>
+    <div class="col-12 col-md-6 mt-3">
+        <div class="card my-2">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12 m-2" data-id={{ comment.id }}>
+                        <div class="row">
+                            <div class="col-8">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <h5 class="m-0" id="commentTitle">{{ comment.title }}</h5>
+                                    </div>
+                                    <div class="col-12">
+                                        <small class="text-muted">Par {{ comment.auteur.name }}</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                {% for i in range(1,comment.rate) %}
+                                    <i class="fas fa-star"></i>
+                                {% endfor %}
+                                {% if  comment.rate < 5 %}
+                                    {% for i in range(5, comment.rate + 1) %}
+                                        <i class="far fa-star"></i>
+                                    {% endfor %}
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12 mt-3">
+                                <p id="commentDescription">{{ comment.description|raw }}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                {% if app.user == comment.auteur %}
+                    <button class="btn btn-warning js-tutorial-comment-edit" data-toggle="modal" data-target="#modalComment" data-id={{ comment.id }}>Modifier
+                    </button>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% else %}
+   <div class="col-12">
+       <div class="card">
+           <div class="card-body">
+               Soyez le premier à donner votre avis
+           </div>
+       </div>
+   </div>
 {% endfor %}

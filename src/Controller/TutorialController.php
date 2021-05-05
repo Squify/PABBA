@@ -144,7 +144,7 @@ class TutorialController extends AbstractController
     {
         return $this->render("tutorials/details.html.twig", [
             'tutorial' => $tutorial,
-            'commentForm' => $tutorial->getCommentTutorials($this->getUser())->count() <= 0,
+            'commentForm' => $tutorial->getCommentTutorials($this->getUser())->count() <= 0 && $this->getUser(),
         ]);
     }
 

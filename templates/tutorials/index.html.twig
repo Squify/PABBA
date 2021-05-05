@@ -28,15 +28,15 @@
 		</div>
 		{{ form_end(form) }}
 
-		<div class="row row-cols-3">
+		<div class="row">
 			{% for tutorial in tutorials %}
-				<div class="col-3">
+				<div class="col-12 col-md-3 pt-3">
 					<div class="card" data-id="{{ tutorial.id }}">
 						<img src="{{ tutorial.imageName is not null ? vich_uploader_asset(tutorial, 'imageFile') : asset('images/default_tuto.jpg') }}" class="card-img-top" alt="Image du tutoriel {{ tutorial.title }}">
 						<div class="card-body">
 							<h5 class="card-title">{{ tutorial.title }}</h5>
-							<p class="card-text">{{ tutorial.description }}</p>
-							<a href="{{ path('tutorial_details', {'id': tutorial.id}) }}" class="btn btn-primary">Détails</a>
+							<p class="card-text">{{ tutorial.description |raw}}</p>
+							<a href="{{ path('tutorial_details', {'id': tutorial.id}) }}" class="btn btn-primary">Consulter</a>
 						</div>
 					</div>
 				</div>

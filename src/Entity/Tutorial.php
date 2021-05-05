@@ -110,6 +110,14 @@ class Tutorial
         $this->commentTutorials = new ArrayCollection();
     }
 
+    public function getRate(){
+        $sum = 0;
+        foreach ($this->commentTutorials as $commentTutorial) {
+            $sum += $commentTutorial->getRate();
+        }
+        return $this->commentTutorials->count() > 0 ? $sum / $this->commentTutorials->count() : null;
+    }
+
     public function __toString()
     {
         return $this->getTitle();

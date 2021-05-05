@@ -25,7 +25,9 @@
 
     {% include 'components/secondary-navbar.html.twig' %}
 
-    {% block body %}{% endblock %}
+    <div class="pb-5">
+        {% block body %}{% endblock %}
+    </div>
 
 
 {% for flash in app.flashes('success') %}

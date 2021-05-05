@@ -29,7 +29,13 @@ class CommentTutorialType extends AbstractType
             ->add('rate', ChoiceType::class, [
                 'label' => 'Note',
                 'required' => true,
-                'choices' => range(0,5)
+                'choices' => [
+                    1 => 1,
+                    2 => 2,
+                    3 => 3,
+                    4 => 4,
+                    5 => 5,
+                ]
 
             ])
             ->add('tutorial', EntityType::class, [
