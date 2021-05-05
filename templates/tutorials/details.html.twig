@@ -64,13 +64,13 @@
 		</div>
 
 
-		{% if commentForm is not null %}
-			<button id="add_comment" type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalComment">
+		{% if commentForm %}
+			<button id="add_comment" type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalComment" data-tutorial="{{ tutorial.id }}">
 				Ajouter
 			</button>
-			{% include "tutorials/_commentModal.html.twig" %}
-
 		{% endif %}
+		{% include "tutorials/_commentModal.html.twig" %}
+
 		<div class="row" id="tutorial_comments">
 			{% include "tutorials/_comments.html.twig" %}
 		</div>

@@ -57,4 +57,24 @@ class CommentTutorialController extends AbstractController
 
         return new JsonResponse($form->getErrors(true), Response::HTTP_INTERNAL_SERVER_ERROR);
     }
+
+    /**
+     * @Route("/comment/tutorial/form", name="comment_tutorial_form")
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function getForm(Request $request){
+        $id = $request->query->get('id', null);
+
+        $commentTutorial = $id ? $this->em->getRepository(CommentTutorial::class)->find($id) : new CommentTutorial();
+
+        if(!$id){
+            $commentTutorial->setTutorial($this->em->getRepository(Tutorial::class)->find($request->query->get('tutorial', null)));
+        }
+
+        return new JsonResponse($this->renderView('tutorials/_commentModalForm.html.twig', [
+            'form' => $this->createForm(CommentTutorialType::class, $commentTutorial)->createView()
+        ]));
+
+    }
 }

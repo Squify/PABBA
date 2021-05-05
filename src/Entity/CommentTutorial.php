@@ -28,11 +28,6 @@ class CommentTutorial
     private $description;
 
     /**
-     * @ORM\Column(type="array", nullable=true)
-     */
-    private $notes = [];
-
-    /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="commentTutorials")
      * @ORM\JoinColumn(nullable=false)
      */
@@ -43,6 +38,11 @@ class CommentTutorial
      * @ORM\JoinColumn(nullable=false)
      */
     private $tutorial;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $rate;
 
     /**
      * CommentTutorial constructor.
@@ -82,18 +82,6 @@ class CommentTutorial
         return $this;
     }
 
-    public function getNotes(): ?array
-    {
-        return $this->notes;
-    }
-
-    public function setNotes(array $notes): self
-    {
-        $this->notes = $notes;
-
-        return $this;
-    }
-
     public function getAuteur(): ?User
     {
         return $this->auteur;
@@ -114,6 +102,18 @@ class CommentTutorial
     public function setTutorial(?Tutorial $tutorial): self
     {
         $this->tutorial = $tutorial;
+
+        return $this;
+    }
+
+    public function getRate(): ?int
+    {
+        return $this->rate;
+    }
+
+    public function setRate(?int $rate): self
+    {
+        $this->rate = $rate;
 
         return $this;
     }
