@@ -158,6 +158,7 @@ class TutorialController extends AbstractController
     public function delete(EntityManagerInterface $manager, int $id, Request $request   )
     {
         $tutorial = $this->tutorialRepository->find($id);
+
         if (!$tutorial) {
             $this->addFlash("error", "Le tutoriel n'existe pas, veuillez en séléctionner un nouveau");
             return $this->redirectToRoute("user_tutorial");
@@ -165,6 +166,8 @@ class TutorialController extends AbstractController
 
         $manager->remove($tutorial);
         $manager->flush();
+        $this->addFlash("success", "Le tutoriel a été supprimé");
+
         return $this->redirectToRoute("user_tutorial");
     }
 }

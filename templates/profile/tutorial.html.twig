@@ -46,7 +46,7 @@
                                                 </a>
                                                 <a class="btn btn-warning" href="{{ path('tutorial_update', { 'id' : tutorial.id } ) }}"><i class="fas fa-edit"></i>
                                                 </a>
-                                                <a class="btn btn-danger" href="{{ path('tutorial_delete', { 'id' : tutorial.id } ) }}"><i class="fas fa-trash"></i>
+                                                <a class="btn btn-danger" href="{{ path('tutorial_delete', { 'id' : tutorial.id } ) }}" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce tutoriel ?')"><i class="fas fa-trash"></i>
                                                 </a>
                                             </td>
                                         </tr>
