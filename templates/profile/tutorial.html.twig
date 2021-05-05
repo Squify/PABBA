@@ -30,7 +30,7 @@
                                             <td>{{ tutorial.title }}</td>
                                             <td>{{ tutorial.type.label }}</td>
                                             {# <td>{{ tutorial.outils }}</td> #}
-                                            <td>{{ tutorial.description|raw }}</td>
+                                            <td>{{ tutorial.description|slice(0,50)|raw }}</td>
                                             <td>
                                                 <ul>
                                                     {% for supply in tutorial.supplies %}
