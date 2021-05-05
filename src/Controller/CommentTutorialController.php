@@ -6,6 +6,7 @@ use App\Entity\Tutorial;
 use App\Entity\CommentTutorial;
 use App\Form\CommentTutorialType;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,54 +16,45 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class CommentTutorialController extends AbstractController
 {
     /**
-     * @Route("/comment/tutorial/create", name="comment_tutorial_create")
+     * @var EntityManagerInterface
      */
-    public function create(Tutorial $tutorial, Request $request, EntityManagerInterface $manager, Security $security)
+    private EntityManagerInterface $em;
+
+    /**
+     * CommentTutorialController constructor.
+     * @param EntityManagerInterface $em
+     */
+    public function __construct(EntityManagerInterface $em)
     {
-        $commentTutorial = new CommentTutorial();
+        $this->em = $em;
+    }
+
+    /**
+     * @Route("/comment/tutorial/process", name="comment_tutorial_update")
+     * @param Request $request
+     * @return false|string
+     */
+    public function process(Request $request)
+    {
+        $id = $request->query->get('id', null);
+
+        $commentTutorial = $id ? $this->em->getRepository(CommentTutorial::class)->find($id) : new CommentTutorial();
+
         $form = $this->createForm(CommentTutorialType::class, $commentTutorial);
 
         $form->handleRequest($request);
+
         if ($form->isSubmitted() && $form->isValid()) {
             $commentTutorial
-                ->setTutorial($tutorial)
                 ->setAuteur($this->getUser());
-            $manager->persist($commentTutorial);
-            $manager->flush();
+            $this->em->persist($commentTutorial);
+            $this->em->flush();
 
-            $this->addFlash("notice", "Le commentaire à bien été créé");
-            return "ok";
+            return new JsonResponse($this->renderView('tutorials/_comments.html.twig', [
+                'tutorial' => $commentTutorial->getTutorial()
+            ]));
         }
 
-        return $this->render('comment_tutorial/create.html.twig', [
-            "form" => $form->createView()
-        ]);
-    }
-
-    /**
-     * @Route("/comment/tutorial/get/{id}", name="comment_tutorial_get")
-     */
-    public function get(CommentTutorial $commentTutorial)
-    {
-        return json_encode($commentTutorial);
-    }
-
-    /**
-     * @Route("/comment/tutorial/update/{id}", name="comment_tutorial_update")
-     */
-    public function update(CommentTutorial $commentTutorial, Request $request, EntityManagerInterface $manager)
-    {
-        $form = $this->createForm(CommentTutorialType::class, $commentTutorial);
-
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            $manager->persist($commentTutorial);
-            $manager->flush();
-
-            $this->addFlash("notice", "Le commentaire à bien été modifié");
-            return json_encode($commentTutorial);
-        }
-
-        return "error";
+        return new JsonResponse($form->getErrors(true), Response::HTTP_INTERNAL_SERVER_ERROR);
     }
 }

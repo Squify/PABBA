@@ -1,15 +1,17 @@
 {% for comment in tutorial.commentTutorials|reverse %}
-	<div class="card my-2">
-		<div class="card-body">
-			<div class="row">
-				<div class="clo-12 m-2" data-id={{ comment.id }}>
-					<h5 id="commentTitle">{{ comment.title }}</h5>
-					<p id="commentDescription">{{ comment.description }}</p>
+	<div class="col-12 col-md-6 mt-3">
+		<div class="card my-2">
+			<div class="card-body">
+				<div class="row">
+					<div class="clo-12 m-2" data-id={{ comment.id }}>
+						<h5 id="commentTitle">{{ comment.title }}</h5>
+						<p id="commentDescription">{{ comment.description }}</p>
+					</div>
 				</div>
+				{% if app.user == comment.auteur %}
+					<button class="btn btn-warning" id="updateComment" data-bs-toggle="modal" data-bs-target="#modalUpdateComment" data-id={{ comment.id }}>Modifier</button>
+				{% endif %}
 			</div>
-            {% if app.user == comment.auteur %}
-                <button class="btn btn-warning" id="updateComment" data-bs-toggle="modal" data-bs-target="#modalUpdateComment" data-id={{ comment.id }}>Modifier</button>
-            {% endif %}
 		</div>
 	</div>
 {% endfor %}

@@ -44,6 +44,15 @@ class CommentTutorial
      */
     private $tutorial;
 
+    /**
+     * CommentTutorial constructor.
+     * @param $tutorial
+     */
+    public function __construct($tutorial = null)
+    {
+        $this->tutorial = $tutorial;
+    }
+
     public function getId(): ?int
     {
         return $this->id;

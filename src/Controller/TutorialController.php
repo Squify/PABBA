@@ -140,32 +140,11 @@ class TutorialController extends AbstractController
      * @param Tutorial $tutorial
      * @return Response
      */
-    public function details(Tutorial $tutorial, Request $request, EntityManagerInterface $manager,  Security $security)
+    public function details(Tutorial $tutorial)
     {
-        $user = $security->getUser();
-        $showCommentForm = true;
-        foreach ( $tutorial->getCommentTutorials() as $comment ){
-            if ($comment->getAuteur() == $user) {
-                $showCommentForm = false;
-            }
-        }
-
-        $commentTutorial = new CommentTutorial();
-        $form = $this->createForm(CommentTutorialType::class, $commentTutorial);
-
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            $commentTutorial
-                ->setTutorial($tutorial)
-                ->setAuteur($this->getUser());
-            $manager->persist($commentTutorial);
-            $manager->flush();
-        }
-
         return $this->render("tutorials/details.html.twig", [
             'tutorial' => $tutorial,
-            'form' => $form->createView(),
-            'showCommentForm' => $showCommentForm
+            'commentForm' => $tutorial->getCommentTutorials($this->getUser())->count() > 0 ? null : $this->createForm(CommentTutorialType::class, new CommentTutorial($tutorial))->createView(),
         ]);
     }
 
@@ -180,7 +159,7 @@ class TutorialController extends AbstractController
     {
         $tutorial = $this->tutorialRepository->find($id);
         if (!$tutorial) {
-            $this->addFlash("danger", "Le tutoriel supprimé n'existe pas, veuillez en séléctionner un nouveau");
+            $this->addFlash("error", "Le tutoriel n'existe pas, veuillez en séléctionner un nouveau");
             return $this->redirectToRoute("user_tutorial");
         }
 

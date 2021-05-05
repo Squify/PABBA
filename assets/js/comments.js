@@ -1,33 +1,35 @@
-class CommentTutorial {
+import axios from 'axios';
 
-    constructor(params) {
-        self = this
-        self.params = params
+let CommentTutorial = class CommentTutorial {
+
+    constructor(form) {
+        this.form = form;
+        this._handler()
     }
 
-    edit() {
-        $("#updateComment").on("click", (event) => {
-            console.log("ok");
-            id = event.currentTarget.dataset.id
-            url = self.params.urls.getComment.substring(0, self.params.urls.getComment.length - 1);
-            $.ajax({
-                url: url + str(id), 
-                type: "GET",
-                success: (data) => {
-                    console.log(data)
-                },
-                complete: () => {
-                    console.log("complete")
-                }
-            });
-                // ajax get comment
-                // remplir modal
+    _handler(){
+        let id = document.querySelector('#comment_tutorial_id').value;
+        this.form.addEventListener('submit', (e) => {
+            e.preventDefault()
+            axios.post('/comment/tutorial/process' + (id ? `?id=${id}` : ''), new FormData(this.form)).then((response) => {
+                document.querySelector('#tutorial_comments').innerHTML = response.data
+                $('#modalComment').modal('hide')
+                document.querySelector('#add_comment').remove()
+            })
         })
-
     }
+
+
+
 
     // modal update Submit
     // prevent default
     // ajax update
     // update tout les commentaires
 }
+
+document.addEventListener('DOMContentLoaded', function() {
+   new CommentTutorial(document.querySelector('#form_tutorial_comment'))
+})
+
+

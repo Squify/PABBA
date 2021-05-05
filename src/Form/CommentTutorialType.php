@@ -6,6 +6,7 @@ use App\Entity\CommentTutorial;
 use App\Entity\Tutorial;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -17,9 +18,28 @@ class CommentTutorialType extends AbstractType
     {
         $builder
             ->add('title', TextType::class, [
-                'label' => 'Titre du commentaire'
+                'label' => 'Titre du commentaire',
+                'required' => true
             ])
-            ->add('description', TextareaType::class);
+            ->add('description', TextareaType::class, [
+                'label' => 'Description',
+                'required' => true
+            ])
+            ->add('id', HiddenType::class, [
+                'required' => false
+            ])
+            ->add('tutorial', EntityType::class, [
+                'required' => false,
+                'class' => Tutorial::class,
+                'attr' => [
+                    'class' => 'd-none'
+                ],
+                'label_attr' => [
+                    'class' => 'd-none'
+                ]
+
+            ])
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver)

@@ -110,6 +110,11 @@ class Tutorial
         $this->commentTutorials = new ArrayCollection();
     }
 
+    public function __toString()
+    {
+        return $this->getTitle();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -299,11 +304,12 @@ class Tutorial
     }
 
     /**
+     * @param User|null $user
      * @return Collection|CommentTutorial[]
      */
-    public function getCommentTutorials(): Collection
+    public function getCommentTutorials(?User $user = null): Collection
     {
-        return $this->commentTutorials;
+        return $user ? $this->commentTutorials->filter(function(CommentTutorial $commentTutorial) use ($user){return $commentTutorial->getAuteur() === $user;}) : $this->commentTutorials;
     }
 
     public function addCommentTutorial(CommentTutorial $commentTutorial): self

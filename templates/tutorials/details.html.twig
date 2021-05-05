@@ -12,12 +12,14 @@
 			<h5>
 				<i>{{ tutorial.type.label }}</i>
 			</h5>
-			<p>
-				<i>Proposé par :
-					{{ tutorial.user.firstname }}
-					- modifié le
-					{{ tutorial.updatedAt|date('d/m/Y') }}</i>
-			</p>
+			{% if tutorial.user %}
+				<p>
+					<i>Proposé par :
+						{{ tutorial.user.firstname }}
+						- modifié le
+						{{ tutorial.updatedAt|date('d/m/Y') }}</i>
+				</p>
+			{% endif %}
 		</div>
 
 		<div class="row">
@@ -34,7 +36,7 @@
 
 			<div id="detail2" class="col-12 col-md-4 order-md-1">
 
-				<div class="card shadow" style="width: 18rem;">
+				<div class="card shadow">
 					<div class="card-body">
 						<h5 class="card-title">Fournitures</h5>
 						<p class="card-text">
@@ -45,7 +47,7 @@
 					</div>
 				</div>
 
-				<div class="card shadow mt-3" style="width: 18rem;">
+				<div class="card shadow mt-3" >
 					<div class="card-body">
 						<h5 class="card-title">Outils</h5>
 						<p class="card-text">
@@ -60,18 +62,17 @@
 
 			</div>
 		</div>
-		{% if showCommentForm %}
-			<div class="content d-flex justify-content-center mt-5">
-				<div class="col-6">
-					{% include "comment_tutorial/_create.html.twig" %}
-				</div>
-			</div>
-		{% endif %}
 
-		<div class="content d-flex justify-content-center mt-5">
-			<div class="col-6">
-				{% include "tutorials/_comments.html.twig" %}
-			</div>
+
+		{% if commentForm is not null %}
+			<button id="add_comment" type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalComment">
+				Ajouter
+			</button>
+			{% include "tutorials/_commentModal.html.twig" %}
+
+		{% endif %}
+		<div class="row" id="tutorial_comments">
+			{% include "tutorials/_comments.html.twig" %}
 		</div>
 	</div>
 
@@ -84,15 +85,15 @@
 	{{ encore_entry_script_tags('commentTutorial') }}
 
 	<script>
-		
-		let params = {
-			urls: {
-				getComment: "{{ path('comment_tutorial_get',{'id': 0}) }}",
-				updateComment: "{{ path('comment_tutorial_update',{'id': 0}) }}"
-			}
-		}
 
-		const commentTutorial = new CommentTutorial(params);
-		
+		{#let params = {#}
+		{#	urls: {#}
+		{#		getComment: "{{ path('comment_tutorial_get',{'id': 0}) }}",#}
+		{#		updateComment: "{{ path('comment_tutorial_update',{'id': 0}) }}"#}
+		{#	}#}
+		{#}#}
+
+		{#const commentTutorial = new CommentTutorial(params);#}
+
 	</script>
 {% endblock %}
