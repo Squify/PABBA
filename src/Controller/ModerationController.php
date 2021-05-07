@@ -3,30 +3,27 @@
 namespace App\Controller;
 
 use App\Entity\Moderation;
+use App\Entity\ModerationMessage;
 use App\Entity\Rent;
 use App\Repository\ModerationRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
+ * @IsGranted("ROLE_USER")
  * @Route (path="/moderation")
  **/
 class ModerationController extends AbstractController
 {
-    /**
-     * @var ModerationRepository
-     */
     private ModerationRepository $moderationRepository;
-    /**
-     * @var EntityManagerInterface
-     */
     private EntityManagerInterface $em;
-    /**
-     * @var UserRepository
-     */
     private UserRepository $userRepository;
 
     /**
@@ -47,7 +44,7 @@ class ModerationController extends AbstractController
      * @param Rent $rent
      * @return Response
      */
-    public function index(Rent $rent = null): Response
+    public function create(Rent $rent): Response
     {
         $moderation = $this->moderationRepository->findOneByRent($rent);
 
@@ -77,11 +74,58 @@ class ModerationController extends AbstractController
     /**
      * @Route(path="/taiter/{moderation}", name="moderation_show")
      * @param Moderation $moderation
+     * @return Response
      */
     public function show(Moderation $moderation)
     {
-        dump($moderation);
-        die;
+        if(!$this->canAccess($moderation)){
+            throw new UnauthorizedHttpException('', "Vous n'êtes pas autorisé à accéder à cette modération");
+        }
+
+       return $this->render('rent/moderation/show.html.twig', [
+           'moderation' => $moderation
+       ]);
+    }
+
+    /**
+     * @Route(path="/message/{moderation}", name="moderation_message_add", methods={"POST"})
+     * @param Request $request
+     * @param Moderation $moderation
+     * @return JsonResponse
+     */
+    public function addMessage(Request $request, Moderation $moderation){
+        if(!$this->canAccess($moderation)){
+            throw new UnauthorizedHttpException('', "Vous n'êtes pas autorisé à accéder à cette modération");
+        }
+
+        $message = new ModerationMessage();
+        $message->setContent($request->request->get('message'))
+            ->setModeration($moderation)
+            ->setCreatedAt(new \DateTime('now'))
+            ->setWriter($this->getUser())
+        ;
+        $this->em->persist($message);
+        $moderation->addModerationMessage($message);
+        $this->em->flush();
+
+        return new JsonResponse($this->renderView('rent/moderation/_messages.html.twig', [
+            'moderation' => $moderation
+        ]), Response::HTTP_OK);
+    }
+
+    /**
+     * @Route(path="/message/{moderation}/read", name="moderation_message_read", methods={"GET"})
+     * @param Moderation $moderation
+     * @return JsonResponse
+     */
+    public function readMessages( Moderation $moderation){
+        if(!$this->canAccess($moderation)){
+            throw new UnauthorizedHttpException('', "Vous n'êtes pas autorisé à accéder à cette modération");
+        }
+
+        return new JsonResponse($this->renderView('rent/moderation/_messages.html.twig', [
+            'moderation' => $moderation
+        ]), Response::HTTP_OK);
     }
 
     private function getModerator(){
@@ -111,5 +155,10 @@ class ModerationController extends AbstractController
             return 0;
         }
         return ($a < $b) ? -1 : 1;
+    }
+
+    private function canAccess(Moderation $moderation){
+        $userId = $this->getUser()->getId();
+        return $moderation->getModerator()->getId() === $userId || $moderation->getRent()->getRenter()->getId() === $userId || $moderation->getRent()->getOwner()->getId() === $userId;
     }
 }

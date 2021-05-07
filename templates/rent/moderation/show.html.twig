@@ -1,0 +1,59 @@
+{% extends "base.html.twig" %}
+
+{% block title %}PABBA - Modération{% endblock %}
+
+
+{% block body %}
+    <div class="container mb-5">
+        <div class="row ">
+            <div class="col-12 col-lg-4 mt-2 ">
+                <div class="card rounded-lg overflow-hidden shadow p-0">
+                    <div class="card-body">
+                        <p>
+                            TODO : quand les outils seront fait mettre le titre
+                        </p>
+                        <div class="mb-2 bg-blue" data-initials="{{( moderation.moderator.firstname|slice(0,1) ~ moderation.moderator.lastname|slice(0,1))|upper}}">
+                            Modérateur
+                        </div>
+                        {% if moderation.rent.owner.id != app.user.id %}
+                            <div class="mb-2 bg-red" data-initials="{{( moderation.rent.owner.firstname|slice(0,1) ~ moderation.rent.owner.lastname|slice(0,1))|upper}}">
+                                Locataire
+                            </div>
+                        {% endif %}
+                        {% if moderation.rent.renter.id != app.user.id %}
+                            <div class="mb-2 bg-red" data-initials="{{( moderation.rent.renter.firstname|slice(0,1) ~ moderation.rent.renter.lastname|slice(0,1))|upper}}">
+                                Loueur
+                            </div>
+                        {% endif %}
+
+                    </div>
+                 </div>
+            </div>
+            <div class="col-12 col-lg-8 mt-2 rounded-lg overflow-hidden shadow p-0">
+                <div class="px-4 py-5 chat-box bg-white" id="messages">
+                    {% include 'rent/moderation/_messages.html.twig' %}
+                </div>
+
+                <!-- Typing area -->
+                <form action="#" class="bg-light" id="moderation-message-form" data-moderation="{{ moderation.id }}">
+                    <div class="input-group">
+                        <input name="message" type="text" placeholder="Votre message" aria-describedby="button-addon2" class="form-control rounded-0 border-0 py-4 bg-light">
+                        <div class="input-group-append">
+                            <button id="button-addon2" type="submit" class="btn btn-link"><i class="fa fa-paper-plane"></i></button>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('moderation_chat') }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('moderation_chat') }}
+{% endblock %}

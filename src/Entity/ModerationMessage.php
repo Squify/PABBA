@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\ModerationMessageRepository;
+use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -27,6 +28,18 @@ class ModerationMessage
      * @ORM\JoinColumn(nullable=false)
      */
     private $moderation;
+
+    /**
+     * @ORM\Column(type="datetime")
+     * @var DateTimeInterface|null
+     */
+    private $createdAt;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class)
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $writer;
 
     public function getId(): ?int
     {
@@ -53,6 +66,36 @@ class ModerationMessage
     public function setModeration(?Moderation $moderation): self
     {
         $this->moderation = $moderation;
+
+        return $this;
+    }
+
+    /**
+     * @return DateTimeInterface|null
+     */
+    public function getCreatedAt(): ?DateTimeInterface
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * @param DateTimeInterface|null $createdAt
+     * @return ModerationMessage
+     */
+    public function setCreatedAt(?DateTimeInterface $createdAt): self
+    {
+        $this->createdAt = $createdAt;
+        return $this;
+    }
+
+    public function getWriter(): ?User
+    {
+        return $this->writer;
+    }
+
+    public function setWriter(?User $writer): self
+    {
+        $this->writer = $writer;
 
         return $this;
     }
