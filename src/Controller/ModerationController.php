@@ -54,8 +54,15 @@ class ModerationController extends AbstractController
         if ($moderation) {
             $this->addFlash('error', "Une modération est déjà en cours pour cette location");
         }else{
+            $moderator = $this->getModerator();
+
+            if(!$moderator){
+                $this->addFlash("error", "Il ne semble pas y avoir de modérateur disponible. Nous sommes désolé");
+                return $this->redirectToRoute('index');
+            }
+
             $moderation = new Moderation();
-            $moderation->setModerator($this->getModerator())
+            $moderation->setModerator($moderator)
                 ->setRent($rent);
             $this->em->persist($moderation);
             $this->em->flush();
