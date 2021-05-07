@@ -7,6 +7,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 
@@ -26,6 +27,11 @@ class UserCrudController extends AbstractCrudController
             TextField::new('lastname', 'Nom'),
             BooleanField::new('enable','Actif'),
             TextField::new('phone', 'Téléphone')->onlyOnForms(),
+            ChoiceField::new('roles', 'Roles')->onlyOnForms()->setChoices([
+                'Utilisateur' => 'ROLE_USER',
+                'Administrateur' => 'ROLE_ADMIN',
+                'Modérateur' => 'ROLE_MODERATOR',
+            ])->allowMultipleChoices(),
             DateField::new('birthdate', 'Anniversaire')->onlyOnForms(),
         ];
     }
