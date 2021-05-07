@@ -41,6 +41,14 @@ class Moderation
         $this->moderationMessages = new ArrayCollection();
     }
 
+    public function getUsers(){
+        $data = new ArrayCollection();
+        $data->add($this->getModerator());
+        $data->add($this->getRent()->getOwner());
+        $data->add($this->getRent()->getRenter());
+        return $data;
+    }
+
     public function getId(): ?int
     {
         return $this->id;

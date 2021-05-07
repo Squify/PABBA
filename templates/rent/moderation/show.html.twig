@@ -6,15 +6,17 @@
 {% block body %}
     <div class="container mb-5">
         <div class="row ">
-            <div class="col-12 col-lg-4 mt-2 ">
+            <div class="col-12 col-lg-4 mt-2 p-0 px-lg-3 ">
                 <div class="card rounded-lg overflow-hidden shadow p-0">
                     <div class="card-body">
                         <p>
                             TODO : quand les outils seront fait mettre le titre
                         </p>
-                        <div class="mb-2 bg-blue" data-initials="{{( moderation.moderator.firstname|slice(0,1) ~ moderation.moderator.lastname|slice(0,1))|upper}}">
-                            Modérateur
-                        </div>
+                        {% if moderation.moderator.id != app.user.id %}
+                            <div class="mb-2 bg-blue" data-initials="{{( moderation.moderator.firstname|slice(0,1) ~ moderation.moderator.lastname|slice(0,1))|upper}}">
+                                Modérateur
+                            </div>
+                        {% endif %}
                         {% if moderation.rent.owner.id != app.user.id %}
                             <div class="mb-2 bg-red" data-initials="{{( moderation.rent.owner.firstname|slice(0,1) ~ moderation.rent.owner.lastname|slice(0,1))|upper}}">
                                 Locataire

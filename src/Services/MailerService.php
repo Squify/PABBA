@@ -2,6 +2,8 @@
 
 namespace App\Services;
 
+use App\Entity\Moderation;
+use App\Entity\Rent;
 use App\Entity\Tutorial;
 use App\Entity\User;
 use App\Repository\UserRepository;
@@ -121,6 +123,23 @@ class MailerService
                 'subject' => 'Votre tutoriel n\'est pas conforme',
                 'tutorial' => $tutorial,
             ])
+        ];
+
+        return $this->client->post(Resources::$Email, ['body' => $config]);
+    }
+
+    public function sendModerationNotification(Moderation $moderation, User $user)
+    {
+        $config  = [
+            'FromEmail' => $this->noreply,
+            'To'     => $user->getEmail(),
+            'Subject'   => "Un nouveau message vous a été adressé",
+            'Html-part' => $this->environment->render('emails/moderationNotification.html.twig',
+                [
+                    'subject' => "Un nouveau message vous a été adressé",
+                    'moderation' => $moderation,
+                    'user' => $user,
+                ])
         ];
 
         return $this->client->post(Resources::$Email, ['body' => $config]);

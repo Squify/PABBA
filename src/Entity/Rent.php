@@ -33,6 +33,11 @@ class Rent
      */
     private $moderation;
 
+    public function __toString()
+    {
+        return 'Le nom de la vente TODO';
+    }
+
     public function getId(): ?int
     {
         return $this->id;
