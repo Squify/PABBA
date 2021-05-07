@@ -2,16 +2,18 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\Place;
-use App\Entity\ToolType;
-use App\Entity\Tutorial;
+use Faker\Factory;
+use App\Entity\Item;
 use App\Entity\Type;
 use App\Entity\User;
-use App\Entity\TutorialType;
+use App\Entity\Place;
+use App\Entity\State;
+use App\Entity\ToolType;
+use App\Entity\Tutorial;
 
-use Doctrine\Bundle\FixturesBundle\Fixture;
+use App\Entity\TutorialType;
 use Doctrine\Persistence\ObjectManager;
-use Faker\Factory;
+use Doctrine\Bundle\FixturesBundle\Fixture;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class AppFixtures extends Fixture
@@ -84,6 +86,7 @@ class AppFixtures extends Fixture
             $toolTip = new ToolType();
             $toolTip->setLabel($label);
             $manager->persist($toolTip);
+            $tabToolType[] = $toolTip;
         }
 
         /// Tutorial fixtures
@@ -94,13 +97,32 @@ class AppFixtures extends Fixture
                 ->setDescription($faker->text(100))
                 ->setUser($admin)
                 ->setDisable($faker->boolean(20))
-                ->setSupplies($faker->text)
                 ->setUpdatedAt($faker->dateTime('now'))
             ;
             // ([47.843601, 1.939258])
             $manager->persist($tutorial);
         }
 
+        $states = ["Neuf", "Utilisé", "Usé", "Cassé"];
+        foreach ($states as $etat) {
+            $state = new State();
+            $state->setLabel($etat);
+            $manager->persist($state);
+            $tabStates[]=$state;
+
+        }
+
+        // Item fixtures
+        for ($i=0; $i < 10; $i++) { 
+            $item = new Item();
+            $item->setName($faker->name())
+                ->setOwner($admin)
+                ->setState($faker->randomElement($tabStates))
+                ->setStatus(0)
+                ->setCategory($faker->randomElement($tabToolType));
+            $manager->persist($item);
+        }
+        
         $manager->flush();
     }
 }
