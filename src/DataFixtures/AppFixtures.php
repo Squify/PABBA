@@ -118,6 +118,7 @@ class AppFixtures extends Fixture
             $item->setName($faker->name())
                 ->setOwner($admin)
                 ->setState($faker->randomElement($tabStates))
+                ->setPicture("https://via.placeholder.com/250x150")
                 ->setStatus(0)
                 ->setCategory($faker->randomElement($tabToolType));
             $manager->persist($item);
