@@ -33,6 +33,21 @@ class Rent
      */
     private $moderation;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Item::class, inversedBy="rents")
+     */
+    private $item;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $rentAt;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $returnAt;
+
     public function __toString()
     {
         return 'Le nom de la vente TODO';
@@ -80,6 +95,42 @@ class Rent
         }
 
         $this->moderation = $moderation;
+
+        return $this;
+    }
+
+    public function getItem(): ?Item
+    {
+        return $this->item;
+    }
+
+    public function setItem(?Item $item): self
+    {
+        $this->item = $item;
+
+        return $this;
+    }
+
+    public function getRentAt(): ?\DateTimeInterface
+    {
+        return $this->rentAt;
+    }
+
+    public function setRentAt(\DateTimeInterface $rentAt): self
+    {
+        $this->rentAt = $rentAt;
+
+        return $this;
+    }
+
+    public function getReturnAt(): ?\DateTimeInterface
+    {
+        return $this->returnAt;
+    }
+
+    public function setReturnAt(\DateTimeInterface $returnAt): self
+    {
+        $this->returnAt = $returnAt;
 
         return $this;
     }

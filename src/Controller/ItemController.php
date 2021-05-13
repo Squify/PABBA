@@ -3,18 +3,30 @@
 namespace App\Controller;
 
 use App\Entity\Item;
+use App\Entity\Rent;
 use App\Form\ItemType;
+use App\Form\ItemBorrowType;
 use App\Repository\ItemRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
  * @Route("/item")
  */
 class ItemController extends AbstractController
 {
+
+    private $manager;
+
+    public function __construct(EntityManagerInterface $manager)
+    {
+        $this->manager = $manager;
+    }
+
     /**
      * @Route("/", name="item_index", methods={"GET"})
      */
@@ -36,9 +48,9 @@ class ItemController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $item->setOwner($this->getUser());
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($item);
-            $entityManager->flush();
+            // $entityManager = $this->getDoctrine()->getManager();
+            $this->manager->persist($item);
+            $this->manager->flush();
 
             return $this->redirectToRoute('item_index');
         }
@@ -68,7 +80,7 @@ class ItemController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+            $this->manager->flush();
 
             return $this->redirectToRoute('item_index');
         }
@@ -85,11 +97,48 @@ class ItemController extends AbstractController
     public function delete(Request $request, Item $item): Response
     {
         if ($this->isCsrfTokenValid('delete'.$item->getId(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->remove($item);
-            $entityManager->flush();
+            // $entityManager = $this->getDoctrine()->getManager();
+            $this->manager->remove($item);
+            $this->manager->flush();
         }
 
         return $this->redirectToRoute('item_index');
+    }
+
+    /**
+     * @Route("/{id}/borrow", name="item_borrow", methods={"GET", "POST"})
+     * @IsGranted("ROLE_USER")
+     */
+    public function borrow(Item $item, Request $request)
+    {
+
+        $rent = new Rent();
+
+        $form = $this->createForm(ItemBorrowType::class, $rent);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted()) {
+            
+            $rent
+                ->setItem($item)
+                ->setOwner($item->getOwner())
+                ->setRenter($this->getUser());
+
+            // dd($rent, $request);
+
+            $this->manager->persist($rent);
+            $this->manager->flush();
+
+            $this->addFlash("success", "L'emprunt est bien validé");
+            return $this->redirectToRoute("item_index");
+        }
+
+        return $this->render("item/borrow.html.twig", [
+            "form" => $form->createView(),
+            "rent" => $rent,
+            "item" => $item
+        ]);
+
     }
 }

@@ -113,6 +113,7 @@ class AppFixtures extends Fixture
         }
 
         // Item fixtures
+        $items = [];
         for ($i=0; $i < 10; $i++) { 
             $item = new Item();
             $item->setName($faker->name())
@@ -122,7 +123,10 @@ class AppFixtures extends Fixture
                 ->setStatus(0)
                 ->setCategory($faker->randomElement($tabToolType));
             $manager->persist($item);
+            $item[] = $item;
         }
+
+
         
         $manager->flush();
     }
