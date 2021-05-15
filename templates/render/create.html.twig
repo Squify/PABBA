@@ -1,0 +1,43 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Rendre un outil
+{% endblock %}
+
+{% block body %}
+
+	<div class="container">
+
+		<h1>Rendu d'un outil :
+			{{ render.rent.item.name }}
+		</h1>
+
+		<h5>
+			<i>Remplissez ce formulaire pour rendre cet outil emprunté à
+			</i>
+			{{ render.rent.owner.firstname }}
+			<i>le</i>
+			{{ render.rent.rentAt | date("d/m/Y") }}
+		</h5>
+
+		{{ form_start(form) }}
+		{{ form_errors(form) }}
+
+		{{ form_row(form.picture) }}
+		{{ form_row(form.comment) }}
+
+		<button class="btn btn-success">
+			<i class="fas fa-save"></i>
+			Confirmer le rendu
+		</button>
+		{# Ici mettre le path vers la page 'mes emprunts' #}
+		<a href="#" class="btn btn-danger">
+			<i class="fas fa-times"></i>
+            Retour à
+			<i>Mes emprunts</i>
+		</a>
+
+		{{ form_end(form) }}
+
+	</div>
+
+{% endblock %}

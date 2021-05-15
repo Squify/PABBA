@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\RentRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -47,6 +49,16 @@ class Rent
      * @ORM\Column(type="datetime")
      */
     private $returnAt;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Render::class, mappedBy="rent")
+     */
+    private $renders;
+
+    public function __construct()
+    {
+        $this->renders = new ArrayCollection();
+    }
 
     public function __toString()
     {
@@ -131,6 +143,36 @@ class Rent
     public function setReturnAt(\DateTimeInterface $returnAt): self
     {
         $this->returnAt = $returnAt;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Render[]
+     */
+    public function getRenders(): Collection
+    {
+        return $this->renders;
+    }
+
+    public function addRender(Render $render): self
+    {
+        if (!$this->renders->contains($render)) {
+            $this->renders[] = $render;
+            $render->setRent($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRender(Render $render): self
+    {
+        if ($this->renders->removeElement($render)) {
+            // set the owning side to null (unless already changed)
+            if ($render->getRent() === $this) {
+                $render->setRent(null);
+            }
+        }
 
         return $this;
     }
