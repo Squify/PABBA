@@ -1,19 +1,25 @@
-<nav class="navbar navbar-expand-lg secondary-navbar">
-    <nav aria-label="breadcrumb">
+<nav class="navbar navbar-expand-lg secondary-navbar d-flex justify-content-between align-items-center">
+    <nav style="width: 100%;" aria-label="breadcrumb d-flex justify-content-between align-items-center">
         <ol class="breadcrumb">
             {% set route_name = app.request.attributes.get('_route') %}
 
-            {#Routes tutoriels#}
+            {# Routes tutoriels #}
             {% if route_name starts with 'tutorial_index' %}
                 <li class="breadcrumb-item" aria-current="page">Tutoriels</li>
             {% elseif route_name starts with 'tutorial_create' %}
-                <li class="breadcrumb-item" aria-current="page"><a href="{{ path('tutorial_index') }}">Tutoriels</a></li>
+                <li class="breadcrumb-item" aria-current="page"><a href="{{ path('tutorial_index') }}">Tutoriels</a>
+                </li>
                 <li class="breadcrumb-item" aria-current="page">Création d'un tutoriel</li>
             {% elseif route_name starts with 'tutorial_update' %}
-                <li class="breadcrumb-item" aria-current="page"><a href="{{ path('tutorial_index') }}">Tutoriels</a></li>
+                <li class="breadcrumb-item" aria-current="page"><a href="{{ path('tutorial_index') }}">Tutoriels</a>
+                </li>
                 <li class="breadcrumb-item" aria-current="page">Modification d'un tutoriel</li>
+            {% elseif route_name starts with 'tutorial_details' %}
+                <li class="breadcrumb-item" aria-current="page"><a href="{{ path('tutorial_index') }}">Tutoriels</a>
+                </li>
+                <li class="breadcrumb-item" aria-current="page">Visualisation du tutoriel</li>
 
-            {#Routes lieux#}
+                {# Routes lieux #}
             {% elseif route_name starts with 'place_update' %}
                 <li class="breadcrumb-item" aria-current="page"><a href="{{ path('place_index') }}">Lieux</a></li>
                 <li class="breadcrumb-item" aria-current="page">Modification d'un lieu</li>
@@ -23,7 +29,37 @@
             {% elseif route_name starts with 'place_index' %}
                 <li class="breadcrumb-item" aria-current="page">Lieux</li>
 
-            {#Routes événement#}
+                {# Routes outils #}
+            {% elseif route_name starts with 'rent_index' %}
+                <li class="breadcrumb-item" aria-current="page">Boîte à outils</li>
+                <li class="ml-auto">
+                    <a class="float-right btn btn-sm redirect-button" href="{{ path('item_index') }}">
+                        Liste des outils
+                    </a>
+                </li>
+
+            {% elseif route_name starts with 'item_index' %}
+                <li class="breadcrumb-item" aria-current="page"><a href="{{ path('rent_index') }}">Boîte à outils</a>
+                </li>
+                <li class="breadcrumb-item" aria-current="page">Liste des outils</li>
+            {% elseif route_name starts with 'item_show' %}
+                <li class="breadcrumb-item" aria-current="page"><a href="{{ path('rent_index') }}">Boîte à outils</a>
+                </li>
+                <li class="breadcrumb-item" aria-current="page">Visualisation de l'outil</li>
+            {% elseif route_name starts with 'item_update' %}
+                <li class="breadcrumb-item" aria-current="page"><a href="{{ path('rent_index') }}">Boîte à outils</a>
+                </li>
+                <li class="breadcrumb-item" aria-current="page">Modification d'un outil</li>
+            {% elseif route_name starts with 'item_create' %}
+                <li class="breadcrumb-item" aria-current="page"><a href="{{ path('rent_index') }}">Boîte à outils</a>
+                </li>
+                <li class="breadcrumb-item" aria-current="page">Création d'un outil</li>
+            {% elseif route_name starts with 'item_rent' %}
+                <li class="breadcrumb-item" aria-current="page"><a href="{{ path('rent_index') }}">Boîte à outils</a>
+                </li>
+                <li class="breadcrumb-item" aria-current="page">Emprunt d'un outil</li>
+
+                {# Routes événement #}
             {% elseif route_name starts with 'event' %}
                 <li class="breadcrumb-item" aria-current="page">Data</li>
 

@@ -1,0 +1,82 @@
+{% extends 'base.html.twig' %}
+{% block title %}PABBA - Outils{% endblock %}
+
+{% block body %}
+    <div class="container">
+    <div class="card">
+        <ul class="nav nav-pills nav-fill mb-3" id="pills-tab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <a class="nav-link active" id="rented-tab" data-toggle="pill" href="#rented" role="tab"
+                   aria-controls="rented" aria-selected="true">Outils empruntés</a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" id="loaned-tab" data-toggle="pill" href="#loaned" role="tab"
+                   aria-controls="loaned" aria-selected="false">Outils prêtés</a>
+            </li>
+        </ul>
+        <div class="card-body">
+            <div class="tab-content" id="pills-tabContent">
+                <div class="tab-pane fade show active" id="rented" role="tabpanel" aria-labelledby="rented-tab">
+                    <div class="row justify-content-center">
+                        {% if is_granted('ROLE_USER') or  is_granted('ROLE_ADMIN') %}
+                            {% if rented is empty %}
+                                Aucun outil emprunté pour le moment.
+                            {% endif %}
+                        {% for rent in rented %}
+                            <div class="card rent-card m-2 {{ rentIsOld(rent) ? 'oldRent' : '' }}">
+                                <div class="card-body">
+                                    <h6 class="card-subtitle mb-2 text-muted">{{ rent.owner.firstname ~ ' ' ~ rent.owner.lastname }}</h6>
+                                    <h5 class="card-title">{{ rent.item.name }}</h5>
+                                    <p class="card-text">
+                                        <span class="span-title">Date d'emprunt :</span> <span
+                                                class="span-date">{{ rent.rentAt | date("d/m/Y H:i") }}</span>
+                                        <br/>
+                                        <span class="span-title">Date de rendu :</span> <span
+                                                class="span-date">{{ rent.returnAt | date("d/m/Y H:i") }}</span>
+                                    </p>
+                                    <a href="{{ path('item_show', {'id': rent.item.id}) }}" class="btn btn-primary"
+                                       title="Voir les détails pour : {{ rent.item.name }}"><i
+                                                class="fas fa-eye"></i></a>
+                                </div>
+                            </div>
+                        {% endfor %}
+                        {% else %}
+                            <p>Connectez-vous pour accéder à ce contenu</p>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="loaned" role="tabpanel" aria-labelledby="loaned-tab">
+                    <div class="tab-pane fade show active" id="rented" role="tabpanel" aria-labelledby="rented-tab">
+                        <div class="row justify-content-center">
+                            {% if is_granted('ROLE_USER') or  is_granted('ROLE_ADMIN') %}
+                                {% if loaned is empty %}
+                                    Aucun outil prêté pour le moment.
+                                {% endif %}
+                            {% for rent in loaned %}
+                                <div class="card rent-card m-2 {{ rentIsOld(rent) ? 'oldRent' : '' }}">
+                                    <div class="card-body">
+                                        <h6 class="card-subtitle mb-2 text-muted">{{ rent.owner.firstname ~ ' ' ~ rent.owner.lastname }}</h6>
+                                        <h5 class="card-title">{{ rent.item.name }}</h5>
+                                        <p class="card-text">
+                                            <span class="span-title">Date d'emprunt :</span> <span
+                                                    class="span-date">{{ rent.rentAt | date("d/m/Y H:i") }}</span>
+                                            <br/>
+                                            <span class="span-title">Date de rendu :</span> <span
+                                                    class="span-date">{{ rent.returnAt | date("d/m/Y H:i") }}</span>
+                                        </p>
+                                        <a href="{{ path('item_show', {'id': rent.item.id}) }}" class="btn btn-primary"
+                                           title="Voir les détails pour : {{ rent.item.name }}"><i
+                                                    class="fas fa-eye"></i></a>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                            {% else %}
+                            <p>Connectez-vous pour accéder à ce contenu</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

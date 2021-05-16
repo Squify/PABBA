@@ -5,8 +5,9 @@ namespace App\Controller;
 use App\Entity\Item;
 use App\Entity\Rent;
 use App\Form\ItemType;
-use App\Form\ItemBorrowType;
+use App\Form\ItemRentType;
 use App\Repository\ItemRepository;
+use App\Repository\RentRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,7 +16,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
- * @Route("/item")
+ * @Route("/outil")
  */
 class ItemController extends AbstractController
 {
@@ -28,9 +29,21 @@ class ItemController extends AbstractController
     }
 
     /**
-     * @Route("/", name="item_index", methods={"GET"})
+     * @Route("", name="rent_index", methods={"GET"})
      */
-    public function index(ItemRepository $itemRepository): Response
+    public function index(RentRepository $rentRepository): Response
+    {
+        $user = $this->getUser();
+        return $this->render('rent/index.html.twig', [
+            'rented' => $user ? $rentRepository->findAllByRenterIdOrderByDate($user->getId()) : [],
+            'loaned' => $user ? $rentRepository->findAllByOwnerIdOrderByDate($user->getId()) : [],
+        ]);
+    }
+
+    /**
+     * @Route("/liste", name="item_index", methods={"GET"})
+     */
+    public function itemIndex(ItemRepository $itemRepository): Response
     {
         return $this->render('item/index.html.twig', [
             'items' => $itemRepository->findAll(),
@@ -38,9 +51,9 @@ class ItemController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="item_new", methods={"GET","POST"})
+     * @Route("/creer", name="item_create", methods={"GET","POST"})
      */
-    public function new(Request $request): Response
+    public function create(Request $request): Response
     {
         $item = new Item();
         $form = $this->createForm(ItemType::class, $item);
@@ -72,9 +85,9 @@ class ItemController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="item_edit", methods={"GET","POST"})
+     * @Route("/editer/{id}", name="item_update", methods={"GET","POST"})
      */
-    public function edit(Request $request, Item $item): Response
+    public function update(Request $request, Item $item): Response
     {
         $form = $this->createForm(ItemType::class, $item);
         $form->handleRequest($request);
@@ -96,7 +109,7 @@ class ItemController extends AbstractController
      */
     public function delete(Request $request, Item $item): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$item->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $item->getId(), $request->request->get('_token'))) {
             // $entityManager = $this->getDoctrine()->getManager();
             $this->manager->remove($item);
             $this->manager->flush();
@@ -106,26 +119,20 @@ class ItemController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/borrow", name="item_borrow", methods={"GET", "POST"})
+     * @Route("/emprunter/{id}", name="item_rent", methods={"GET", "POST"})
      * @IsGranted("ROLE_USER")
      */
-    public function borrow(Item $item, Request $request)
+    public function rent(Item $item, Request $request)
     {
-
         $rent = new Rent();
-
-        $form = $this->createForm(ItemBorrowType::class, $rent);
-
+        $form = $this->createForm(ItemRentType::class, $rent);
         $form->handleRequest($request);
 
         if ($form->isSubmitted()) {
-            
             $rent
                 ->setItem($item)
                 ->setOwner($item->getOwner())
                 ->setRenter($this->getUser());
-
-            // dd($rent, $request);
 
             $this->manager->persist($rent);
             $this->manager->flush();
@@ -134,11 +141,10 @@ class ItemController extends AbstractController
             return $this->redirectToRoute("item_index");
         }
 
-        return $this->render("item/borrow.html.twig", [
+        return $this->render("item/rent.html.twig", [
             "form" => $form->createView(),
             "rent" => $rent,
             "item" => $item
         ]);
-
     }
 }
