@@ -33,9 +33,10 @@ class ItemController extends AbstractController
      */
     public function index(RentRepository $rentRepository): Response
     {
+        $user = $this->getUser();
         return $this->render('rent/index.html.twig', [
-            'rented' => $rentRepository->findAllOrderByDate(),
-//            'loaned' => $itemRepository->findAll(),
+            'rented' => $user ? $rentRepository->findAllByRenterIdOrderByDate($user->getId()) : [],
+            'loaned' => $user ? $rentRepository->findAllByOwnerIdOrderByDate($user->getId()) : [],
         ]);
     }
 

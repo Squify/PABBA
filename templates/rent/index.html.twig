@@ -18,6 +18,10 @@
             <div class="tab-content" id="pills-tabContent">
                 <div class="tab-pane fade show active" id="rented" role="tabpanel" aria-labelledby="rented-tab">
                     <div class="row justify-content-center">
+                        {% if is_granted('ROLE_USER') or  is_granted('ROLE_ADMIN') %}
+                            {% if rented is empty %}
+                                Aucun outil emprunté pour le moment.
+                            {% endif %}
                         {% for rent in rented %}
                             <div class="card rent-card m-2 {{ rentIsOld(rent) ? 'oldRent' : '' }}">
                                 <div class="card-body">
@@ -36,12 +40,19 @@
                                 </div>
                             </div>
                         {% endfor %}
+                        {% else %}
+                            <p>Connectez-vous pour accéder à ce contenu</p>
+                        {% endif %}
                     </div>
                 </div>
                 <div class="tab-pane fade" id="loaned" role="tabpanel" aria-labelledby="loaned-tab">
                     <div class="tab-pane fade show active" id="rented" role="tabpanel" aria-labelledby="rented-tab">
                         <div class="row justify-content-center">
-                            {% for rent in rented %}
+                            {% if is_granted('ROLE_USER') or  is_granted('ROLE_ADMIN') %}
+                                {% if loaned is empty %}
+                                    Aucun outil prêté pour le moment.
+                                {% endif %}
+                            {% for rent in loaned %}
                                 <div class="card rent-card m-2 {{ rentIsOld(rent) ? 'oldRent' : '' }}">
                                     <div class="card-body">
                                         <h6 class="card-subtitle mb-2 text-muted">{{ rent.owner.firstname ~ ' ' ~ rent.owner.lastname }}</h6>
@@ -59,6 +70,9 @@
                                     </div>
                                 </div>
                             {% endfor %}
+                            {% else %}
+                            <p>Connectez-vous pour accéder à ce contenu</p>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
