@@ -18,21 +18,19 @@ class ItemType extends AbstractType
         $builder
             ->add('name')
             ->add('status')
-            ->add('picture'
-            // ,VichImageType::class, [
-            //     'required' => false,
-            //     'allow_delete' => false,
-            //     'asset_helper' => true,
-            //     'download_uri' => false,
-            //     'download_label' => false,
-            //     'label' => "Photo de l'outil",
-            //     'attr' => [
-            //         'placeholder' => 'Ajouter une image',
-            //         'maxSize' => '2M',
-            //         'accept' => "image/*"
-            //     ]
-            // ]
-            )
+            ->add('imageFile', VichImageType::class, [
+                'required' => false,
+                'allow_delete' => false,
+                'asset_helper' => true,
+                'download_uri' => false,
+                'download_label' => false,
+                'label' => "Photo de l'outil",
+                'attr' => [
+                    'placeholder' => 'Ajouter une image',
+                    'maxSize' => '2M',
+                    'accept' => "image/*"
+                ]
+            ])
             ->add('state', EntityType::class, [
                 'class' => State::class,
                 'choice_label' => 'label'
