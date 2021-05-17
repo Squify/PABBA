@@ -1,53 +1,33 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}PABBA - Liste des outils{% endblock %}
+{% block title %}PABBA - Liste des outils
+{% endblock %}
 
 {% block body %}
-    <div class="container">
-        <div class="card">
-            <div class="card-body">
-                <table class="table">
-                    <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Nom</th>
-                        <th>Propriétaire</th>
-                        <th>Catégorie</th>
-                        {# <th>Statut</th> #}
-                        <th>Image</th>
-                        <th>Actions</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {% for item in items %}
-                        <tr>
-                            <td>{{ item.id }}</td>
-                            <td>{{ item.name }}</td>
-                            <td>{{ item.owner.firstname }}</td>
-                            <td>{{ item.category.label }}</td>
-                            {# <td>{{ (item.status == 0) ? "Disponible" : "Emprunté" }}</td> #}
-                            <td>{{ item.picture }}</td>
-                            {# <td><img src="{{ item.picture }}" alt="Image de l'outil {{ item.name }}"></td> #}
-                            <td>
-                                <a href="{{ path('item_show', {'id': item.id}) }}" class="btn btn-primary" title="Voir les détails pour : {{ item.name }}"><i class="fas fa-eye"></i></a>
-                                <a href="{{ path('item_update', {'id': item.id}) }}" class="btn btn-warning" title="Modifier {{ item.name }}"><i class="fas fa-edit"></i></a>
-                                <a href="{{ path('item_rent', {'id': item.id}) }}" class="btn btn-secondary" title="Emprunter {{ item.name }} à {{ item.owner.firstname }}"><i class="fas fa-handshake"></i></a>
-                            </td>
-                        </tr>
-                    {% else %}
-                        <tr>
-                            <td colspan="5">Pas d'outil à afficher</td>
-                        </tr>
-                    {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-        </div>
+	<div class="container">
+		
+		<div class="row">
+			{% for item in items %}
+				<div class="col-12 col-md-3 pt-3">
+					<div class="card" data-id="{{ item.id }}">
+						<img src="{{ item.picture is not null ? vich_uploader_asset(item, 'imageFile') : asset('images/default_items.jpg') }}" class="card-img-top" alt="Image de l'outil {{ item.name }}">
+						<div class="card-body">
+							<h5 class="card-title">{{ item.name }}</h5>
+							<p class="card-text">
+								<td>{{ item.owner.firstname }}</td>
+								<td>{{ item.category.label }}</td>
+							</p>
+							<a href="{{ path('item_show', {'id': item.id}) }}" class="btn btn-primary">Consulter</a>
+						</div>
+					</div>
+				</div>
+			{%  endfor %}
+		</div>
 
-        <button type="button" class="btn add-btn">
-            <a href="{{ path('item_create') }}">
-                <i class="bi bi-plus-circle-fill"></i>
-            </a>
-        </button>
-    </div>
+		<button type="button" class="btn add-btn">
+			<a href="{{ path('item_create') }}">
+				<i class="bi bi-plus-circle-fill"></i>
+			</a>
+		</button>
+	</div>
 {% endblock %}
