@@ -4,7 +4,7 @@
 {% endblock %}
 
 {% block body %}
-	<div class="container">
+	<div style="width:80%;margin:auto;">
 		
 		<div class="row">
 			{% for item in items %}
@@ -17,7 +17,9 @@
 								<td>{{ item.owner.firstname }}</td>
 								<td>{{ item.category.label }}</td>
 							</p>
-							<a href="{{ path('item_show', {'id': item.id}) }}" class="btn btn-primary">Consulter</a>
+							<a href="{{ path('item_show', {'id': item.id}) }}" class="btn btn-primary"><i class="fas fa-eye"></i></a>
+							{# <a href="{{ path('item_show', {'id': item.id}) }}" class="btn btn-primary">i.fas.fa-edit</a> #}
+							<a href="{{ path('item_borrow', {'id': item.id}) }}" class="btn btn-secondary"><i class="fas fa-handshake"></i></a>
 						</div>
 					</div>
 				</div>

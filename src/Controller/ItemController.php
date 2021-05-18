@@ -5,7 +5,7 @@ namespace App\Controller;
 use App\Entity\Item;
 use App\Entity\Rent;
 use App\Form\ItemType;
-use App\Form\ItemRentType;
+use App\Form\ItemBorrowType;
 use App\Repository\ItemRepository;
 use App\Repository\RentRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -29,19 +29,7 @@ class ItemController extends AbstractController
     }
 
     /**
-     * @Route("", name="rent_index", methods={"GET"})
-     */
-    public function index(RentRepository $rentRepository): Response
-    {
-        $user = $this->getUser();
-        return $this->render('rent/index.html.twig', [
-            'rented' => $user ? $rentRepository->findAllByRenterIdOrderByDate($user->getId()) : [],
-            'loaned' => $user ? $rentRepository->findAllByOwnerIdOrderByDate($user->getId()) : [],
-        ]);
-    }
-
-    /**
-     * @Route("/liste", name="item_index", methods={"GET"})
+     * @Route("", name="item_index", methods={"GET"})
      */
     public function itemIndex(ItemRepository $itemRepository): Response
     {
@@ -52,6 +40,7 @@ class ItemController extends AbstractController
 
     /**
      * @Route("/creer", name="item_create", methods={"GET","POST"})
+     * @IsGranted("ROLE_USER")
      */
     public function create(Request $request): Response
     {
@@ -119,13 +108,13 @@ class ItemController extends AbstractController
     }
 
     /**
-     * @Route("/emprunter/{id}", name="item_rent", methods={"GET", "POST"})
+     * @Route("/emprunter/{id}", name="item_borrow", methods={"GET", "POST"})
      * @IsGranted("ROLE_USER")
      */
-    public function rent(Item $item, Request $request)
+    public function borrow(Item $item, Request $request)
     {
         $rent = new Rent();
-        $form = $this->createForm(ItemRentType::class, $rent);
+        $form = $this->createForm(ItemBorrowType::class, $rent);
         $form->handleRequest($request);
 
         if ($form->isSubmitted()) {
@@ -141,7 +130,7 @@ class ItemController extends AbstractController
             return $this->redirectToRoute("item_index");
         }
 
-        return $this->render("item/rent.html.twig", [
+        return $this->render("item/borrow.html.twig", [
             "form" => $form->createView(),
             "rent" => $rent,
             "item" => $item

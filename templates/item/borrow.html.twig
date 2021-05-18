@@ -1,0 +1,37 @@
+{% extends "base.html.twig" %}
+
+{% block title %}PABBA - Emprunt d'outil
+{% endblock %}
+
+{% block body %}
+	<div class="container">
+		{{ form_start(form) }}
+
+		<div class="row">
+			<div class="col-6">
+				{{ form_row(form.rentAt) }}
+			</div>
+			<div class="col-6">
+				{{ form_row(form.returnAt) }}
+			</div>
+
+		</div>
+
+		<button class="btn btn-success">
+			<i class="fas fa-save"></i>
+			Enregistrer l'emprunt
+		</button>
+
+		<a href="{{ path('item_index') }}" class="btn btn-danger">
+			<i class="fas fa-times"></i>
+			Annuler
+		</a>
+
+		{{ form_end(form) }}
+	</div>
+{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+	{{ encore_entry_script_tags("item_borrow") }}
+{% endblock %}

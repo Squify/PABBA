@@ -69,7 +69,7 @@ class RenderController extends AbstractController
             #####
 
             #### ---- A remplacer par la route vers la page "Mes emprunts"
-            return $this->redirectToRoute("index");
+            return $this->redirectToRoute("rent_index");
 
         }
 

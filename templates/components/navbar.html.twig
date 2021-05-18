@@ -32,9 +32,11 @@
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                     {% if is_granted('ROLE_USER') or  is_granted('ROLE_ADMIN') %}
-                        <a class="dropdown-item" href="{{ path('user.profile.edit') }}">Mon profile</a>
+                        <a class="dropdown-item" href="{{ path('user.profile.edit') }}">Mon profil</a>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="{{ path('user_tutorial') }}">Mes tutoriels</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="{{ path('rent_index') }}">Mes prêts/emprunts</a>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="{{ path('app_logout') }}">Déconnexion</a>
                     {% else%}
