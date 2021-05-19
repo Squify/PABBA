@@ -10,6 +10,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Vich\UploaderBundle\Form\Type\VichImageType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class ItemType extends AbstractType
 {
@@ -17,7 +18,12 @@ class ItemType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('status')
+            ->add('status', ChoiceType::class, [
+                'choices'  => [
+                    'Disponible' => 0,
+                    'Indisponible' => 1,
+                ]
+            ])
             ->add('imageFile', VichImageType::class, [
                 'required' => false,
                 'allow_delete' => false,
