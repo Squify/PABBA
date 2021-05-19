@@ -19,22 +19,20 @@ class ItemRepository extends ServiceEntityRepository
         parent::__construct($registry, Item::class);
     }
 
-    // /**
-    //  * @return Item[] Returns an array of Item objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    /**
+     * @param $user
+     * @return Item[] Returns all Item objects
+     */
+    public function findAllByOwnerId($user)
     {
         return $this->createQueryBuilder('i')
-            ->andWhere('i.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('i.id', 'ASC')
-            ->setMaxResults(10)
+            ->andWhere('i.owner = :val')
+            ->setParameter('val', $user)
             ->getQuery()
             ->getResult()
-        ;
+            ;
     }
-    */
+
 
     /*
     public function findOneBySomeField($value): ?Item

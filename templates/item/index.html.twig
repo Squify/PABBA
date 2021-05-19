@@ -4,32 +4,32 @@
 {% endblock %}
 
 {% block body %}
-	<div style="width:80%;margin:auto;">
-		
-		<div class="row">
-			{% for item in items %}
-				<div class="col-12 col-md-3 pt-3">
-					<div class="card" data-id="{{ item.id }}">
-						<img src="{{ item.picture is not null ? vich_uploader_asset(item, 'imageFile') : asset('images/default_items.jpg') }}" class="card-img-top" alt="Image de l'outil {{ item.name }}">
-						<div class="card-body">
-							<h5 class="card-title">{{ item.name }}</h5>
-							<p class="card-text">
-								<td>{{ item.owner.firstname }}</td>
-								<td>{{ item.category.label }}</td>
-							</p>
-							<a href="{{ path('item_show', {'id': item.id}) }}" class="btn btn-primary"><i class="fas fa-eye"></i></a>
-							{# <a href="{{ path('item_show', {'id': item.id}) }}" class="btn btn-primary">i.fas.fa-edit</a> #}
-							<a href="{{ path('item_borrow', {'id': item.id}) }}" class="btn btn-secondary"><i class="fas fa-handshake"></i></a>
-						</div>
-					</div>
-				</div>
-			{%  endfor %}
-		</div>
+    <div class="container">
+        <div class="row">
+            {% for item in items %}
+                <div class="col-12 col-md-4 pt-4">
+                    <div class="card rent-card" data-id="{{ item.id }}">
+                        <img src="{{ item.picture is not null ? vich_uploader_asset(item, 'imageFile') : asset('images/default_items.jpg') }}"
+                             class="card-img-top item-picture" alt="Image de l'outil {{ item.name }}">
+                        <div class="card-body">
+                            <h6 class="card-subtitle mb-2 text-muted">{{ item.owner.firstname ~ ' ' ~ item.owner.lastname }}</h6>
+                            <h5 class="card-title">{{ item.name }}<small>
+                                    - {{ item.category.label }}</small></h5>
+                            <a href="{{ path('item_show', {'id': item.id}) }}" class="btn btn-primary"><i
+                                        class="fas fa-eye"></i></a>
+{#                             <a href="{{ path('item_show', {'id': item.id}) }}" class="btn btn-primary"><i class="fas fa-edit"></i></a> #}
+                            <a href="{{ path('item_borrow', {'id': item.id}) }}" class="btn btn-secondary"><i
+                                        class="fas fa-handshake"></i></a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
 
-		<button type="button" class="btn add-btn">
-			<a href="{{ path('item_create') }}">
-				<i class="bi bi-plus-circle-fill"></i>
-			</a>
-		</button>
-	</div>
+        <button type="button" class="btn add-btn">
+            <a href="{{ path('item_create') }}">
+                <i class="bi bi-plus-circle-fill"></i>
+            </a>
+        </button>
+    </div>
 {% endblock %}
