@@ -28,6 +28,8 @@ class ItemController extends AbstractController
         $this->manager = $manager;
     }
 
+
+
     /**
      * @Route("", name="rent_index", methods={"GET"})
      */
