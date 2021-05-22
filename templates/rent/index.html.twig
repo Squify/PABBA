@@ -7,11 +7,15 @@
         <ul class="nav nav-pills nav-fill mb-3" id="pills-tab" role="tablist">
             <li class="nav-item" role="presentation">
                 <a class="nav-link active" id="rented-tab" data-toggle="pill" href="#rented" role="tab"
-                   aria-controls="rented" aria-selected="true">Outils empruntés</a>
+                   aria-controls="rented" aria-selected="false">Outils empruntés</a>
             </li>
             <li class="nav-item" role="presentation">
                 <a class="nav-link" id="loaned-tab" data-toggle="pill" href="#loaned" role="tab"
                    aria-controls="loaned" aria-selected="false">Outils prêtés</a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" id="loaned-tab" data-toggle="pill" href="#tools" role="tab"
+                   aria-controls="tools" aria-selected="true">Mes outils</a>
             </li>
         </ul>
         <div class="card-body">
@@ -22,41 +26,12 @@
                             {% if rented is empty %}
                                 Aucun outil emprunté pour le moment.
                             {% endif %}
-                        {% for rent in rented %}
-                            <div class="card rent-card m-2 {{ rentIsOld(rent) ? 'oldRent' : '' }}">
-                                <div class="card-body">
-                                    <h6 class="card-subtitle mb-2 text-muted">{{ rent.owner.firstname ~ ' ' ~ rent.owner.lastname }}</h6>
-                                    <h5 class="card-title">{{ rent.item.name }}</h5>
-                                    <p class="card-text">
-                                        <span class="span-title">Date d'emprunt :</span> <span
-                                                class="span-date">{{ rent.rentAt | date("d/m/Y H:i") }}</span>
-                                        <br/>
-                                        <span class="span-title">Date de rendu :</span> <span
-                                                class="span-date">{{ rent.returnAt | date("d/m/Y H:i") }}</span>
-                                    </p>
-                                    <a href="{{ path('item_show', {'id': rent.item.id}) }}" class="btn btn-primary"
-                                       title="Voir les détails pour : {{ rent.item.name }}"><i
-                                                class="fas fa-eye"></i></a>
-                                </div>
-                            </div>
-                        {% endfor %}
-                        {% else %}
-                            <p>Connectez-vous pour accéder à ce contenu</p>
-                        {% endif %}
-                    </div>
-                </div>
-                <div class="tab-pane fade" id="loaned" role="tabpanel" aria-labelledby="loaned-tab">
-                    <div class="tab-pane fade show active" id="rented" role="tabpanel" aria-labelledby="rented-tab">
-                        <div class="row justify-content-center">
-                            {% if is_granted('ROLE_USER') or  is_granted('ROLE_ADMIN') %}
-                                {% if loaned is empty %}
-                                    Aucun outil prêté pour le moment.
-                                {% endif %}
-                            {% for rent in loaned %}
+                            {% for rent in rented %}
                                 <div class="card rent-card m-2 {{ rentIsOld(rent) ? 'oldRent' : '' }}">
                                     <div class="card-body">
                                         <h6 class="card-subtitle mb-2 text-muted">{{ rent.owner.firstname ~ ' ' ~ rent.owner.lastname }}</h6>
-                                        <h5 class="card-title">{{ rent.item.name }}</h5>
+                                        <h5 class="card-title">{{ rent.item.name }}<small>
+                                                - {{ rent.item.category.label }}</small></h5>
                                         <p class="card-text">
                                             <span class="span-title">Date d'emprunt :</span> <span
                                                     class="span-date">{{ rent.rentAt | date("d/m/Y H:i") }}</span>
@@ -70,8 +45,80 @@
                                     </div>
                                 </div>
                             {% endfor %}
-                            {% else %}
+                        {% else %}
                             <p>Connectez-vous pour accéder à ce contenu</p>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="loaned" role="tabpanel" aria-labelledby="loaned-tab">
+                    <div class="tab-pane fade show active" id="rented" role="tabpanel" aria-labelledby="rented-tab">
+                        <div class="row justify-content-center">
+                            {% if is_granted('ROLE_USER') or  is_granted('ROLE_ADMIN') %}
+                                {% if loaned is empty %}
+                                    Aucun outil prêté pour le moment.
+                                {% endif %}
+                                {% for rent in loaned %}
+                                    <div class="card rent-card m-2 {{ rentIsOld(rent) ? 'oldRent' : '' }}">
+                                        <div class="card-body">
+                                            <h6 class="card-subtitle mb-2 text-muted">{{ rent.owner.firstname ~ ' ' ~ rent.owner.lastname }}</h6>
+                                            <h5 class="card-title">{{ rent.item.name }}<small>
+                                                    - {{ rent.item.category.label }}</small></h5>
+                                            <p class="card-text">
+                                                <span class="span-title">Date d'emprunt :</span> <span
+                                                        class="span-date">{{ rent.rentAt | date("d/m/Y H:i") }}</span>
+                                                <br/>
+                                                <span class="span-title">Date de rendu :</span> <span
+                                                        class="span-date">{{ rent.returnAt | date("d/m/Y H:i") }}</span>
+                                            </p>
+                                            <a href="{{ path('item_show', {'id': rent.item.id}) }}"
+                                               class="btn btn-primary"
+                                               title="Voir les détails pour : {{ rent.item.name }}"><i
+                                                        class="fas fa-eye"></i></a>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            {% else %}
+                                <p>Connectez-vous pour accéder à ce contenu</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="tools" role="tabpanel" aria-labelledby="tools-tab">
+                    <div class="tab-pane fade show active" id="rented" role="tabpanel" aria-labelledby="rented-tab">
+                        <div class="row">
+                            {% if is_granted('ROLE_USER') or is_granted('ROLE_ADMIN') %}
+                                {% if items is empty %}
+                                    Aucun outil enregistré pour le moment.
+                                {% endif %}
+                                {% for item in items %}
+                                    <div class="col-sm-4 mb-3">
+                                        <div class="card rent-card">
+                                            <img src="{{ item.picture is not null ? vich_uploader_asset(item, 'imageFile') : asset('images/default_items.jpg') }}"
+                                                 class="card-img-top item-picture"
+                                                 alt="Image de l'outil {{ item.name }}">
+                                            <div class="card-body">
+                                                <h5 class="card-title">{{ item.name }}<small>
+                                                        - {{ item.category.label }}</small></h5>
+                                                <p class="card-text">
+                                                    <span class="span-title">État :</span>
+                                                    <span class="span-date">{{ item.state.label }}</span>
+                                                    <br/>
+                                                    <span class="span-title">Status :</span>
+                                                    <span class="span-date">{{ item.status is same as 0 ? 'Disponible' : 'Indisponible' }}</span>
+                                                </p>
+                                                <a href="{{ path('item_show', {'id': item.id}) }}"
+                                                   class="btn btn-primary"><i
+                                                            class="fas fa-eye"></i></a>
+                                                <a href="{{ path('item_update', {'id': item.id}) }}"
+                                                   class="btn btn-primary"><i class="fas fa-edit"></i></a>
+                                                <a href="{{ path('item_borrow', {'id': item.id}) }}"
+                                                   class="btn btn-secondary"><i class="fas fa-handshake"></i></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            {% else %}
+                                <p>Connectez-vous pour accéder à ce contenu</p>
                             {% endif %}
                         </div>
                     </div>

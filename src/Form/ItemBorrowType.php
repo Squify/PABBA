@@ -11,16 +11,22 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
-class ItemRentType extends AbstractType
+class ItemBorrowType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
             ->add('rentAt', TextType::class, [
-                'label' => 'Emprunter le'
+                'label' => 'Emprunter le',
+                "attr" => [
+                    "autocomplete" => "off"
+                ]
             ])
             ->add('returnAt', TextType::class, [
-                'label' => 'Retour le'
+                'label' => 'Retour le',
+                "attr" => [
+                    "autocomplete" => "off"
+                ]
             ])
         ;
 
