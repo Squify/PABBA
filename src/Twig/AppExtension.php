@@ -1,6 +1,7 @@
 <?php
 namespace App\Twig;
 
+use App\Entity\Render;
 use App\Entity\Rent;
 use Mobile_Detect;
 
@@ -15,6 +16,7 @@ class AppExtension extends AbstractExtension
             new TwigFunction('isMobile', [$this, 'isMobile']),
             new TwigFunction('isTablet', [$this, 'isTablet']),
             new TwigFunction('rentIsOld', [$this, 'rentIsOld']),
+            new TwigFunction('rentReturned', [$this, 'rentReturned']),
         ];
     }
 
@@ -34,5 +36,15 @@ class AppExtension extends AbstractExtension
     {
         $today = new \DateTime();
         return $rent->getReturnAt()->getTimestamp() < $today->getTimestamp();
+    }
+
+    public function rentReturned(Rent $rent)
+    {
+
+        /** @var Render */
+        $render = $rent->getRenders()->get(0);
+        
+        return $render && $render->getIsValid();
+
     }
 }

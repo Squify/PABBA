@@ -50,6 +50,28 @@
     }
   }
 
+  &.returnedRent {
+    background: #e8e8e8 !important;
+
+    .card-title {
+      color: #626262 !important;
+    }
+
+    .card-subtitle {
+      color: #626262 !important;
+    }
+
+    .card-text {
+      .span-title {
+        color: #626262 !important;
+      }
+
+      .span-date {
+        color: #626262 !important;
+      }
+    }
+  }
+
   .card-title {
     color: #105367 !important;
   }

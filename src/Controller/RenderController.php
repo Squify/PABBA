@@ -29,7 +29,6 @@ class RenderController extends AbstractController
         $this->renderRepository = $renderRepository;
         $this->rentRepository = $rentRepository;
         $this->manager = $manager;
-        
     }
 
     /**
@@ -43,15 +42,14 @@ class RenderController extends AbstractController
         $form = $this->createForm(RenderBorrowerType::class, $render = new Render());
 
         $form->handleRequest($request);
-        
+
         $render->setRent($this->rentRepository->find($rentId));
 
         if ($form->isSubmitted()) {
-            
+
             $render
                 ->setDoneAt(new DateTime())
-                ->setIsValid(0)
-            ;
+                ->setIsValid(0);
 
             // dd($render);
 
@@ -60,24 +58,49 @@ class RenderController extends AbstractController
 
             $this->addFlash("success", "Votre confirmation de rendu à bien été envoyée au propriétaire de l'outil pour confirmation");
 
-            // Prévenir le propriétaire qu'il doit confirmer le rendu
-            #####
-
-
-
-
-            #####
-
-            #### ---- A remplacer par la route vers la page "Mes emprunts"
             return $this->redirectToRoute("rent_index");
-
         }
 
         return $this->render("render/create.html.twig", [
             "form" => $form->createView(),
             "render" => $render
         ]);
+    }
+
+    /**
+     * @Route("/{id}/confirmation", name="render_edit")
+     */
+    public function edit(Render $render, Request $request)
+    {
+
+        return $this->render("render/edit.html.twig", [
+            "render" => $render
+        ]);
+    }
+
+    /**
+     * @Route("/{id}/validation", name="render_validate")
+     */
+    public function validate(Render $render)
+    {
+    
+        $render->setIsValid(true);
+        $render->getRent()->getItem()->setStatus(0);
+
+        $this->manager->flush();
+
+        $this->addFlash("success", "Le rendu de l'outil {$render->getRent()->getItem()->getName()} a bien été confirmé");
+        return $this->redirectToRoute("rent_index");
 
     }
 
+    public function toValidate()
+    {
+
+
+        $toValidate = $this->rentRepository->countRenderToValidate($this->getUser());
+        // dd("test");
+
+        return $toValidate;
+    }
 }
