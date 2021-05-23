@@ -31,10 +31,23 @@ class ItemController extends AbstractController
     /**
      * @Route("", name="item_index", methods={"GET"})
      */
-    public function index(ItemRepository $itemRepository): Response
+    public function index(ItemRepository $itemRepository, Request $request): Response
     {
+
+        if ($request->isXmlHttpRequest()) {
+            
+            $filters["state"] = $request->query->get("state");
+            $filters["toolType"] = $request->query->get("toolType");
+            $filters["name"] = $request->query->get("name");
+
+            $items = $itemRepository->findByFilters($filters);
+
+            // dump($items);
+            
+        }
+        
         return $this->render('item/index.html.twig', [
-            'items' => $itemRepository->findBy([
+            'items' => $request->isXmlHttpRequest() ? $items : $itemRepository->findBy([
                 "status" => 0
             ]),
         ]);

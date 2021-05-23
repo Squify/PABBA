@@ -29,10 +29,36 @@ class ItemRepository extends ServiceEntityRepository
             ->andWhere('i.owner = :val')
             ->setParameter('val', $user)
             ->getQuery()
-            ->getResult()
-            ;
+            ->getResult();
     }
 
+    /**
+     * @param [type] $filters
+     * @return Item[] Returns Item objects based on selected filters
+     */
+    public function findByFilters($filters)
+    {
+
+        $query = $this->createQueryBuilder('i')
+            ->where('i.status = 0');
+
+        if ($filters["state"]) {
+            $query->andWhere('i.state = :stateId')
+                ->setParameter("stateId", $filters["state"]);
+        }
+
+        if ($filters["toolType"]) {
+            $query->andWhere('i.category = :toolTypeId')
+                ->setParameter("toolTypeId", $filters["toolType"]);
+        }
+
+        if ($filters["name"]) {
+            $query->andWhere('i.name LIKE :name')
+                ->setParameter("name", '%'.$filters["name"].'%');
+        }
+
+        return $query->getQuery()->getResult();
+    }
 
     /*
     public function findOneBySomeField($value): ?Item

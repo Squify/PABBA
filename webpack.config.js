@@ -13,6 +13,7 @@ Encore
     .addEntry('app', './assets/js/app.js')
     .addEntry('map', './assets/js/map.js')
     .addEntry('searchTutorial', './assets/js/tutorial_search.js')
+    .addEntry('searchItem', './assets/js/item_search.js')
     .addEntry('tutorial', './assets/js/tutorial.js')
     .addEntry('commentTutorial', './assets/js/comments.js')
     .addEntry('moderation_chat', './assets/js/moderation_chat.js')

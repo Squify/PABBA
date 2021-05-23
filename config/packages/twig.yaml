@@ -8,3 +8,5 @@ twig:
     exception_controller: null
     globals:
         renderController: '@App\Controller\RenderController'
+        stateRepository: '@App\Repository\StateRepository'
+        toolTypeRepository: '@App\Repository\ToolTypeRepository'
