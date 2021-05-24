@@ -18,7 +18,7 @@ $(function () {
         )
 
     })
-    document.querySelector("#toolType")
+    
     $("#itemFilters #name").on("change", () => {
 
         selectAndReplace(

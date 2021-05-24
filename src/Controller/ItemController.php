@@ -34,6 +34,8 @@ class ItemController extends AbstractController
     public function index(ItemRepository $itemRepository, Request $request): Response
     {
 
+        
+
         if ($request->isXmlHttpRequest()) {
             
             $filters["state"] = $request->query->get("state");
