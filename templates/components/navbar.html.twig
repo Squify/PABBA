@@ -17,7 +17,7 @@
                 <a class="nav-link" href="#"><i class="bi bi-credit-card"></i> Récompenses</a>
             </li>
             <li {% if route_name starts with 'outil' %} class="nav-item active" {% else %} class='nav-item' {% endif %}>
-                <a class="nav-link" href="{{ path('rent_index') }}"><i class="bi bi-screwdriver"></i> Boîte à outils</a>
+                <a class="nav-link" href="{{ path('item_index') }}"><i class="bi bi-screwdriver"></i> Boîte à outils</a>
             </li>
             <li {% if route_name starts with 'tutorial' %} class="nav-item active" {% else %} class='nav-item' {% endif %}>
                 <a class="nav-link" href="{{ path('tutorial_index') }}"><i class="bi bi-journal-text"></i> Tutoriels</a>
@@ -36,10 +36,14 @@
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="{{ path('user_tutorial') }}">Mes tutoriels</a>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="{{ path('rent_index') }}">Mes prêts/emprunts</a>
+                        <a class="dropdown-item" href="{{ path('rent_index') }}">Mes Outils 
+                            {% if renderController.toValidate() > 0 %}
+                                <span title="Vous avez {{ renderController.toValidate() }} rendu à valider" class="badge badge-pill badge-danger"> {{ renderController.toValidate() }} </span>
+                            {% endif %}
+                        </a>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="{{ path('app_logout') }}">Déconnexion</a>
-                    {% else%}
+                    {% else %}
                         <a class="dropdown-item" href="{{ path('app_login') }}">Connexion</a>
                     {% endif %}
                 </div>

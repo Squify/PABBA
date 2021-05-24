@@ -32,6 +32,6 @@ services:
     App\Services\MailerService:
         arguments:
             - "@twig"
-            - '%env(MAILJET_SECRET)%'
-            - '%env(MAILJET_PUBLIC)%'
+            - '%env(MAILJET_APIKEY_PRIVATE)%'
+            - '%env(MAILJET_APIKEY_PUBLIC)%'
             - '%env(NO_REPLY)%'

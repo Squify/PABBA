@@ -33,10 +33,25 @@ class ItemController extends AbstractController
     /**
      * @Route("", name="item_index", methods={"GET"})
      */
-    public function itemIndex(ItemRepository $itemRepository): Response
+    public function index(ItemRepository $itemRepository, Request $request): Response
     {
+
+        if ($request->isXmlHttpRequest()) {
+            
+            $filters["state"] = $request->query->get("state");
+            $filters["toolType"] = $request->query->get("toolType");
+            $filters["name"] = $request->query->get("name");
+
+            $items = $itemRepository->findByFilters($filters);
+
+            // dump($items);
+            
+        }
+        
         return $this->render('item/index.html.twig', [
-            'items' => $itemRepository->findAll(),
+            'items' => $request->isXmlHttpRequest() ? $items : $itemRepository->findBy([
+                "status" => 0
+            ]),
         ]);
     }
 
@@ -116,6 +131,13 @@ class ItemController extends AbstractController
     public function borrow(Item $item, Request $request)
     {
         $rent = new Rent();
+
+        if ($item->getOwner()->getId() == $this->getUser()->getId()) {
+            $this->addFlash("error", "Vous ne pouvez emprunter un de vos propres outils");
+            return $this->redirectToRoute("item_index");
+        }
+
+
         $form = $this->createForm(ItemBorrowType::class, $rent);
         $form->handleRequest($request);
 
@@ -124,6 +146,8 @@ class ItemController extends AbstractController
                 ->setItem($item)
                 ->setOwner($item->getOwner())
                 ->setRenter($this->getUser());
+
+            $rent->getItem()->setStatus(1);
 
             $this->manager->persist($rent);
             $this->manager->flush();

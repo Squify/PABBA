@@ -3,8 +3,10 @@
 namespace App\Repository;
 
 use App\Entity\Rent;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use App\Entity\User;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\EntityManagerInterface;
 
 /**
  * @method Rent|null find($id, $lockMode = null, $lockVersion = null)
@@ -14,9 +16,13 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class RentRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+
+    private $manager;
+
+    public function __construct(ManagerRegistry $registry, EntityManagerInterface $manager)
     {
         parent::__construct($registry, Rent::class);
+        $this->manager = $manager;
     }
 
     /**
@@ -47,6 +53,42 @@ class RentRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult()
         ;
+    }
+    
+    public function countRenderToValidate(User $user)
+    {
+
+        // $result = $this
+        //     ->createQueryBuilder("rent")
+        //     // ->leftJoin('App\Entity\Render', 'render', 'WITH', 'rent.id = render.rent')
+        //     // ->addSelect('r')
+        //     ->leftJoin("rent.Renders")
+        //     ->where("render.isValid = 0")
+        //     ->andWhere("rent.owner = :userId")
+        //     ->setParameter("userId", $user->getId())
+        //     ->getQuery()
+            // ->getResult()
+        // ;
+
+        //         SELECT rent.owner_id from rent
+        // LEFT JOIN render on rent.id=render.rent_id
+        // WHERE render.is_valid = 0 AND
+        // rent.owner_id = 20
+
+        $result = $this->manager->createQuery("SELECT COUNT(rent.owner) FROM App\Entity\Rent rent
+        LEFT JOIN App\Entity\Render render WITH render MEMBER OF rent.renders
+        WHERE render.isValid = 0
+        AND rent.owner = :userId
+        ")
+        ->setParameter("userId", $user->getId())
+        ->getSingleResult()
+        ;
+        // ->getResult();
+
+        // dd($result[1]);
+
+        return $result[1];
+
     }
 
     /*
