@@ -46,7 +46,7 @@ class Rent
     private $rentAt;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime", nullable=true)
      */
     private $returnAt;
 
@@ -62,7 +62,7 @@ class Rent
 
     public function __toString()
     {
-        return 'Le nom de la vente TODO';
+        return 'Location de ' . $this->getItem() . ' par ' . $this->getRenter();
     }
 
     public function getId(): ?int

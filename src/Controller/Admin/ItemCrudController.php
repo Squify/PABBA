@@ -19,6 +19,12 @@ class ItemCrudController extends AbstractCrudController
         return Item::class;
     }
 
+
+    public function configureCrud(Crud $crud): Crud
+    {
+        return $crud->setEntityLabelInPlural('Outils')->setEntityLabelInSingular('Outil');
+    }
+
     public function configureFields(string $pageName): iterable
     {
         return [
