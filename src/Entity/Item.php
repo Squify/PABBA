@@ -56,6 +56,7 @@ class Item
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @var string|null
      */
     private $picture;
 
@@ -69,6 +70,11 @@ class Item
      * @ORM\OneToMany(targetEntity=Rent::class, mappedBy="item")
      */
     private $rents;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $updatedAt;
 
     public function __construct()
     {
@@ -205,5 +211,17 @@ class Item
     public function getImageFile(): ?File
     {
         return $this->imageFile;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeInterface
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
+    {
+        $this->updatedAt = $updatedAt;
+
+        return $this;
     }
 }

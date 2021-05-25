@@ -101,9 +101,11 @@ class ItemController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+//            $item->setPicture($item->getImageFile());
+//            dd($item->getImageFile());
             $this->manager->flush();
 
-            return $this->redirectToRoute('item_index');
+            return $this->redirectToRoute('rent_index');
         }
 
         return $this->render('item/edit.html.twig', [
@@ -113,7 +115,7 @@ class ItemController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="item_delete", methods={"POST"})
+     * @Route("/delete/{id}", name="item_delete")
      */
     public function delete(Request $request, Item $item): Response
     {
@@ -123,7 +125,7 @@ class ItemController extends AbstractController
             $this->manager->flush();
         }
 
-        return $this->redirectToRoute('item_index');
+        return $this->redirectToRoute('rent_index');
     }
 
     /**
