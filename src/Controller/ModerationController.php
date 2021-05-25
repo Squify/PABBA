@@ -51,6 +51,18 @@ class ModerationController extends AbstractController
     }
 
     /**
+     * @Route("", name="moderation_index")
+     */
+    public function index()
+    {
+        return $this->render('moderation/index.html.twig', [
+            'moderations' => $this->moderationRepository->findBy([
+                'moderator' => $this->getUser()
+            ])
+        ]);
+    }
+
+    /**
      * @Route("/creer/{rent}", name="moderation_create")
      * @param Rent $rent
      * @return Response
@@ -74,6 +86,9 @@ class ModerationController extends AbstractController
             $moderation->setModerator($moderator)
                 ->setRent($rent);
             $this->em->persist($moderation);
+            #correction add moderation_id
+            $rent->setModeration($moderation);
+
             $this->em->flush();
 
             $this->addFlash("success", "Votre espace de modération a bien été créé");

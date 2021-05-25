@@ -10,7 +10,13 @@
 					<a class="nav-link active" id="rented-tab" data-toggle="pill" href="#rented" role="tab" aria-controls="rented" aria-selected="false">Outils empruntés</a>
 				</li>
 				<li class="nav-item" role="presentation">
-					<a class="nav-link" id="loaned-tab" data-toggle="pill" href="#loaned" role="tab" aria-controls="loaned" aria-selected="false">Outils prêtés</a>
+					<a class="nav-link" id="loaned-tab" data-toggle="pill" href="#loaned" role="tab" aria-controls="loaned" aria-selected="false">Outils prêtés
+						{% if renderController.toValidate()>0 %}
+						<span title="Vous avez {{ renderController.toValidate() }} rendu(s) à valider" class="badge badge-pill badge-danger">
+							{{  renderController.toValidate() }}
+						</span>
+						{% endif %}
+					</a>
 				</li>
 				<li class="nav-item" role="presentation">
 					<a class="nav-link" id="loaned-tab" data-toggle="pill" href="#tools" role="tab" aria-controls="tools" aria-selected="true">Mes outils</a>
@@ -50,6 +56,13 @@
 
 												{% elseif rent.renders | length > 0 and rent.renders.0.isValid == 0 %}
 													<span class="btn btn-secondary"><i class="fas fa-clock"></i><i> En attente de confirmation</i></span>
+													{% if rent.moderation %}
+														<a href="{{ path("moderation_show", {'moderation' : rent.moderation.id}) }}"
+														   class="btn btn-warning"
+														   title="accéder à la modération">
+															<i class="fas fa-comments"></i>
+														</a>
+													{% endif %}
 												{% endif %}
 											{% else %}
 												<i>Rendu</i>
@@ -95,6 +108,13 @@
 														<a href="{{ path('render_edit', { 'id': rent.renders.0.id }) }}" class="btn btn-info" title="Compléter le rendu de {{ rent.item.name }} prêté à {{ rent.renter }}">
 															<i class="fas fa-eye"></i>
 														</a>
+														{% if rent.moderation %}
+															<a href="{{ path("moderation_show", {'moderation' : rent.moderation.id}) }}"
+															   class="btn btn-warning"
+															   title="accéder à la modération">
+																<i class="fas fa-comments"></i>
+															</a>
+														{% endif %}
 													{% endif %}
 												{% else %}
 													<i>Récupéré</i>
@@ -136,6 +156,9 @@
 													</a>
 													<a href="{{ path('item_update', {'id': item.id}) }}" class="btn btn-primary">
 														<i class="fas fa-edit"></i>
+													</a>
+													<a href="{{ path('item_delete', {'id': item.id}) }}" class="btn btn-danger">
+														<i class="fas fa-trash"></i>
 													</a>
 												</div>
 											</div>

@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}PABBA - Modération{% endblock %}
+
+{% block body %}
+
+    <div class="container">
+        <table class="table">
+            <thead>
+                <th>#</th>
+                <th>Prêteur</th>
+                <th>Emprunteur</th>
+                <th>Outil</th>
+                <th>Date de rendu</th>
+                <th>Action</th>
+            </thead>
+            <tbody>
+            {% for moderation in moderations %}
+                <tr class="{{ moderation.rent.renders.0.isValid == true ? "closed-moderation" : "" }}">
+                    <td>{{ moderation.id }}</td>
+                    <td>{{ moderation.rent.owner.firstname }}</td>
+                    <td>{{ moderation.rent.renter.firstname }}</td>
+                    <td>{{ moderation.rent.item.name }}</td>
+                    <td>{{ moderation.rent.renders.0.doneAt | date('d/m/Y')}}</td>
+                    <td>
+                        <a href="{{ path("moderation_show", {"moderation" : moderation.id}) }}" class="btn btn-warning">
+                            <i class="fas fa-comments"></i>
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+{% endblock %}
