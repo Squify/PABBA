@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Moderation;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -89,11 +90,35 @@ class User implements UserInterface
      */
     private $commentTutorials;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Rent::class, mappedBy="renter")
+     */
+    private $rents;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Rent::class, mappedBy="owner")
+     */
+    private $myRents;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Moderation::class, mappedBy="moderator", orphanRemoval=true)
+     */
+    private $moderations;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Item::class, mappedBy="owner", orphanRemoval=true)
+     */
+    private $items;
+
     public function __construct()
     {
         $this->places = new ArrayCollection();
         $this->tutorials = new ArrayCollection();
         $this->commentTutorials = new ArrayCollection();
+        $this->rents = new ArrayCollection();
+        $this->myRents = new ArrayCollection();
+        $this->moderations = new ArrayCollection();
+        $this->items = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -377,4 +402,126 @@ class User implements UserInterface
 
         return $this;
     }
+
+    /**
+     * @return Collection|Rent[]
+     */
+    public function getMyRents(): Collection
+    {
+        return $this->myRents;
+    }
+
+    public function addMyRent(Rent $rent): self
+    {
+        if (!$this->myRents->contains($rent)) {
+            $this->myRents[] = $rent;
+            $rent->setOwner($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMyRent(Rent $rent): self
+    {
+        if ($this->myRents->removeElement($rent)) {
+            // set the owning side to null (unless already changed)
+            if ($rent->getOwner() === $this) {
+                $rent->setOwner(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Rent[]
+     */
+    public function getRents(): Collection
+    {
+        return $this->rents;
+    }
+
+    public function addRent(Rent $rent): self
+    {
+        if (!$this->rents->contains($rent)) {
+            $this->rents[] = $rent;
+            $rent->setRenter($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRent(Rent $rent): self
+    {
+        if ($this->rents->removeElement($rent)) {
+            // set the owning side to null (unless already changed)
+            if ($rent->getRenter() === $this) {
+                $rent->setRenter(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Moderation[]
+     */
+    public function getModerations(): Collection
+    {
+        return $this->moderations;
+    }
+
+    public function addModeration(Moderation $moderation): self
+    {
+        if (!$this->moderations->contains($moderation)) {
+            $this->moderations[] = $moderation;
+            $moderation->setModerator($this);
+        }
+
+        return $this;
+    }
+
+    public function removeModeration(Moderation $moderation): self
+    {
+        if ($this->moderations->removeElement($moderation)) {
+            // set the owning side to null (unless already changed)
+            if ($moderation->getModerator() === $this) {
+                $moderation->setModerator(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Item[]
+     */
+    public function getItems(): Collection
+    {
+        return $this->items;
+    }
+
+    public function addItem(Item $item): self
+    {
+        if (!$this->items->contains($item)) {
+            $this->items[] = $item;
+            $item->setOwner($this);
+        }
+
+        return $this;
+    }
+
+    public function removeItem(Item $item): self
+    {
+        if ($this->items->removeElement($item)) {
+            // set the owning side to null (unless already changed)
+            if ($item->getOwner() === $this) {
+                $item->setOwner(null);
+            }
+        }
+
+        return $this;
+    }
+
+
 }

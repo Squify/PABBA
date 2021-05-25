@@ -29,9 +29,19 @@ class ToolType
      */
     private $tutorials;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Item::class, mappedBy="category", orphanRemoval=true)
+     */
+    private $items;
+
     public function __construct()
     {
         $this->tutorials = new ArrayCollection();
+        $this->items = new ArrayCollection();
+    }
+
+    public function __toString(){
+        return $this->getLabel();
     }
 
     public function getId(): ?int
@@ -75,6 +85,36 @@ class ToolType
             // set the owning side to null (unless already changed)
             if ($tutorial->getSupplies() === $this) {
                 $tutorial->setSupplies(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Item[]
+     */
+    public function getItems(): Collection
+    {
+        return $this->items;
+    }
+
+    public function addItem(Item $item): self
+    {
+        if (!$this->items->contains($item)) {
+            $this->items[] = $item;
+            $item->setCategory($this);
+        }
+
+        return $this;
+    }
+
+    public function removeItem(Item $item): self
+    {
+        if ($this->items->removeElement($item)) {
+            // set the owning side to null (unless already changed)
+            if ($item->getCategory() === $this) {
+                $item->setCategory(null);
             }
         }
 

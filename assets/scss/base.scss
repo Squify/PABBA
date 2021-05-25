@@ -6,6 +6,10 @@
 @import "input.scss";
 @import "button.scss";
 @import "modal.scss";
+@import "card.scss";
+@import "moderation.scss";
+
+@import "/node_modules/jquery-datetimepicker/jquery.datetimepicker.css";
 
 body {
   background-color: #F6F6F6;
@@ -15,15 +19,15 @@ body {
   width: 100%;
 }
 
-// .container {
-//   margin-top: 20px;
-//   margin-bottom: 20px;
-//   //display: flex;
-//   //flex-direction: row;
-//   //justify-content: center;
-//   max-width: unset!important;
-//   width: 90%;
-// }
+ .container {
+   margin-top: 20px!important;
+   margin-bottom: 20px!important;
+   ////display: flex;
+   ////flex-direction: row;
+   ////justify-content: center;
+   //max-width: unset!important;
+   //width: 90%;
+ }
 
 .container-mobile {
   margin-top: 20px;
@@ -63,4 +67,10 @@ body {
   color: white!important;
   font-size: 1.2rem;
   text-align: center;
+}
+
+.item-picture {
+  max-width: max-content!important;
+  max-height: 170px!important;
+  object-fit: contain!important;
 }

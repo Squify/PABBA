@@ -47,16 +47,6 @@ class PlaceCrudController extends AbstractCrudController
 
     public function configureActions(Actions $actions): Actions
     {
-        $valider = Action::new('validate', 'Valider')
-            ->linkToCrudAction('validatePlace')
-            ->setCssClass("btn btn-success");
-
-        $refuser = Action::new('refuse', 'Refuser')
-            ->linkToCrudAction('refusePlace')
-            ->setCssClass("btn btn-danger");
-
-
-
         return $actions
             ->remove(Crud::PAGE_INDEX, Action::EDIT)
             ->disable(Action::NEW)
@@ -93,46 +83,5 @@ class PlaceCrudController extends AbstractCrudController
             ->add('type');
     }
 
-    public function validatePlace(AdminContext $context)
-    {
-        /**
-         * @var Place
-         */
-        $place = $context->getEntity()->getInstance();
 
-        $place->setIsValid(true);
-
-        $this->getDoctrine()->getManager()->flush();
-
-        $link = "http://localhost:33/admin";
-        foreach ($context->getMainMenu()->getItems() as $menuItem) {
-            if ($menuItem->getLabel() == "Lieux") {
-                $link = $menuItem->getLinkUrl();
-                break;
-            }
-        }
-
-        return $this->redirect($link);
-    }
-
-    public function refusePlace(AdminContext $context)
-    {
-        /**
-         * @var Place
-         */
-        $place = $context->getEntity()->getInstance();
-
-        $this->getDoctrine()->getManager()->remove($place);
-        $this->getDoctrine()->getManager()->flush();
-
-        $link = "http://localhost:33/admin";
-        foreach ($context->getMainMenu()->getItems() as $menuItem) {
-            if ($menuItem->getLabel() == "Lieux") {
-                $link = $menuItem->getLinkUrl();
-                break;
-            }
-        }
-
-        return $this->redirect($link);
-    }
 }

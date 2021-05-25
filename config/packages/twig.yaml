@@ -6,3 +6,7 @@ twig:
     debug: '%kernel.debug%'
     strict_variables: '%kernel.debug%'
     exception_controller: null
+    globals:
+        renderController: '@App\Controller\RenderController'
+        stateRepository: '@App\Repository\StateRepository'
+        toolTypeRepository: '@App\Repository\ToolTypeRepository'

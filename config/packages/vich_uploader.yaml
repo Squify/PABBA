@@ -12,3 +12,13 @@ vich_uploader:
       upload_destination: '%kernel.project_dir%/public/videos/tutorials'
       namer:
         service: Vich\UploaderBundle\Naming\UniqidNamer
+    item_image:
+      uri_prefix: /images/items
+      upload_destination: '%kernel.project_dir%/public/images/items'
+      namer:
+        service: Vich\UploaderBundle\Naming\UniqidNamer
+    render_image:
+      uri_prefix: /images/render
+      upload_destination: '%kernel.project_dir%/public/images/render'
+      namer:
+        service: Vich\UploaderBundle\Naming\UniqidNamer

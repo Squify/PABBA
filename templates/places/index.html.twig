@@ -10,51 +10,53 @@
 {% endblock %}
 
 {% block body %}
-    <button type="button" data-toggle="modal" data-target="#filterModal" class="btn filter-btn"><i
-                class="bi bi-filter"></i>Filtres
-    </button>
-    <button type="button" class="btn add-btn"><a href="{{ path('place_create') }}"><i
-                    class="bi bi-plus-circle-fill"></i></a></button>
-    {% for place in places %}
-        {% if place.isValid %}
-            <div class="js-marker" data-lat="{{ place.latitude }}" data-lng="{{ place.longitude }}"
-                 data-type="{{ place.type.label }}" data-addr=" {{ place.address }}" ,
-                 data-comments="{{ place.comments }}"></div>
-        {% endif %}
-        {# <p>{{ place.address }}</p> #}
-    {% endfor %}
+    <div class="container">
+        <button type="button" data-toggle="modal" data-target="#filterModal" class="btn filter-btn"><i
+                    class="bi bi-filter"></i>Filtres
+        </button>
+        <button type="button" class="btn add-btn"><a href="{{ path('place_create') }}"><i
+                        class="bi bi-plus-circle-fill"></i></a></button>
+        {% for place in places %}
+            {% if place.isValid %}
+                <div class="js-marker" data-lat="{{ place.latitude }}" data-lng="{{ place.longitude }}"
+                     data-type="{{ place.type.label }}" data-addr=" {{ place.address }}" ,
+                     data-comments="{{ place.comments }}"></div>
+            {% endif %}
+            {# <p>{{ place.address }}</p> #}
+        {% endfor %}
 
-    <div id="map" style="height:800px;width:60%;margin:auto;"></div>
+        <div id="map" style="height:800px;width:60%;margin:auto;"></div>
 
-    <!-- Modal -->
-    <div class="modal fade" id="filterModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
-         aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle">Filtres</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+        <!-- Modal -->
+        <div class="modal fade" id="filterModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+             aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">Filtres</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form action="" method="post">
+                        <div class="modal-body">
+                            <h1>Type de lieu</h1>
+                            {% for type in types %}
+                                <div class="form-check">
+                                    <input class="styled-checkbox" name="{{ type.id }}" type="checkbox"
+                                           value="{{ type.label }}" id="{{ type.id }}"
+                                           {% if type.id in filters %}checked{% endif %}>
+                                    <label class="checkbox-label" for="{{ type.id }}">
+                                        {{ type.label }}
+                                    </label>
+                                </div>
+                            {% endfor %}
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn apply-filter-btn">Appliquer</button>
+                        </div>
+                    </form>
                 </div>
-                <form action="" method="post">
-                    <div class="modal-body">
-                        <h1>Type de lieu</h1>
-                        {% for type in types %}
-                            <div class="form-check">
-                                <input class="styled-checkbox" name="{{ type.id }}" type="checkbox"
-                                       value="{{ type.label }}" id="{{ type.id }}"
-                                       {% if type.id in filters %}checked{% endif %}>
-                                <label class="checkbox-label" for="{{ type.id }}">
-                                    {{ type.label }}
-                                </label>
-                            </div>
-                        {% endfor %}
-                    </div>
-                    <div class="modal-footer">
-                        <button type="submit" class="btn apply-filter-btn">Appliquer</button>
-                    </div>
-                </form>
             </div>
         </div>
     </div>

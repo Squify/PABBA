@@ -1,0 +1,20 @@
+<div class="container my-5">
+    {{ form_start(form) }}
+    <div class="row">
+        <div class="col-12 mx-auto mt-5">
+            <div class="card shadow">
+                <div class="card-body">
+                    {{ form_row(form.name) }}
+                    {{ form_row(form.status) }}
+                    {{ form_row(form.state) }}
+                    {{ form_row(form.category) }}
+                </div>
+                <div class="card-body">
+                    {{ form_row(form.imageFile) }}
+                    <button type="submit" class="btn add-btn"><i class="bi bi-arrow-right-circle-fill"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{ form_end(form) }}
+</div>

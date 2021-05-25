@@ -1,0 +1,53 @@
+{% extends "base.html.twig" %}
+
+{% block title %}PABBA - Confirmation rendu
+{% endblock %}
+
+{% block body %}
+
+	<div class="container">
+		<h3>Rendu de
+			{{ render.rent.item.name }}
+			par
+			{{ render.rent.renter.firstname ~ " " ~ render.rent.renter.lastname }}
+		</h3>
+
+		<p>Voici le formulaire complété par
+			{{ render.rent.renter.firstname ~ " " ~ render.rent.renter.lastname }}
+			dans l'optique de vous rendre votre outil</p>
+
+		<label for="doneAt">Rendu le</label>
+		<input type="text" class="form-control" id="doneAt" value="{{ render.doneAt | date('d/m/Y') }}" disabled>
+
+		<label for="picture">Photo de l'outil</label>
+		<div>
+			{# <img src="{{ render.picture }}" style="clear:both;" alt=""> #}
+			<img src="{{ render.picture ? vich_uploader_asset(render, 'imageFile') : asset('images/default_items.jpg') }}" alt="Image de l'outil {{ render.rent.item.name }}">
+		</div>
+
+		{% if render.comment %}
+			<label for="comment">Commentaire de l'emprunteur</label>
+			<textarea class="form-control" name="comment" id="comment" disabled>{{ render.comment }}</textarea>
+		{% endif %}
+
+		<hr>
+
+		<p>Vous pouvez cliquer sur
+			<i>'Confirmer'</i>
+			ce qui confirmera le rendu si vous êtes d'accord avec les informations du formulaire ci-dessus, ou le cas contraire cliquer sur
+			<i>'Soumettre à médiation'</i>
+			pour entrer en discussion avec l'emprunteur accompagné d'un médiateur</p>
+
+		<a href="{{ path('render_validate', { 'id': render.id } ) }}" class="btn btn-success">
+			<i class="fas fa-check"></i>
+			Confirmer
+		</a>
+
+		<a href="{{ path('moderation_create', { 'rent': render.rent.id } ) }}" class="btn btn-warning">
+			<i class="fas fa-comments"></i>
+			Soumettre à médiation
+		</a>
+	</div>
+
+
+{% endblock %}

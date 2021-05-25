@@ -1,34 +1,35 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Nouveau lieu{% endblock %}
+{% block title %}PABBA - Nouveau lieu{% endblock %}
 {% block body %}
-    <div class="card">
-        <div class="card-body">
-            {{ form_start(form) }}
-            {{ form_errors(form) }}
+    <div class="container">
+        <div class="card">
+            <div class="card-body">
+                {{ form_start(form) }}
+                {{ form_errors(form) }}
 
-            <div class="row">
-                <div class="col-6">
-                    {{ form_row(form.address, {'id': 'address', 'type': 'search', 'placeholder': 'Commencer à écrire ...'}) }}
+                <div class="row">
+                    <div class="col-6">
+                        {{ form_row(form.address, {'id': 'address', 'type': 'search', 'placeholder': 'Commencer à écrire ...'}) }}
+                    </div>
+                    <div class="col-6">
+                        {{ form_row(form.type) }}
+                    </div>
+                    <div class="col-6">
+                        {{ form_row(form.latitude, {'id': 'lat'}) }}
+                    </div>
+                    <div class="col-6">
+                        {{ form_row(form.longitude, {'id': 'long'}) }}
+                    </div>
                 </div>
-                <div class="col-6">
-                    {{ form_row(form.type) }}
-                </div>
-                <div class="col-6">
-                    {{ form_row(form.latitude, {'id': 'lat'}) }}
-                </div>
-                <div class="col-6">
-                    {{ form_row(form.longitude, {'id': 'long'}) }}
-                </div>
+
+                <button type="submit" class="btn btn-success">
+                    ajouter
+                </button>
+
+                {{ form_end(form) }}
             </div>
-
-            <button type="submit" class="btn btn-success">
-                ajouter
-            </button>
-
-            {{ form_end(form) }}
         </div>
-
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/places.js@1.19.0"></script>

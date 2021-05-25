@@ -28,4 +28,5 @@ yarn-error.log
 .env
 /public/images
 !/public/images/default_tuto.jpg
+!/public/images/default_items.jpg
 /public/videos

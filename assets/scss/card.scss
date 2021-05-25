@@ -1,0 +1,92 @@
+#pills-tab {
+  .nav-item {
+    border: solid 1px #CACACA !important;
+    border-radius: 0 0 8px 8px !important;
+
+    a {
+      color: #105367 !important;
+    }
+  }
+
+  .nav-pills .nav-link {
+    border-radius: 0 0 8px 8px !important;
+
+    a {
+      color: #105367 !important;
+    }
+  }
+
+  .active {
+    background-color: #F7F7F7 !important;
+
+    a {
+      color: #105367 !important;
+    }
+  }
+}
+
+.rent-card {
+  background: #FBFBFB !important;
+
+  &.oldRent {
+    background: #e8e8e8 !important;
+
+    .card-title {
+      color: #626262 !important;
+    }
+
+    .card-subtitle {
+      color: #626262 !important;
+    }
+
+    .card-text {
+      .span-title {
+        color: #626262 !important;
+      }
+
+      .span-date {
+        color: #626262 !important;
+      }
+    }
+  }
+
+  &.returnedRent {
+    background: #e8e8e8 !important;
+
+    .card-title {
+      color: #626262 !important;
+    }
+
+    .card-subtitle {
+      color: #626262 !important;
+    }
+
+    .card-text {
+      .span-title {
+        color: #626262 !important;
+      }
+
+      .span-date {
+        color: #626262 !important;
+      }
+    }
+  }
+
+  .card-title {
+    color: #105367 !important;
+  }
+
+  .card-subtitle {
+    color: #777777 !important;
+  }
+
+  .card-text {
+    .span-title {
+      color: #1D7590 !important;
+    }
+
+    .span-date {
+      color: #50A7C2 !important;
+    }
+  }
+}
