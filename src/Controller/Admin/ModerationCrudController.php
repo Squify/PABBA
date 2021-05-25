@@ -20,7 +20,7 @@ class ModerationCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         return [
-            AssociationField::new('moderator', 'Moddérateur'),
+            AssociationField::new('moderator', 'Modérateur'),
             AssociationField::new('rent', 'Location'),
         ];
     }
