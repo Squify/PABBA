@@ -41,7 +41,7 @@ class Rent
     private $item;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime", nullable=true)
      */
     private $rentAt;
 
