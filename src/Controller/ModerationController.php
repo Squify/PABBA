@@ -74,6 +74,9 @@ class ModerationController extends AbstractController
             $moderation->setModerator($moderator)
                 ->setRent($rent);
             $this->em->persist($moderation);
+            #correction add moderation_id
+            $rent->setModeration($moderation);
+
             $this->em->flush();
 
             $this->addFlash("success", "Votre espace de modération a bien été créé");
