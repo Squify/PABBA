@@ -31,8 +31,8 @@ class Moderation
     private $moderationMessages;
 
     /**
-     * @ORM\OneToOne(targetEntity=Rent::class, inversedBy="moderation", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\OneToOne(targetEntity=Rent::class, inversedBy="moderation")
+     * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
      */
     private $rent;
 
