@@ -29,6 +29,10 @@ class State
      */
     private $items;
 
+    public function __toString(){
+        return $this->getLabel();
+    }
+
     public function __construct()
     {
         $this->items = new ArrayCollection();

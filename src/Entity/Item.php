@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\ItemRepository;
 use Doctrine\Common\Collections\Collection;
@@ -29,7 +30,7 @@ class Item
     private $name;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="boolean", nullable=true)
      */
     private $status;
 
@@ -98,12 +99,12 @@ class Item
         return $this;
     }
 
-    public function getStatus(): ?int
+    public function getStatus(): ?bool
     {
         return $this->status;
     }
 
-    public function setStatus(int $status): self
+    public function setStatus(bool $status): self
     {
         $this->status = $status;
 
@@ -159,11 +160,12 @@ class Item
     }
 
     /**
+     * @param bool $inProgress
      * @return Collection|Rent[]
      */
-    public function getRents(): Collection
+    public function getRents(bool $inProgress = false): Collection
     {
-        return $this->rents;
+        return $inProgress ? $this->rents->matching((new Criteria())->andWhere(Criteria::expr()->eq('returnAt', null))) : $this->rents;
     }
 
     public function addRent(Rent $rent): self
