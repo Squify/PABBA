@@ -11,7 +11,7 @@
                 <a class="nav-link" href="{{ path('place_index') }}"><i class="bi bi-map"></i> Liste des jardins</a>
             </li>
             <li {% if route_name starts with 'event' %} class="nav-item active" {% else %} class='nav-item' {% endif %}>
-                <a class="nav-link" href="#"><i class="bi bi-calendar-event"></i> Evenement</a>
+                <a class="nav-link" href="{{ path('event_index') }}"><i class="bi bi-calendar-event"></i> Evenement</a>
             </li>
             <li {% if route_name starts with 'reward' %} class="nav-item active" {% else %} class='nav-item' {% endif %}>
                 <a class="nav-link" href="#"><i class="bi bi-credit-card"></i> Récompenses</a>

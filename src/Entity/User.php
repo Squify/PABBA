@@ -110,6 +110,11 @@ class User implements UserInterface
      */
     private $items;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Event::class, mappedBy="organisers")
+     */
+    private $events;
+
     public function __construct()
     {
         $this->places = new ArrayCollection();
@@ -119,6 +124,7 @@ class User implements UserInterface
         $this->myRents = new ArrayCollection();
         $this->moderations = new ArrayCollection();
         $this->items = new ArrayCollection();
+        $this->events = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -518,6 +524,33 @@ class User implements UserInterface
             if ($item->getOwner() === $this) {
                 $item->setOwner(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Event[]
+     */
+    public function getEvents(): Collection
+    {
+        return $this->events;
+    }
+
+    public function addEvent(Event $event): self
+    {
+        if (!$this->events->contains($event)) {
+            $this->events[] = $event;
+            $event->addOrganiser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEvent(Event $event): self
+    {
+        if ($this->events->removeElement($event)) {
+            $event->removeOrganiser($this);
         }
 
         return $this;

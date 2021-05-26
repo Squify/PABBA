@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}PABBA - Nouvel évènement{% endblock %}
+
+{% block body %}
+    {{ form_start(form) }}
+
+    {{ form_row(form.title) }}
+    {{ form_row(form.description) }}
+    {{ form_row(form.place) }}
+    {{ form_row(form.eventAt) }}
+    {{ form_row(form.eventType) }}
+    {{ form_row(form.organisers) }}
+
+    <button type="submit" class="btn btn-primary">Ajouter</button>
+
+    {{ form_end(form) }}
+{% endblock %}
