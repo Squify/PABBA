@@ -18,6 +18,7 @@ Encore
     .addEntry('commentTutorial', './assets/js/comments.js')
     .addEntry('moderation_chat', './assets/js/moderation_chat.js')
     .addEntry('item_borrow', './assets/js/item_borrow.js')
+    .addEntry('event_create', './assets/js/event_create.js')
     // .addStyleEntry('mapStyle', './assets/scss/map.scss')
     .addStyleEntry('login', './assets/scss/login.scss')
     .addStyleEntry('base', './assets/scss/base.scss')

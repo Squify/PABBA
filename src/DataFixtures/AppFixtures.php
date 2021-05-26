@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\EventType;
 use Faker\Factory;
 use App\Entity\Item;
 use App\Entity\Type;
@@ -133,7 +134,14 @@ class AppFixtures extends Fixture
             $items[] = $item;
         }
 
-
+        // EventType Fixtures
+        $eventTypes = [];
+        for ($i=0; $i < 5; $i++){
+            $eventType = new EventType();
+            $eventType->setLabel($faker->word);
+            $manager->persist($eventType);
+            $eventTypes[] = $eventType;
+        }
 
 
         $manager->flush();
