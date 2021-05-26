@@ -45,6 +45,14 @@ class AppFixtures extends Fixture
             ->setFirstname('admin');
         $manager->persist($admin);
 
+        $moderator = new User();
+        $moderator->setEmail("moderator@moderator.fr")
+            ->setEnable(1)
+            ->setPassword($this->encoder->encodePassword($moderator, "moderator"))
+            ->setRoles(["ROLE_MODERATOR"])
+            ->setFirstname('moderator');
+        $manager->persist($moderator);
+
 //      Place Type Fixtures
         $typeLabels = ["Jardin", "Événement", "Recyclage", "Point de collecte"];
         foreach ($typeLabels as $label) {
@@ -114,17 +122,19 @@ class AppFixtures extends Fixture
 
         // Item fixtures
         $items = [];
-        for ($i=0; $i < 10; $i++) { 
+        for ($i=0; $i < 30; $i++) { 
             $item = new Item();
             $item->setName($faker->name())
                 ->setOwner($admin)
                 ->setState($faker->randomElement($tabStates))
-                ->setPicture("https://via.placeholder.com/250x150")
                 ->setStatus(0)
                 ->setCategory($faker->randomElement($tabToolType));
             $manager->persist($item);
-            $items = $item;
+            $items[] = $item;
         }
+
+
+
 
         $manager->flush();
     }
