@@ -15,12 +15,15 @@ use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\DateTime;
 use Vich\UploaderBundle\Form\Type\VichImageType;
 
+
 class EventType extends AbstractType
 {
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -75,6 +78,7 @@ class EventType extends AbstractType
                 ]
             ])
             ->add('imageFile', VichImageType::class, [
+                'required' => false,
                 'allow_delete' => false,
                 'asset_helper' => true,
                 'download_uri' => false,
@@ -98,7 +102,7 @@ class EventType extends AbstractType
                     if ($dateToString == null) {
                         return date("d/m/Y H:i");
                     }
-                    return date("d/m/Y H:i", $dateToString);
+                    return date("d/m/Y H:i", $dateToString->getTimestamp());
                 },
                 function($stringToDate){
                     return \DateTime::createFromFormat("d/m/Y H:i", $stringToDate);
@@ -110,6 +114,15 @@ class EventType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Event::class,
+            'validation_groups' => function (FormInterface $form) {
+                $data = $form->getData();
+
+                if (!$data->getId()) {
+                    return ['Event', 'event_create'];
+                }
+
+                return ['Event'];
+            },
         ]);
     }
 }
