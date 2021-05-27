@@ -73,7 +73,7 @@ class Event
      *
      * @Vich\UploadableField(mapping="event_image", fileNameProperty="imageName")
      * @Assert\File(maxSize="2M", mimeTypes="image/*", mimeTypesMessage="Le fichier doit être une image, vous avez mis un {{ type }}", maxSizeMessage="Le fichier ne doit pas dépasser 2M")
-     * @Assert\NotBlank(message="Vous devez insérer une image")
+     * @Assert\NotBlank(message="Vous devez insérer une image", groups={"event_create"})
      * @var File|null
      */
     private $imageFile;

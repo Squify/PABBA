@@ -7,10 +7,10 @@ namespace App\Controller;
 use App\Entity\Event;
 use App\Form\EventType;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Class EventController
@@ -100,8 +100,8 @@ class EventController extends AbstractController
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->addFlash("success", "L'évènement a bien été modifié");
             $this->manager->flush();
+            $this->addFlash("success", "L'évènement a bien été modifié");
             return $this->redirectToRoute("event_index");
         }
 
