@@ -60,8 +60,11 @@
                 <li class="breadcrumb-item" aria-current="page">Emprunt d'un outil</li>
 
                 {# Routes événement #}
-            {% elseif route_name starts with 'event' %}
-                <li class="breadcrumb-item" aria-current="page">Data</li>
+            {% elseif route_name starts with 'event_index' %}
+                <li class="breadcrumb-item" aria-current="page">Evènements</li>
+            {% elseif route_name starts with 'event_create' %}
+                    <li class="breadcrumb-item" aria-current="page"><a href="{{ path('event_index') }}">Evènements</a></li>
+                    <li class="breadcrumb-item" aria-current="page">Création d'un évènement</li>
 
             {% else %}
                 <li class="breadcrumb-item"><a href="#">Home</a></li>

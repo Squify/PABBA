@@ -60,6 +60,7 @@ class EventController extends AbstractController
 
 
     /**
+     * @Route("/editer/{id}", name="event_update")
      * @param Request $request
      * @param Event $event
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response

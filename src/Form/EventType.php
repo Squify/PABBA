@@ -27,34 +27,52 @@ class EventType extends AbstractType
             ->add('title', TextType::class, [
                 'label' => 'Titre',
                 'attr' => [
-                    'placeholder' => "Veuillez renseigner le titre de l'évènement"
+                    'placeholder' => "Renseigner le titre de l'évènement"
+                ],
+                'label_attr' => [
+                    'class' => 'create_event_label'
                 ]
             ])
             ->add('description', TextareaType::class, [
                 'label' => 'Description',
                 'attr' => [
-                    'placeholder' => "Veuillez renseigner la description de l'évènement",
-                    'rows' => 6
+                    'placeholder' => "Renseigner la description de l'évènement",
+                    'rows' => 8
+                ],
+                'label_attr' => [
+                    'class' => 'create_event_label'
                 ]
             ])
             ->add('eventAt', TextType::class, [
-                'label' => "Date"
+                'label' => "Date",
+                'label_attr' => [
+                    'class' => 'create_event_label'
+                ]
             ])
             ->add('place', EntityType::class, [
                 'label' => 'Emplacement',
                 'class' => Place::class,
-                'choice_label' => 'address'
+                'choice_label' => 'address',
+                'label_attr' => [
+                    'class' => 'create_event_label'
+                ]
             ])
             ->add('organisers', EntityType::class, [
                 'label' => 'Organisateurs',
                 'class' => User::class,
                 'choice_label' => 'firstname',
-                'multiple' => true
+                'multiple' => true,
+                'label_attr' => [
+                    'class' => 'create_event_label'
+                ]
             ])
             ->add('eventType', EntityType::class, [
                 'label' => 'Type d\'évènement',
                 'class' => EType::class,
-                'choice_label' => 'label'
+                'choice_label' => 'label',
+                'label_attr' => [
+                    'class' => 'create_event_label'
+                ]
             ])
             ->add('imageFile', VichImageType::class, [
                 'allow_delete' => false,
@@ -67,6 +85,9 @@ class EventType extends AbstractType
                     'placeholder' => 'Ajouter une image',
                     'maxSize' => '2M',
                     'accept' => "image/*"
+                ],
+                'label_attr' => [
+                    'class' => 'create_event_label'
                 ]
         ])
         ;
