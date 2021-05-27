@@ -115,6 +115,11 @@ class User implements UserInterface
      */
     private $events;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Event::class, mappedBy="participants")
+     */
+    private $eventsAsParticipant;
+
     public function __construct()
     {
         $this->places = new ArrayCollection();
@@ -125,6 +130,7 @@ class User implements UserInterface
         $this->moderations = new ArrayCollection();
         $this->items = new ArrayCollection();
         $this->events = new ArrayCollection();
+        $this->eventsAsParticipant = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -551,6 +557,33 @@ class User implements UserInterface
     {
         if ($this->events->removeElement($event)) {
             $event->removeOrganiser($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Event[]
+     */
+    public function getEventsAsParticipant(): Collection
+    {
+        return $this->eventsAsParticipant;
+    }
+
+    public function addEventsAsParticipant(Event $eventsAsParticipant): self
+    {
+        if (!$this->eventsAsParticipant->contains($eventsAsParticipant)) {
+            $this->eventsAsParticipant[] = $eventsAsParticipant;
+            $eventsAsParticipant->addParticipant($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEventsAsParticipant(Event $eventsAsParticipant): self
+    {
+        if ($this->eventsAsParticipant->removeElement($eventsAsParticipant)) {
+            $eventsAsParticipant->removeParticipant($this);
         }
 
         return $this;

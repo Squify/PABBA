@@ -7,9 +7,10 @@ namespace App\Controller;
 use App\Entity\Event;
 use App\Form\EventType;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
  * Class EventController
@@ -44,8 +45,21 @@ class EventController extends AbstractController
         $form = $this->createForm(EventType::class, $event);
         $form->handleRequest($request);
 
+
         if ($form->isSubmitted() && $form->isValid()) {
             $event->setIsPublished(false);
+
+            // On s'assure que la personne créant l'évènement soit parmis les organisateurs
+            if (!in_array($this->getUser(), $event->getOrganisers()->toArray())) {
+                $event->addOrganiser($this->getUser());
+            }
+
+            // On ajoute les organisateurs à la liste des participants
+            foreach ($event->getOrganisers()->toArray() as $organiser) {
+                $event->addParticipant($organiser);
+            }
+
+
             $this->manager->persist($event);
             $this->manager->flush();
             $this->addFlash("success", "L'évènement a bien été créé");
@@ -56,6 +70,21 @@ class EventController extends AbstractController
             'form' => $form->createView(),
             'event' => $event
         ]);
+    }
+
+    /**
+     * @Route("/informations/{event}", name="event_details")
+     *
+     * @param Event $event
+     * @return void
+     */
+    public function details(Event $event)
+    {
+
+        return $this->render("event/details.html.twig", [
+            "event" => $event
+        ]);
+
     }
 
 
@@ -81,4 +110,42 @@ class EventController extends AbstractController
             'event' => $event
         ]);
     }
+
+    /**
+     * @Route("/rejoindre/{event}", name="event_join")
+     * @IsGranted("ROLE_USER")
+     *
+     * @param Event $event
+     * @return void
+     */
+    public function join(Event $event)
+    {
+
+        $event->addParticipant($this->getUser());
+        $this->manager->flush();
+
+        $this->addFlash("success", "Vous avez rejoint l'évènement {$event->getTitle()}");
+        return $this->redirectToRoute("event_details", ["event" => $event->getId()]);
+
+    }
+
+    /**
+     * @Route("/quitter/{event}", name="event_quit")
+     * @IsGranted("ROLE_USER")
+     *
+     * @param Event $event
+     * @return void
+     */
+    public function quit(Event $event)
+    {
+
+        $event->removeParticipant($this->getUser());
+        $this->manager->flush();
+
+        $this->addFlash("success", "Vous avez quitté l'évènement {$event->getTitle()}");
+        return $this->redirectToRoute("event_details", ["event" => $event->getId()]);
+
+    }
+
+
 }

@@ -45,7 +45,7 @@
 			{% for item in items %}
 				<div class="col-12 col-md-4 pt-4">
 					<div class="card rent-card shadow" data-id="{{ item.id }}">
-						<img src="{{ item.picture is not null ? (vich_uploader_asset(item, 'imageFile') ? : asset('images/default_items.jpg')) : asset('images/default_items.jpg') }}" class="card-img-top item-picture" alt="Image de l'outil {{ item.name }}">
+						<img src="{{ item.picture is not null ? vich_uploader_asset(item, 'imageFile') : asset('images/default_items.jpg') }}" class="card-img-top item-picture" alt="Image de l'outil {{ item.name }}">
 						<div class="card-body">
 							<h6 class="card-subtitle mb-2 text-muted">{{ item.owner.firstname ~ ' ' ~ item.owner.lastname }}</h6>
 							<h5 class="card-title">{{ item.name }}<small>
