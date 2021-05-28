@@ -101,6 +101,13 @@ body {
   color: white;
 }
 
+.badge-event-index
+{
+  background-color: #50A7C2;
+  color: #044154;
+
+}
+
 .no-result
 {
   color: gray;
@@ -110,4 +117,28 @@ body {
 .event-participant
 {
   color: #044154;
+}
+
+.event-index-pills
+{
+  width: 40%;
+  margin: auto;
+
+  #today-tab
+  {
+    border-top-left-radius: 15% 50%;
+    border-bottom-left-radius: 15% 50%;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    border: solid 1px #CACACA;
+  }
+  
+  #toCome-tab
+  {
+    border-top-right-radius: 15% 50%;
+    border-bottom-right-radius: 15% 50%;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    border: solid 1px #CACACA;
+  }
 }

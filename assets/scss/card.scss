@@ -1,7 +1,7 @@
 #pills-tab {
   .nav-item {
-    border: solid 1px #CACACA !important;
-    border-radius: 0 0 8px 8px !important;
+    border: solid 1px #CACACA ;
+    border-radius: 0 0 8px 8px;
 
     a {
       color: #105367 !important;
@@ -93,5 +93,14 @@
 
 .event-card
 {
-  border-radius: 10%;
+  border-radius: 5%;
+
+  .event-card-img
+  {
+    // height: 200px;
+    // width: 100%;
+    border-top-left-radius: 10%;
+    border-top-right-radius: 10%;
+  }
+
 }

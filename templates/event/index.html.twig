@@ -4,17 +4,15 @@
 {% endblock %}
 {% block body %}
 
-	<a href="{{ path("event_create") }}" class="btn btn-primary">Créer</a>
+
+	<div class="container">
 
 
-	<div style="width:85%;margin:auto">
-
-
-		<ul class="nav nav-pills nav-fill mb-3" id="pills-tab" role="tablist">
-			<li class="nav-item" role="presentation">
+		<ul class="nav nav-pills nav-fill mb-3 event-index-pills" id="pills-tab" role="tablist">
+			<li class="nav-item" style="border:none;" role="presentation">
 				<a class="nav-link active" id="today-tab" data-toggle="pill" href="#today" role="tab" aria-controls="today" aria-selected="false">En cours</a>
 			</li>
-			<li class="nav-item" role="presentation">
+			<li class="nav-item" style="border:none;" role="presentation">
 				<a class="nav-link" id="toCome-tab" data-toggle="pill" href="#toCome" role="tab" aria-controls="toCome" aria-selected="true">A venir</a>
 			</li>
 		</ul>
@@ -24,12 +22,10 @@
 
 			{# Onglet des évènements en cours #}
 			<div class="tab-pane fade show active" id="today" role="tabpanel" aria-labelledby="today-tab">
-				<div class="row row-cols-3">
+				<div class="card-columns">
 					{% for event in events %}
 						{% if isToday(event.eventAt) == 0 %}
-							<div class="col mb-4">
-								{% include "event/_event_card.html.twig"%}
-							</div>
+							{% include "event/_event_card.html.twig"%}
 						{% endif %}
 					{% endfor %}
 				</div>
@@ -39,12 +35,10 @@
 			{# Onglet des évènements à venir #}
 			<div class="tab-pane fade" id="toCome" role="tabpanel" aria-labelledby="toCome-tab">
 
-				<div class="row row-cols-3">
+				<div class="card-columns">
 					{% for event in events %}
 						{% if isToday(event.eventAt) == 1 %}
-							<div class="col mb-4">
-								{% include "event/_event_card.html.twig" with { "event" : event } %}
-							</div>
+							{% include "event/_event_card.html.twig" with { "event" : event } %}
 						{% endif %}
 					{% endfor %}
 				</div>
@@ -55,6 +49,8 @@
 
 
 	</div>
+
+	<a href="{{ path("event_create") }}" class="btn add-btn bi bi-plus-circle-fill"></a>
 
 
 {% endblock %}

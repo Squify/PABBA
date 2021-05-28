@@ -62,15 +62,15 @@
 					{% endif %}
 
 
-					<p class="event-place show-event-text">
+					<a target="_blank" href="https://www.google.com/maps/search/?api=1&query={{ event.place.address|url_encode }}" class="text-decoration-none event-place show-event-text">
 						{{ event.place.address }}
-					</p>
+					</a>
 
 					<p>
 						<span class="badge badge-pill badge-event-show">{{ event.eventType.label | capitalize }}</span>
 					</p>
 
-					
+
 					{% if app.user in event.participants %}
 						<a href="{{ path('event_quit', { 'event' : event.id } ) }}" class="btn btn-quit-event col-4 mb-3">
 							<i class="fas fa-sign-out-alt"></i>
@@ -80,7 +80,6 @@
 							<i class="fas fa-sign-in-alt"></i>
 							Rejoindre</a>
 					{% endif %}
-
 
 
 					<p class="show-event-title">Description</p>

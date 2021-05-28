@@ -1,7 +1,7 @@
 <div class="card event-card">
-	<img src="{{ (event.imageName) ? vich_uploader_asset(event, 'imageFile') : asset('images/default_event.png') }}" alt="Image de l'évènement {{ event.title }}" class="card-img-top rounded-top">
+	<img src="{{ (event.imageName) ? vich_uploader_asset(event, 'imageFile') : asset('images/default_event.png') }}" alt="Image de l'évènement {{ event.title }}" class="card-img-top event-card-img">
 	<div class="card-body">
-		<h6 class="card-subtitle text-muted">
+		<h6 class="card-subtitle text-muted mb-2">
 			{% if isToday(event.eventAt) == 0 %}
 				Aujourd'hui
 			{% else %}
@@ -11,7 +11,10 @@
 			à
 			{{ event.eventAt | date('H:i') }}
 		</h6>
-		<h4 class="card-title text-blue">{{ event.title | capitalize }}</h4>
-		<h6 class="card-subtitle">{{ event.place.address }}</h6>
+		<h4 class="card-title show-event-title mb-3">{{ event.title | capitalize }}</h4>
+		<a target="_blank" href="https://www.google.com/maps/search/?api=1&query={{ event.place.address|url_encode }}" class="text-decoration-none card-subtitle show-event-text mb-3">
+			{{ event.place.address }}
+		</a>
+		<a href="{{ path('event_details', { 'event' : event.id } ) }}" class="badge badge-pill badge-event-index col-6 offset-6" style="font-size:0.875em;">Plus de détails</a>
 	</div>
 </div>
