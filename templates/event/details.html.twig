@@ -6,20 +6,21 @@
 
 {% block body %}
 
-	<div style="width:80%;margin:auto;">
+	<div style="width:80%;margin:auto;margin-top:30px;">
 
 		<div class="row">
 			<div class="col-4">
 				<div class="card p-3">
-					<img src="{{ (event.imageName) ? vich_uploader_asset(event, 'imageFile') : asset('images/default_event.png') }}" alt="Image de l'évènement {{ event.title }}" class="w-100">
-
-					<p class="show-event-title">Informations
-						{% if app.user in event.organisers %}
-							<a href="{{ path('event_update', { 'id' : event.id}) }}" class="btn btn-edit-event">
+					{% if app.user in event.organisers %}
+						<div class="col-5 offset-7">
+							<a href="{{ path('event_update', { 'id' : event.id}) }}" class="btn btn-edit-event w-100">
 								<i class="fas fa-edit"></i>
 								Editer</a>
-						{% endif %}
-					</p>
+						</div>
+					{% endif %}
+					<img src="{{ (event.imageName) ? vich_uploader_asset(event, 'imageFile') : asset('images/default_event.png') }}" alt="Image de l'évènement {{ event.title }}" class="w-100">
+
+					<p class="show-event-title">Informations</p>
 
 					{% if isToday(event.eventAt) == 1 %}
 
@@ -31,13 +32,6 @@
 								<span class="badge badge-pill badge-success">
 									<i class="fas fa-check"></i>
 									J'y participe</span>
-								<a href="{{ path('event_quit', { 'event' : event.id } ) }}" class="btn btn-quit-event">
-									<i class="fas fa-sign-out-alt"></i>
-									Quitter</a>
-							{% else %}
-								<a href="{{ path('event_join', { 'event' : event.id } ) }}" class="btn btn-primary btn-join-event">
-									<i class="fas fa-sign-in-alt"></i>
-									Rejoindre</a>
 							{% endif %}
 						</p>
 
@@ -51,13 +45,6 @@
 								<span class="badge badge-pill badge-success">
 									<i class="fas fa-check"></i>
 									J'y participe</span>
-								<a href="{{ path('event_quit', { 'event' : event.id } ) }}" class="btn btn-quit-event">
-									<i class="fas fa-sign-out-alt"></i>
-									Quitter</a>
-							{% else %}
-								<a href="{{ path('event_join', { 'event' : event.id } ) }}" class="btn btn-primary btn-join-event">
-									<i class="fas fa-sign-in-alt"></i>
-									Rejoindre</a>
 							{% endif %}
 						</p>
 
@@ -69,20 +56,13 @@
 								<span class="badge badge-pill badge-success">
 									<i class="fas fa-check"></i>
 									J'y participe</span>
-								<a href="{{ path('event_quit', { 'event' : event.id } ) }}" class="btn btn-quit-event">
-									<i class="fas fa-sign-out-alt"></i>
-									Quitter</a>
-							{% else %}
-								<a href="{{ path('event_join', { 'event' : event.id } ) }}" class="btn btn-primary btn-join-event">
-									<i class="fas fa-sign-in-alt"></i>
-									Rejoindre</a>
 							{% endif %}
 						</p>
 
 					{% endif %}
 
 
-					<p class="event-place">
+					<p class="event-place show-event-text">
 						{{ event.place.address }}
 					</p>
 
@@ -90,9 +70,22 @@
 						<span class="badge badge-pill badge-event-show">{{ event.eventType.label | capitalize }}</span>
 					</p>
 
+					
+					{% if app.user in event.participants %}
+						<a href="{{ path('event_quit', { 'event' : event.id } ) }}" class="btn btn-quit-event col-4 mb-3">
+							<i class="fas fa-sign-out-alt"></i>
+							Quitter</a>
+					{% else %}
+						<a href="{{ path('event_join', { 'event' : event.id } ) }}" class="btn btn-primary btn-join-event col-4 mb-3">
+							<i class="fas fa-sign-in-alt"></i>
+							Rejoindre</a>
+					{% endif %}
+
+
+
 					<p class="show-event-title">Description</p>
 
-					<p>
+					<p class="show-event-text">
 						{{ event.description }}
 					</p>
 
@@ -155,7 +148,7 @@
 												<img
 												src="{{ asset('/images/default_profile.jpg') }}" class="rounded-circle col-2 p-2" alt="Photo de profil de {{ participant.firstname }}">
 												{# </div> #}
-												<div class="col-9 pt-3">
+												<div class="col-9 align-self-center">
 													<div class="col-12 event-participant">
 														{{ participant.firstname | capitalize ~ ' ' ~ participant.lastname | capitalize }}
 													</div>

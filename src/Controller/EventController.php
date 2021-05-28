@@ -78,7 +78,7 @@ class EventController extends AbstractController
     }
 
     /**
-     * @Route("/informations/{event}", name="event_details")
+     * @Route("/{event}", name="event_details")
      *
      * @param Event $event
      * @return void
