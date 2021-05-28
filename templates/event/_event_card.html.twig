@@ -1,0 +1,17 @@
+<div class="card event-card">
+	<img src="{{ (event.imageName) ? vich_uploader_asset(event, 'imageFile') : asset('images/default_event.png') }}" alt="Image de l'évènement {{ event.title }}" class="card-img-top rounded-top">
+	<div class="card-body">
+		<h6 class="card-subtitle text-muted">
+			{% if isToday(event.eventAt) == 0 %}
+				Aujourd'hui
+			{% else %}
+				Aura lieu le
+				{{ event.eventAt | date('d/m/Y') }}
+			{% endif %}
+			à
+			{{ event.eventAt | date('H:i') }}
+		</h6>
+		<h4 class="card-title text-blue">{{ event.title | capitalize }}</h4>
+		<h6 class="card-subtitle">{{ event.place.address }}</h6>
+	</div>
+</div>
