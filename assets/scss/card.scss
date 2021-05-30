@@ -17,11 +17,9 @@
   }
 
   .active {
-    background-color: #F7F7F7 !important;
-
-    a {
-      color: #105367 !important;
-    }
+    background-color: #D6D6D6 !important;
+    color: #105367 !important;
+    border-width: 2px !important;
   }
 }
 
@@ -101,6 +99,11 @@
     // width: 100%;
     border-top-left-radius: 10%;
     border-top-right-radius: 10%;
+  }
+
+  .card-subtitle
+  {
+    font-size: 0.9em;
   }
 
 }

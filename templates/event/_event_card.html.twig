@@ -10,6 +10,8 @@
 			{% endif %}
 			à
 			{{ event.eventAt | date('H:i') }}
+			| <span style="font-size:0.8em;">{{ event.participants | length }} participant(s)</span>
+			{{ (app.user and app.user in event.participants) ? '| <span class="badge badge-pills badge-success"><i class="fas fa-check"></i> Je participe</span>' : '' }}
 		</h6>
 		<h4 class="card-title show-event-title mb-3">{{ event.title | capitalize }}</h4>
 		<a target="_blank" href="https://www.google.com/maps/search/?api=1&query={{ event.place.address|url_encode }}" class="text-decoration-none card-subtitle show-event-text mb-3">
