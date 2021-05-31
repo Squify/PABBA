@@ -89,12 +89,23 @@ class Event
      */
     private $participants;
 
+    /**
+     * @ORM\OneToMany(targetEntity=CommentEvent::class, mappedBy="event", orphanRemoval=true)
+     */
+    private $commentEvents;
+
 
 
     public function __construct()
     {
         $this->organisers = new ArrayCollection();
         $this->participants = new ArrayCollection();
+        $this->commentEvents = new ArrayCollection();
+    }
+
+    public function __toString()
+    {
+        return $this->getTitle();
     }
 
     public function getId(): ?int
@@ -267,6 +278,36 @@ class Event
     public function removeParticipant(User $participant): self
     {
         $this->participants->removeElement($participant);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|CommentEvent[]
+     */
+    public function getCommentEvents(): Collection
+    {
+        return $this->commentEvents;
+    }
+
+    public function addCommentEvent(CommentEvent $commentEvent): self
+    {
+        if (!$this->commentEvents->contains($commentEvent)) {
+            $this->commentEvents[] = $commentEvent;
+            $commentEvent->setEvent($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCommentEvent(CommentEvent $commentEvent): self
+    {
+        if ($this->commentEvents->removeElement($commentEvent)) {
+            // set the owning side to null (unless already changed)
+            if ($commentEvent->getEvent() === $this) {
+                $commentEvent->setEvent(null);
+            }
+        }
 
         return $this;
     }

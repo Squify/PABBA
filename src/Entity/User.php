@@ -120,6 +120,11 @@ class User implements UserInterface
      */
     private $eventsAsParticipant;
 
+    /**
+     * @ORM\OneToMany(targetEntity=CommentEvent::class, mappedBy="auteur")
+     */
+    private $commentEvents;
+
     public function __construct()
     {
         $this->places = new ArrayCollection();
@@ -131,6 +136,7 @@ class User implements UserInterface
         $this->items = new ArrayCollection();
         $this->events = new ArrayCollection();
         $this->eventsAsParticipant = new ArrayCollection();
+        $this->commentEvents = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -584,6 +590,36 @@ class User implements UserInterface
     {
         if ($this->eventsAsParticipant->removeElement($eventsAsParticipant)) {
             $eventsAsParticipant->removeParticipant($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|CommentEvent[]
+     */
+    public function getCommentEvents(): Collection
+    {
+        return $this->commentEvents;
+    }
+
+    public function addCommentEvent(CommentEvent $commentEvent): self
+    {
+        if (!$this->commentEvents->contains($commentEvent)) {
+            $this->commentEvents[] = $commentEvent;
+            $commentEvent->setAuteur($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCommentEvent(CommentEvent $commentEvent): self
+    {
+        if ($this->commentEvents->removeElement($commentEvent)) {
+            // set the owning side to null (unless already changed)
+            if ($commentEvent->getAuteur() === $this) {
+                $commentEvent->setAuteur(null);
+            }
         }
 
         return $this;

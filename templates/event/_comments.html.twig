@@ -1,0 +1,29 @@
+{% for comment in event.commentEvents|reverse %}
+	<div class="card w-100 my-1">
+		<div class="card-body" data-id={{ comment.id }}>
+			<div class="row">
+				<div class="col-3 ">
+					<div class="col-12">
+						<h5 class="m-0" id="commentTitle">{{ comment.title }}</h5>
+					</div>
+                    <div class="col-12">
+						<p>Le {{ comment.createdAt|date('d/m/Y à H:i') }}</p>
+					</div>
+					<div class="col-12">
+						<small class="text-muted">Par
+							{{ comment.auteur.name }}</small>
+					</div>
+					{# {% if app.user == comment.auteur %}
+						<button class="btn btn-warning js-tutorial-comment-edit" data-toggle="modal" data-target="#modalComment" data-id={{ comment.id }}>Modifier
+						</button>
+					{% endif %} #}
+				</div>
+				<div class="col-9">
+					<p id="commentContent">{{ comment.content|raw }}</p>
+				</div>
+			</div>
+		</div>
+	</div>
+
+{% else %}
+<p class="no-result">Il n'y a rien ici pour le moment</p>{% endfor %}

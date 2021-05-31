@@ -112,24 +112,14 @@
 						{# Onglet des actualités et commentaires #}
 						<div class="tab-pane fade show active" id="news" role="tabpanel" aria-labelledby="news-tab">
 
-							<div
-								class="row justify-content-center">
-								{# Mettre le PATH vers la création d'un commentaire/actualité #}
-								<a href="" class="btn add-btn-event-comment">
-									<i class="bi bi-plus-circle-fill"></i>
+							<div class="row justify-content-center">
+								<a id="add_comment" type="button" class="btn" data-toggle="modal" data-target="#modalComment" data-event="{{ event.id }}">
+									<i class="bi bi-plus-circle-fill h1 "></i>
 								</a>
 							</div>
 
-							<div
-								class="row justify-content-center">
-								{# {% for comment in event.comments %} #}
-								{% if false == true %}
-									{# Ici gérer l'affichage des commentaires #}
-									blabla
-								{% else %}
-									<p class="no-result">Il n'y a rien à afficher ici !</p>
-								{% endif %}
-								{# {% endfor %} #}
+							<div id="event_comments" class="row justify-content-center">
+								{% include "event/_comments.html.twig" %}
 							</div>
 
 						</div>
@@ -183,5 +173,12 @@
 		</div>
 
 	</div>
+	{% include "event/_commentModal.html.twig" %}
 
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('commentEvent') }}
 {% endblock %}
