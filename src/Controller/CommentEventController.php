@@ -15,6 +15,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Console\Event\ConsoleEvent;
 
 class CommentEventController extends AbstractController
 {
@@ -61,6 +62,28 @@ class CommentEventController extends AbstractController
 
         return new JsonResponse($form->getErrors(true), Response::HTTP_INTERNAL_SERVER_ERROR);
     }
+
+    /**
+     * @Route("/comment/event/delete", name="comment_event_delete")
+     * @param Request $request
+     * @return false|string
+     */
+    public function delete(Request $request)
+    {
+        $id = $request->query->get('id', null);
+
+        $commentEvent = $id ? $this->em->getRepository(CommentEvent::class)->find($id) : new CommentEvent();
+
+        $event = $commentEvent->getEvent();
+
+        $this->em->remove($commentEvent);
+        $this->em->flush();
+        
+        return new JsonResponse($this->renderView('event/_comments.html.twig', [
+            'event' => $event
+        ]));
+
+        }
 
     /**
      * @Route("/comment/event/form", name="comment_event_form")

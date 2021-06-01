@@ -19,7 +19,10 @@
 					{% for organisateur in event.organisers %}
 						{% if app.user == organisateur %}
 							<a class="btn text-warning js-event-comment-edit" data-toggle="modal" data-target="#modalComment" data-id={{ comment.id }}>
-								<i class="bi bi-pencil-square h1"></i>
+								<i class="bi bi-pencil-square h2"></i>
+							</a>
+							<a class="btn text-danger js-event-comment-delete" data-toggle="modal" data-target="#modalDelete" data-id={{ comment.id }}>
+								<i class="bi bi-file-earmark-x-fill h2"></i>
 							</a>
 						{% endif %}
 					{% endfor %}

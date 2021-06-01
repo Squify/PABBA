@@ -36,6 +36,29 @@ let listener = () => {
             commentEvent.loadForm(id,event)
         })
     })
+    document.querySelectorAll('.js-event-comment-delete').forEach((el) => {
+        el.addEventListener('click', () => {
+            let {id} = el.dataset;
+            let url = '/comment/event/delete' + (id ? `?id=${id}` : '');
+            let form = document.querySelector("#delete_comment");
+            form.setAttribute('action', url);
+        })
+    })
+    document.querySelectorAll('#delete_comment').forEach((el) => {
+        el.addEventListener('submit', (event) => {
+            event.preventDefault();
+            let url = el.getAttribute('action');
+            axios.post(url).then((response) => {
+                document.querySelector('#event_comments').innerHTML = response.data;
+                $('#modalDelete').modal('hide');
+                listener();
+                toastr.success("Votre commentaire a bien été supprimé", null, {
+                    timeOut: 3000,
+                    position: 'toast-top-right'
+                })
+            })
+        })
+    })
 }
 document.addEventListener('DOMContentLoaded', function() {
    listener()
