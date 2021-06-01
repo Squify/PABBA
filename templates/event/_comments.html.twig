@@ -10,13 +10,20 @@
 						<p>Le {{ comment.createdAt|date('d/m/Y à H:i') }}</p>
 					</div>
 					<div class="col-12">
+						<img src="{{ asset('/images/default_profile.jpg') }}" class="rounded-circle col-3 p-0" alt="Photo de profil de {{ comment.auteur.firstname }}">
+					</div>
+												
+					<div class="col-12">
 						<small class="text-muted">Par
 							{{ comment.auteur.name }}</small>
 					</div>
-					{# {% if app.user == comment.auteur %}
-						<button class="btn btn-warning js-tutorial-comment-edit" data-toggle="modal" data-target="#modalComment" data-id={{ comment.id }}>Modifier
-						</button>
-					{% endif %} #}
+					{% for organisateur in event.organisers %}
+						{% if app.user == organisateur %}
+							<a class="btn text-warning js-event-comment-edit" data-toggle="modal" data-target="#modalComment" data-id={{ comment.id }}>
+								<i class="bi bi-pencil-square h1"></i>
+							</a>
+						{% endif %}
+					{% endfor %}
 				</div>
 				<div class="col-9">
 					<p id="commentContent">{{ comment.content|raw }}</p>

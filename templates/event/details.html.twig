@@ -113,9 +113,13 @@
 						<div class="tab-pane fade show active" id="news" role="tabpanel" aria-labelledby="news-tab">
 
 							<div class="row justify-content-center">
-								<a id="add_comment" type="button" class="btn" data-toggle="modal" data-target="#modalComment" data-event="{{ event.id }}">
-									<i class="bi bi-plus-circle-fill h1 "></i>
-								</a>
+								{% for organisateur in event.organisers %}
+									{% if app.user == organisateur %}
+										<a id="add_comment" type="button" class="btn" data-toggle="modal" data-target="#modalComment" data-event="{{ event.id }}">
+											<i class="bi bi-plus-circle-fill h1"></i>
+										</a>
+									{% endif %}
+								{% endfor %}
 							</div>
 
 							<div id="event_comments" class="row justify-content-center">
@@ -161,24 +165,17 @@
 									<p class="no-result">Il n'y a aucun participants !</p>
 								{% endfor %}
 							</div>
-
 						</div>
-
 					</div>
-
-
 				</div>
-
 			</div>
 		</div>
-
 	</div>
 	{% include "event/_commentModal.html.twig" %}
-
 
 {% endblock %}
 
 {% block javascripts %}
-    {{ parent() }}
-    {{ encore_entry_script_tags('commentEvent') }}
+	{{ parent() }}
+	{{ encore_entry_script_tags('commentEvent') }}
 {% endblock %}
