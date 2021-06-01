@@ -3,19 +3,18 @@
 		<div class="card-body" data-id={{ comment.id }}>
 			<div class="row">
 				<div class="col-3 ">
-					<div class="col-12">
-						<h5 class="m-0" id="commentTitle">{{ comment.title }}</h5>
-					</div>
-                    <div class="col-12">
+                    <div class="col-12 d-flex justify-content-center">
 						<p>Le {{ comment.createdAt|date('d/m/Y à H:i') }}</p>
 					</div>
-					<div class="col-12">
+					<div class="col-12 d-flex justify-content-center">
 						<img src="{{ asset('/images/default_profile.jpg') }}" class="rounded-circle col-3 p-0" alt="Photo de profil de {{ comment.auteur.firstname }}">
 					</div>
 												
-					<div class="col-12">
-						<small class="text-muted">Par
-							{{ comment.auteur.name }}</small>
+					<div class="col-12 d-flex justify-content-center">
+						<p class="m-0 show-event-title">{{ comment.auteur.name }}</p>
+					</div>
+					<div class="col-12 d-flex justify-content-center">
+						<span class="badge badge-pill badge-event-show">Organisateur</span>
 					</div>
 					{% for organisateur in event.organisers %}
 						{% if app.user == organisateur %}
@@ -26,7 +25,10 @@
 					{% endfor %}
 				</div>
 				<div class="col-9">
-					<p id="commentContent">{{ comment.content|raw }}</p>
+					<div class="d-flex justify-content-center">
+						<h5 class="m-0 show-event-title" id="commentTitle">{{ comment.title }}</h5>
+					</div>
+					<p id="commentContent" class="show-event-text">{{ comment.content|raw }}</p>
 				</div>
 			</div>
 		</div>
