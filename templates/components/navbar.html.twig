@@ -28,7 +28,7 @@
         <ul class="navbar-nav ml-auto">
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    {% if app.user.picture is not null %}
+                    {% if app.user and app.user.picture is not null %}
                         <img src="{{ vich_uploader_asset(app.user, 'pictureFile') }}" alt="" width="25px" class="rounded">
                     {% else%}
                         <i class="fas fa-user"></i>
