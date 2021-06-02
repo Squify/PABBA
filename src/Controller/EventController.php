@@ -52,7 +52,7 @@ class EventController extends AbstractController
         if($form->isSubmitted() && $form->isValid()){
             $events = $this->eventRepository->search($form->getData());
         }else{
-            $events = $this->eventRepository->findAll();
+            $events = $this->eventRepository->search([]);
         }
 
         return $this->json([
