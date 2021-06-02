@@ -3,6 +3,8 @@
 namespace App\Repository;
 
 use App\Entity\Event;
+use App\Entity\EventType;
+use App\Entity\Place;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -47,4 +49,34 @@ class EventRepository extends ServiceEntityRepository
         ;
     }
     */
+    public function search(array $s = null)
+    {
+        $qb =  $this->createQueryBuilder('e')
+            ->orderBy('e.id', 'ASC')
+            ;
+
+        if(isset($s['place']) && $s['place'] instanceof Place){
+            $qb->andWhere('e.place = :place')
+                ->setParameter('place', $s['place']->getId());
+        }
+
+        if(isset($s['eventType']) && $s['eventType'] !== null && count($s['eventType']) > 0 ){
+            $qb->andWhere('e.eventType IN (:type)')
+                ->setParameter('type', $s['eventType']);
+        }
+
+        if(isset($s['eventAt']) && $s['eventAt'] !== null){
+            $qb->andWhere('e.eventAt BETWEEN :dateS AND :dateE')
+                ->setParameter(
+                    'dateS' , \DateTime::createFromFormat('d/m/Y', $s['eventAt'])->setTime(0,0,0)
+                )
+                ->setParameter(
+                    'dateE', \DateTime::createFromFormat('d/m/Y', $s['eventAt'])->setTime(23,59,59)
+                )
+            ;
+        }
+
+        return $qb ->getQuery()
+            ->getResult();
+    }
 }

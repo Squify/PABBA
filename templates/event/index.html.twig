@@ -2,72 +2,52 @@
 
 {% block title %}PABBA - Evènement
 {% endblock %}
+
 {% block body %}
 
 
-	<div class="container">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 mt-5 mt-md-0">
+                <!-- Button trigger modal -->
+                <button id="open-filter" type="button" data-toggle="modal" data-target="#filterModal" class="btn filter-btn"><i
+                        class="bi bi-filter"></i>Filtres
+                </button>
+                <ul class="nav nav-pills nav-fill mb-3 event-index-pills" id="pills-tab" role="tablist">
+                    <li class="nav-item" style="border:none;" role="presentation">
+                        <a class="nav-link active" id="today-tab" data-toggle="pill" href="#today" role="tab" aria-controls="today" aria-selected="false">En
+                            cours
+                        </a>
+                    </li>
+                    <li class="nav-item" style="border:none;" role="presentation">
+                        <a class="nav-link" id="toCome-tab" data-toggle="pill" href="#toCome" role="tab" aria-controls="toCome" aria-selected="true">A venir</a>
+                    </li>
+                </ul>
+
+                <div class="tab-content" id="events-list">
+
+                </div>
 
 
-		<ul class="nav nav-pills nav-fill mb-3 event-index-pills" id="pills-tab" role="tablist">
-			<li class="nav-item" style="border:none;" role="presentation">
-				<a class="nav-link active" id="today-tab" data-toggle="pill" href="#today" role="tab" aria-controls="today" aria-selected="false">En cours</a>
-			</li>
-			<li class="nav-item" style="border:none;" role="presentation">
-				<a class="nav-link" id="toCome-tab" data-toggle="pill" href="#toCome" role="tab" aria-controls="toCome" aria-selected="true">A venir</a>
-			</li>
-		</ul>
+            </div>
+        </div>
 
-		<div
-			class="tab-content" id="pills-tabContent">
+    </div>
 
-			{# Onglet des évènements en cours #}
-			<div class="tab-pane fade show active" id="today" role="tabpanel" aria-labelledby="today-tab">
-				{% set today = 0 %}
-				{% for event in events %}
-					{% if isToday(event.eventAt) == 0 %}
-						{% set today = 1 %}
-					{% endif %}
-				{% endfor %}
-				<div class="{{ (today == 1) ? 'card-columns' : 'row justify-content-center' }}">
-					{% for event in events %}
-						{% if isToday(event.eventAt) == 0 %}
-							{% include "event/_event_card.html.twig"%}
-						{% endif %}
-					{% endfor %}
-					{% if today == 0 %}
-						<i class="mt-4">Il n'y a aucun évènement en cours</i>
-					{% endif %}
-				</div>
+    <a href="{{ path("event_create") }}" class="btn add-btn bi bi-plus-circle-fill"></a>
 
-			</div>
+    <div class="modal right fade" id="filterModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog ">
+            <div class="modal-content" id="filter-content">
 
-			{# Onglet des évènements à venir #}
-			<div class="tab-pane fade" id="toCome" role="tabpanel" aria-labelledby="toCome-tab">
-				{% set toCome = 0 %}
-				{% for event in events %}
-					{% if isToday(event.eventAt) == 1 %}
-						{% set toCome = 1 %}
-					{% endif %}
-				{% endfor %}
-				<div class="{{ (toCome == 1) ? 'card-columns' : 'row justify-content-center' }}">
-					{% for event in events %}
-						{% if isToday(event.eventAt) == 1 %}
-							{% include "event/_event_card.html.twig" with { "event" : event } %}
-						{% endif %}
-					{% endfor %}
-					{% if toCome == 0 %}
-						<i class="mt-4">Il n'y a aucun évènement à venir</i>
-					{% endif %}
-				</div>
-
-			</div>
-
-		</div>
+            </div>
+        </div>
+    </div>
 
 
-	</div>
-
-	<a href="{{ path("event_create") }}" class="btn add-btn bi bi-plus-circle-fill"></a>
-
-
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('event_search') }}
+    {{ encore_entry_script_tags('event_create') }}
 {% endblock %}

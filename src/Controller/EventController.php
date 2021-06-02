@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Event;
+use App\Form\EventSearchType;
 use App\Form\EventType;
 use App\Repository\EventRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -34,9 +35,36 @@ class EventController extends AbstractController
      */
     public function index()
     {
-        return $this->render("event/index.html.twig", [
-            "events" => $this->eventRepository->findAll()
+        return $this->render("event/index.html.twig");
+    }
+
+    /**
+     * @Route("/search", name="event_search")
+     * @param Request $request
+     * @return Response
+     */
+    public function search(Request $request)
+    {
+        $form = $this->createForm(EventSearchType::class);
+
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()){
+            $events = $this->eventRepository->search($form->getData());
+
+        }else{
+            $events = $this->eventRepository->findAll();
+        }
+
+        return $this->json([
+            'form' => $this->render("event/_search_form.html.twig", [
+                'form' => $form->createView(),
+            ])->getContent(),
+            'content' => $this->render("event/_rows.html.twig", [
+                'events' => $events,
+            ])->getContent()
         ]);
+
     }
 
     /**
@@ -125,7 +153,7 @@ class EventController extends AbstractController
         }else{
             $this->manager->remove($event);
             $this->manager->flush();
-            $this->addFlash("success", "L'évènement a bien été modifié");
+            $this->addFlash("success", "L'évènement a bien été supprimé");
         }
 
 
