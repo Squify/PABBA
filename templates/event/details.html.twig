@@ -156,7 +156,9 @@
 
                                     <div class="col-6 mb-4">
                                         <div class="card rounded">
-                                            <div
+                                            <a
+                                                target="_blank"
+                                                href="{{ path('user.profile.show', {id: participant.id}) }}"
                                                 class="row no-gutters {{ (participant in event.organisers) ? '' : 'align-items-center' }}">
                                                 {# <div class="col-3"> #}
                                                 <img
@@ -176,7 +178,7 @@
                                                         {% endif %}
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </a>
                                         </div>
                                     </div>
 

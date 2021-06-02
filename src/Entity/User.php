@@ -169,7 +169,7 @@ class User implements UserInterface
     }
 
     public function getName(){
-        return $this->getFirstname() . ' ' . $this->getLastname();
+        return ucfirst($this->getFirstname()) . ' ' . ucfirst($this->getLastname());
     }
 
     public function getEmail(): ?string
