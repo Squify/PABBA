@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Controller;
-
 
 use App\Entity\Event;
 use App\Form\EventType;
@@ -10,7 +8,9 @@ use App\Repository\EventRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -20,12 +20,12 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class EventController extends AbstractController
 {
-    private $manager;
-    private $eventRepository;
+    private EntityManagerInterface $manager;
+    private EventRepository        $eventRepository;
 
     public function __construct(EntityManagerInterface $manager, EventRepository $eventRepository)
     {
-        $this->manager = $manager;
+        $this->manager         = $manager;
         $this->eventRepository = $eventRepository;
     }
 
@@ -42,14 +42,13 @@ class EventController extends AbstractController
     /**
      * @Route("/creer", name="event_create")
      * @param Request $request
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @return Response
      */
     public function create(Request $request)
     {
         $event = new Event();
-        $form = $this->createForm(EventType::class, $event);
+        $form  = $this->createForm(EventType::class, $event);
         $form->handleRequest($request);
-
 
         if ($form->isSubmitted() && $form->isValid()) {
             $event->setIsPublished(false);
@@ -64,15 +63,15 @@ class EventController extends AbstractController
                 $event->addParticipant($organiser);
             }
 
-
             $this->manager->persist($event);
             $this->manager->flush();
             $this->addFlash("success", "L'évènement a bien été créé");
+
             return $this->redirectToRoute("event_index");
         }
 
         return $this->render("event/create.html.twig", [
-            'form' => $form->createView(),
+            'form'  => $form->createView(),
             'event' => $event
         ]);
     }
@@ -81,23 +80,20 @@ class EventController extends AbstractController
      * @Route("/{event}", name="event_details")
      *
      * @param Event $event
-     * @return void
+     * @return Response
      */
     public function details(Event $event)
     {
-
         return $this->render("event/details.html.twig", [
             "event" => $event
         ]);
-
     }
-
 
     /**
      * @Route("/editer/{id}", name="event_update")
      * @param Request $request
      * @param Event $event
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     * @return RedirectResponse|Response
      */
     public function update(Request $request, Event $event)
     {
@@ -107,11 +103,12 @@ class EventController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->manager->flush();
             $this->addFlash("success", "L'évènement a bien été modifié");
+
             return $this->redirectToRoute("event_index");
         }
 
         return $this->render("event/update.html.twig", [
-            'form' => $form->createView(),
+            'form'  => $form->createView(),
             'event' => $event
         ]);
     }
@@ -121,17 +118,16 @@ class EventController extends AbstractController
      * @IsGranted("ROLE_USER")
      *
      * @param Event $event
-     * @return void
+     * @return RedirectResponse
      */
     public function join(Event $event)
     {
-
         $event->addParticipant($this->getUser());
         $this->manager->flush();
 
         $this->addFlash("success", "Vous avez rejoint l'évènement {$event->getTitle()}");
-        return $this->redirectToRoute("event_details", ["event" => $event->getId()]);
 
+        return $this->redirectToRoute("event_details", ["event" => $event->getId()]);
     }
 
     /**
@@ -143,14 +139,12 @@ class EventController extends AbstractController
      */
     public function quit(Event $event)
     {
-
         $event->removeParticipant($this->getUser());
         $this->manager->flush();
 
         $this->addFlash("success", "Vous avez quitté l'évènement {$event->getTitle()}");
+
         return $this->redirectToRoute("event_details", ["event" => $event->getId()]);
-
     }
-
 
 }

@@ -132,7 +132,7 @@ body {
     border-bottom-right-radius: 0;
     border: solid 1px #CACACA;
   }
-  
+
   #toCome-tab
   {
     border-top-right-radius: 15% 50%;
@@ -141,4 +141,8 @@ body {
     border-bottom-left-radius: 0;
     border: solid 1px #CACACA;
   }
+}
+
+.custom-file-label::after{
+  content: "Charger" !important;
 }
