@@ -167,6 +167,7 @@ class SecurityController extends AbstractController
             $this->em->persist($user);
             $this->em->flush();
             $this->eventDispatcher->dispatch(new UserChangePasswordEvent($user));
+            $user->setPictureFile(null);
 
             $this->addFlash("success", "Félicitation, c'est presque terminé. Un email vient d'être envoyé à " . $user->getEmail() . " pour créer votre mot de passe");
 

@@ -2,6 +2,7 @@
 
 namespace App\Controller\User;
 
+use App\Entity\User;
 use App\Event\User\UserChangePasswordEvent;
 use App\Form\User\UserProfileType;
 use Doctrine\ORM\EntityManagerInterface;
@@ -49,6 +50,7 @@ class ProfileController extends AbstractController
         if($form->isSubmitted() && $form->isValid()){
             $this->em->persist($user);
             $this->em->flush();
+            $user->setPictureFile(null);
 
             $this->addFlash("success", "Félicitation, votre profle a bien été modifié");
         }
@@ -69,5 +71,16 @@ class ProfileController extends AbstractController
         $this->eventDispatcher->dispatch(new UserChangePasswordEvent($user));
         $this->addFlash("success", "Un email vient d'être envoyé à " . $user->getEmail() . " pour modifier votre mot de passe");
         return $this->redirectToRoute('user.profile.edit');
+    }
+
+    /**
+     * @Route(path="/utilisateur/{id}", name="user.profile.show")
+     * @param User $user
+     * @return Response
+     */
+    public function show(User $user){
+        return $this->render('user/show.html.twig', [
+            'user' => $user
+        ]);
     }
 }

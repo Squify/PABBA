@@ -28,7 +28,11 @@
         <ul class="navbar-nav ml-auto">
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="fas fa-user"></i>
+                    {% if app.user.picture is not null %}
+                        <img src="{{ vich_uploader_asset(app.user, 'pictureFile') }}" alt="" width="25px" class="rounded">
+                    {% else%}
+                        <i class="fas fa-user"></i>
+                    {% endif %}
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                     {% if is_granted('ROLE_USER') or  is_granted('ROLE_ADMIN') or is_granted('ROLE_MODERATOR') %}
@@ -36,7 +40,7 @@
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="{{ path('user_tutorial') }}">Mes tutoriels</a>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="{{ path('rent_index') }}">Mes Outils 
+                        <a class="dropdown-item" href="{{ path('rent_index') }}">Mes Outils
                             {% if renderController.toValidate() > 0 %}
                                 <span title="Vous avez {{ renderController.toValidate() }} rendu à valider" class="badge badge-pill badge-danger"> {{ renderController.toValidate() }} </span>
                             {% endif %}

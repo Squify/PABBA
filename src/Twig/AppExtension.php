@@ -37,7 +37,7 @@ class AppExtension extends AbstractExtension
     public function rentIsOld(Rent $rent)
     {
         $today = new \DateTime();
-        return $rent->getReturnAt()->getTimestamp() < $today->getTimestamp();
+        return  $rent->getReturnAt() ? $rent->getReturnAt()->getTimestamp() < $today->getTimestamp() : null;
     }
 
     public function rentReturned(Rent $rent)
@@ -45,7 +45,7 @@ class AppExtension extends AbstractExtension
 
         /** @var Render */
         $render = $rent->getRenders()->get(0);
-        
+
         return $render && $render->getIsValid();
 
     }
@@ -75,7 +75,7 @@ class AppExtension extends AbstractExtension
                 // C'est déjà passé
                 return 2;
                 break;
-                
+
         }
 
     }

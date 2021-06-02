@@ -146,3 +146,10 @@ body {
 .custom-file-label::after{
   content: "Charger" !important;
 }
+
+.vich-image {
+  @extend .text-center;
+  img {
+    @extend .w-25
+  }
+}
