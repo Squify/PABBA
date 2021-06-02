@@ -76,6 +76,11 @@ class EventRepository extends ServiceEntityRepository
             ;
         }
 
+        $qb
+            ->andWhere('e.isPublished = 1')
+            ->orderBy('e.eventAt', 'ASC')
+        ;
+
         return $qb ->getQuery()
             ->getResult();
     }
