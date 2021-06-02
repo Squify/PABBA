@@ -65,6 +65,9 @@ class EventType extends AbstractType
                 'class' => User::class,
                 'choice_label' => 'firstname',
                 'multiple' => true,
+                'attr' => [
+                    'class' => 'select2'
+                ],
                 'label_attr' => [
                     'class' => 'create_event_label'
                 ]

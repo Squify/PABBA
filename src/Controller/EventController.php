@@ -114,6 +114,25 @@ class EventController extends AbstractController
     }
 
     /**
+     * @Route("/supprimer/{id}", name="event_delete")
+     * @param Event $event
+     * @return RedirectResponse
+     */
+    public function delete(Event $event)
+    {
+        if(!$event->getOrganisers()->contains($this->getUser())){
+            $this->addFlash("error", "Vous ne pouvez pas supprimer un événement dont vous n'êtes pas organisateur");
+        }else{
+            $this->manager->remove($event);
+            $this->manager->flush();
+            $this->addFlash("success", "L'évènement a bien été modifié");
+        }
+
+
+        return $this->redirectToRoute("event_index");
+    }
+
+    /**
      * @Route("/rejoindre/{event}", name="event_join")
      * @IsGranted("ROLE_USER")
      *
@@ -135,7 +154,7 @@ class EventController extends AbstractController
      * @IsGranted("ROLE_USER")
      *
      * @param Event $event
-     * @return void
+     * @return RedirectResponse
      */
     public function quit(Event $event)
     {
