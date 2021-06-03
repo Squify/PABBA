@@ -1,0 +1,31 @@
+<div class="col-12 col-lg-8">
+    <div class="" id="map" style="height:70vh;width:100%;margin:auto;"></div>
+</div>
+
+<div class="col-12 col-lg-4 mt-3 mt-lg-0">
+    <div class="row" style="max-height:70vh; overflow: scroll">
+        {% for place in places %}
+            {% if place.isValid %}
+                <div
+                    class="col-12 mb-3 js-marker"
+                    data-lat="{{ place.latitude }}"
+                    data-lng="{{ place.longitude }}"
+                    data-type="{{ place.type.label }}"
+                    data-addr=" {{ place.address }}"
+                    data-comments="{{ place.comments }}"
+                >
+                    <div class="card shadow">
+                        <div class="card-body">
+                           <h5> {{ place.type.label }}</h5>
+                            <p>
+                                {{ place.address|raw }}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+            {# <p>{{ place.address }}</p> #}
+        {% endfor %}
+    </div>
+</div>
+

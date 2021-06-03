@@ -21,9 +21,9 @@ export default class {
                     e.preventDefault();
                     this.loadData(new FormData(form));
                     document.querySelector('#close-filter').click();
-                }).catch((err) => {});
+                }).catch((err) => {console.error(err);});
             }
-        }).catch((err) => {});
+        }).catch((err) => {console.error(err)});
     }
 
     initForm() {
