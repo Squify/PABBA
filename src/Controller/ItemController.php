@@ -4,6 +4,8 @@ namespace App\Controller;
 
 use App\Entity\Item;
 use App\Entity\Rent;
+use App\Form\EventSearchType;
+use App\Form\ItemSearchType;
 use App\Form\ItemType;
 use App\Form\ItemBorrowType;
 use App\Repository\ItemRepository;
@@ -22,39 +24,57 @@ class ItemController extends AbstractController
 {
 
     private $manager;
+    /**
+     * @var ItemRepository
+     */
+    private ItemRepository $itemRepository;
 
-    public function __construct(EntityManagerInterface $manager)
+    /**
+     * ItemController constructor.
+     * @param EntityManagerInterface $manager
+     * @param ItemRepository $itemRepository
+     */
+    public function __construct(EntityManagerInterface $manager, ItemRepository $itemRepository)
     {
         $this->manager = $manager;
+        $this->itemRepository = $itemRepository;
     }
-
-
 
     /**
      * @Route("", name="item_index", methods={"GET"})
      */
-    public function index(ItemRepository $itemRepository, Request $request): Response
+    public function index(): Response
     {
 
-        
+        return $this->render('item/index.html.twig');
+    }
 
-        if ($request->isXmlHttpRequest()) {
-            
-            $filters["state"] = $request->query->get("state");
-            $filters["toolType"] = $request->query->get("toolType");
-            $filters["name"] = $request->query->get("name");
+    /**
+     * @Route("/search", name="item_search")
+     * @param Request $request
+     * @return Response
+     */
+    public function search(Request $request)
+    {
+        $form = $this->createForm(ItemSearchType::class);
 
-            $items = $itemRepository->findByFilters($filters);
+        $form->handleRequest($request);
 
-            // dump($items);
-            
+        if($form->isSubmitted() && $form->isValid()){
+            $items = $this->itemRepository->findByFilters($form->getData());
+        }else{
+            $items = $this->itemRepository->findByStatus(0);
         }
-        
-        return $this->render('item/index.html.twig', [
-            'items' => $request->isXmlHttpRequest() ? $items : $itemRepository->findBy([
-                "status" => 0
-            ]),
+
+        return $this->json([
+            'form' => $this->render("components/_search_form.html.twig", [
+                'form' => $form->createView(),
+            ])->getContent(),
+            'content' => $this->render("item/components/_rows.html.twig", [
+                'items' => $items
+            ])->getContent()
         ]);
+
     }
 
     /**
