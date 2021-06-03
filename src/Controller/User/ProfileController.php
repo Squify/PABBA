@@ -75,10 +75,17 @@ class ProfileController extends AbstractController
 
     /**
      * @Route(path="/utilisateur/{id}", name="user.profile.show")
-     * @param User $user
+     * @param null $user
      * @return Response
      */
-    public function show(User $user){
+    public function show($id = null){
+
+        if($id){
+            $user = $this->em->getRepository(User::class)->find($id);
+        }else{
+            $user = $this->getUser();
+        }
+
         return $this->render('user/show.html.twig', [
             'user' => $user
         ]);
