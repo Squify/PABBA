@@ -13,6 +13,8 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\NumberField;
 
 class EventCrudController extends AbstractCrudController
 {
@@ -30,37 +32,17 @@ class EventCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         return [
-            ImageField::new("imageName", "Image")->setBasePath("/images/events")->hideOnForm(),
+            IdField::new("id", "#")->hideOnForm(),
             TextField::new('title', 'Titre'),
             AssociationField::new('place', "Emplacement")->formatValue( function($value){
                 return substr($value, 0, 30)."...";
             }),
-            AssociationField::new('eventType', "Type"),
             DateTimeField::new("eventAt", "A lieu le"),
+            AssociationField::new('eventType', "Type"),
+            ImageField::new("imageName", "Image")->setBasePath("/images/events")->hideOnForm(),
+            // AssociationField::new("organisers", "Organisateurs")->onlyOnForms(),
+            // AssociationField::new("participants", "Participants")->onlyOnForms(),
         ];
     }
 
-
-    // public function configureFields(string $pageName): iterable
-    // {
-    //     return [
-    //         TextField::new('name', 'Nom'),
-    //         VichImageField::new('imageFile', 'Image')->onlyOnForms(),
-    //         AssociationField::new('state', 'État'),
-    //         BooleanField::new('status', 'Disponible'),
-    //         AssociationField::new('owner','Propriétaire')->onlyOnForms(),
-    //         AssociationField::new('category','Catégorie')->onlyOnForms()
-    //     ];
-    // }
-
-    // public function configureActions(Actions $actions): Actions
-    // {
-    //     return $actions
-    //         // ...
-    //         ->update(Crud::PAGE_INDEX, Action::DELETE, function (Action $action) {
-    //             return $action ->displayIf(static function (Item $item) {
-    //                 return $item->getRents(true)->count() == 0;
-    //             });
-    //         });
-    // }
 }
