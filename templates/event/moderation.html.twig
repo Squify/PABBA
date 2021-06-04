@@ -1,0 +1,81 @@
+{% extends "base.html.twig" %}
+
+{% block title %}PABBA - Gestion &Eacute;vénements
+{% endblock %}
+
+{% block body %}
+
+	{% for event in events %}
+
+		<div class="container">
+
+			<div class="card w-100 {{ event.isRefused ? 'card-event-refused' : '' }} ">
+				{% if event.isRefused %}
+					<div class="event-refused-icon see-reason" data-reason="{{ event.refusedComment }}">
+						<i class="bi bi-exclamation-circle-fill"></i>
+					</div>
+				{% endif %}
+				<div class="row">
+					<div class="col-4">
+						<img src="{{ (event.imageName) ? vich_uploader_asset(event, 'imageFile') : asset('images/default_event.png') }}" alt="Image de l'évènement {{ event.title }}" class="w-100">
+					</div>
+					<div class="col-5">
+						<div class="card-body event-moderation-body">
+							<h6 class="card-subtitle text-muted">{{ event.eventAt | date("d/m/Y - H:i") }}</h6>
+							<p class="card-title show-event-title">{{ event.title }}</p>
+							<div class="event-moderation-bottom">
+								<a target="_blank" href="https://www.google.com/maps/search/?api=1&query={{ event.place.address|url_encode }}" class="text-decoration-none card-subtitle show-event-text mb-3">
+									{{ event.place.address }}
+								</a>
+								<p class="card-subtitle text-muted">
+									Organisé par :
+									{% for organiser in event.organisers %}
+										{% if organiser == event.organisers|last %}
+											et
+										{% elseif organiser != event.organisers|first %}
+											,
+										{% endif %}
+										{{ organiser.firstname ~ ' ' ~ organiser.lastname }}
+									{% endfor %}
+								</p>
+							</div>
+						</div>
+					</div>
+					<div class="col-3 align-self-center">
+						<div class="row justify-content-center">
+							<div class="col-4 text-center mb-3">
+								<a href="" data-event="{{ event.id }}" data-title="{{ event.title }}" class="text-success validate-btn" title="Valider l'événement">
+									<i class="far fa-smile fa-3x"></i>
+								</a>
+							</div>
+							<div class="col-4 text-center">
+								<a href="" data-event="{{ event.id }}" data-title="{{ event.title }}" class="text-danger refuse-btn" title="Refuser l'événement">
+									<i class="far fa-frown fa-3x"></i>
+								</a>
+							</div>
+						</div>
+						<div class="row justify-content-center">
+							<div class="col-8">
+								<a href="" class="btn btn-info badge badge-pill w-100">Plus de détails</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+
+	{% endfor %}
+
+{% endblock %}
+
+{% block javascripts %}
+	<script>
+		const basePath = "{{ path('event_index') }}";
+const moderationPath = "{{ path('event_moderation') }}";
+const validatePath = "{{ path('event_validate') }}";
+const refusePath = "{{ path('event_refuse') }}";
+	</script>
+	{{ parent() }}
+	{{ encore_entry_script_tags('event_moderation') }}
+{% endblock %}

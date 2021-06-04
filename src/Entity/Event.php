@@ -94,6 +94,16 @@ class Event
      */
     private $commentEvents;
 
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $isRefused;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $refusedComment;
+
 
 
     public function __construct()
@@ -308,6 +318,30 @@ class Event
                 $commentEvent->setEvent(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getIsRefused(): ?bool
+    {
+        return $this->isRefused;
+    }
+
+    public function setIsRefused(?bool $isRefused): self
+    {
+        $this->isRefused = $isRefused;
+
+        return $this;
+    }
+
+    public function getRefusedComment(): ?string
+    {
+        return $this->refusedComment;
+    }
+
+    public function setRefusedComment(?string $refusedComment): self
+    {
+        $this->refusedComment = $refusedComment;
 
         return $this;
     }

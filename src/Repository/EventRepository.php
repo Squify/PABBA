@@ -84,4 +84,14 @@ class EventRepository extends ServiceEntityRepository
         return $qb ->getQuery()
             ->getResult();
     }
+
+    public function getEventsToModerate()
+    {
+        $query = $this->createQueryBuilder('e')
+            ->where("e.isPublished = 0")
+            ->orderBy("e.eventAt", "ASC")
+        ;
+
+        return $query->getQuery()->getResult();
+    }
 }

@@ -49,9 +49,9 @@ class EventController extends AbstractController
 
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid()){
+        if ($form->isSubmitted() && $form->isValid()) {
             $events = $this->eventRepository->search($form->getData());
-        }else{
+        } else {
             $events = $this->eventRepository->search([]);
         }
 
@@ -65,7 +65,6 @@ class EventController extends AbstractController
                 'events' => $events,
             ])->getContent()
         ]);
-
     }
 
     /**
@@ -103,6 +102,63 @@ class EventController extends AbstractController
             'form'  => $form->createView(),
             'event' => $event
         ]);
+    }
+
+    /**
+     * @Route("/gestion", name="event_moderation")
+     * @IsGranted("ROLE_MODERATOR")
+     */
+    public function moderation()
+    {
+
+        return $this->render("event/moderation.html.twig", [
+            "events" => $this->eventRepository->getEventsToModerate()
+        ]);
+    }
+
+
+    /**
+     * @Route("/valider", name="event_validate")
+     * @IsGranted("ROLE_MODERATOR")
+     *
+     * @param Request $request
+     * @return void
+     */
+    public function validate(Request $request)
+    {
+
+        // dump($request);
+
+        $event = $this->eventRepository->find($request->request->get('event'));
+
+        $event->setIsPublished(true)
+            ->setIsRefused(false);
+
+        $this->manager->flush();
+
+        $this->addFlash("success", "L'événement a été validé et va être publié");
+        return $this->redirectToRoute("event_moderation");
+    }
+
+    /**
+     * @Route("/refuser", name="event_refuse")
+     * @IsGranted("ROLE_MODERATOR")
+     *
+     * @param Request $request
+     * @return void
+     */
+    public function refuse(Request $request)
+    {
+        // dd($request);
+        $event = $this->eventRepository->find($request->request->get('event'));
+
+        $event->setIsRefused(true)
+            ->setRefusedComment($request->request->get("text"));
+
+        $this->manager->flush();
+
+        $this->addFlash("success", "L'événement a bien été refusé");
+        return $this->redirectToRoute("event_moderation");
     }
 
     /**
@@ -149,9 +205,9 @@ class EventController extends AbstractController
      */
     public function delete(Event $event)
     {
-        if(!$event->getOrganisers()->contains($this->getUser())){
+        if (!$event->getOrganisers()->contains($this->getUser())) {
             $this->addFlash("error", "Vous ne pouvez pas supprimer un événement dont vous n'êtes pas organisateur");
-        }else{
+        } else {
             $this->manager->remove($event);
             $this->manager->flush();
             $this->addFlash("success", "L'évènement a bien été supprimé");
@@ -194,5 +250,4 @@ class EventController extends AbstractController
 
         return $this->redirectToRoute("event_details", ["event" => $event->getId()]);
     }
-
 }

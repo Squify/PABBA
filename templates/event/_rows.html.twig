@@ -5,7 +5,7 @@
 		{% for event in events %}
 			{% if isToday(event.eventAt) == 0 %}
 				{% set today = 1 %}
-				<div class="col-4">
+				<div class="col-4 mb-4">
 					{% include "event/_event_card.html.twig" %}
 				</div>
 			{% endif %}
@@ -24,7 +24,7 @@
 		{% for event in events %}
 			{% if isToday(event.eventAt) == 1 %}
 				{% set toCome = 1 %}
-				<div class="col-4">
+				<div class="col-4 mb-4">
 					{% include "event/_event_card.html.twig" with { "event" : event } %}
 				</div>
 			{% endif %}

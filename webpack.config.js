@@ -21,6 +21,7 @@ Encore
     .addEntry('item_borrow', './assets/js/item_borrow.js')
     .addEntry('event_create', './assets/js/event_create.js')
     .addEntry('event_search', './assets/js/event_search.js')
+    .addEntry('event_moderation', './assets/js/event_moderation.js')
     // .addStyleEntry('mapStyle', './assets/scss/map.scss')
     .addStyleEntry('login', './assets/scss/login.scss')
     .addStyleEntry('base', './assets/scss/base.scss')
