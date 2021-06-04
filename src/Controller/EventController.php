@@ -55,6 +55,8 @@ class EventController extends AbstractController
             $events = $this->eventRepository->search([]);
         }
 
+        dump($events);
+
         return $this->json([
             'form' => $this->render("event/_search_form.html.twig", [
                 'form' => $form->createView(),

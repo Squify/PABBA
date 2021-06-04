@@ -52,7 +52,7 @@ class EventRepository extends ServiceEntityRepository
     public function search(array $s = null)
     {
         $qb =  $this->createQueryBuilder('e')
-            ->orderBy('e.id', 'ASC')
+            // ->orderBy('e.id', 'ASC')
             ;
 
         if(isset($s['place']) && $s['place'] instanceof Place){

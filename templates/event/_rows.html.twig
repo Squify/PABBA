@@ -1,41 +1,37 @@
 {# Onglet des évènements en cours #}
 <div class="tab-pane fade show active" id="today" role="tabpanel" aria-labelledby="today-tab">
-    {% set today = 0 %}
-    {% for event in events %}
-        {% if isToday(event.eventAt) == 0 %}
-            {% set today = 1 %}
-        {% endif %}
-    {% endfor %}
-    <div class="{{ (today == 1) ? 'card-columns' : 'row justify-content-center' }}">
-        {% for event in events %}
-            {% if isToday(event.eventAt) == 0 %}
-                {% include "event/_event_card.html.twig" %}
-            {% endif %}
-        {% endfor %}
-        {% if today == 0 %}
-            <i class="mt-4">Il n'y a aucun évènement en cours</i>
-        {% endif %}
-    </div>
+	{% set today = 0 %}
+	<div class="row">
+		{% for event in events %}
+			{% if isToday(event.eventAt) == 0 %}
+				{% set today = 1 %}
+				<div class="col-4">
+					{% include "event/_event_card.html.twig" %}
+				</div>
+			{% endif %}
+		{% endfor %}
+		{% if today == 0 %}
+			<i class="mt-4">Il n'y a aucun évènement en cours</i>
+		{% endif %}
+	</div>
 
 </div>
 
 {# Onglet des évènements à venir #}
 <div class="tab-pane fade" id="toCome" role="tabpanel" aria-labelledby="toCome-tab">
-    {% set toCome = 0 %}
-    {% for event in events %}
-        {% if isToday(event.eventAt) == 1 %}
-            {% set toCome = 1 %}
-        {% endif %}
-    {% endfor %}
-    <div class="{{ (toCome == 1) ? 'card-columns' : 'row justify-content-center' }}">
-        {% for event in events %}
-            {% if isToday(event.eventAt) == 1 %}
-                {% include "event/_event_card.html.twig" with { "event" : event } %}
-            {% endif %}
-        {% endfor %}
-        {% if toCome == 0 %}
-            <i class="mt-4">Il n'y a aucun évènement à venir</i>
-        {% endif %}
-    </div>
+	{% set toCome = 0 %}
+	<div class="row">
+		{% for event in events %}
+			{% if isToday(event.eventAt) == 1 %}
+				{% set toCome = 1 %}
+				<div class="col-4">
+					{% include "event/_event_card.html.twig" with { "event" : event } %}
+				</div>
+			{% endif %}
+		{% endfor %}
+		{% if toCome == 0 %}
+			<i class="mt-4">Il n'y a aucun évènement à venir</i>
+		{% endif %}
+	</div>
 
 </div>
