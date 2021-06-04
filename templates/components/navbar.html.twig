@@ -30,26 +30,26 @@
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     {% if app.user and app.user.picture is not null %}
                         <img src="{{ vich_uploader_asset(app.user, 'pictureFile') }}" alt="" width="25px" class="rounded">
-                    {% else%}
+                    {% else %}
                         <i class="fas fa-user"></i>
                     {% endif %}
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                     {% if is_granted('ROLE_USER') or  is_granted('ROLE_ADMIN') or is_granted('ROLE_MODERATOR') %}
-                        <a class="dropdown-item" href="{{ path('user.profile.edit') }}">Mon profil</a>
+                        <a class="dropdown-item" href="{{ path('user.profile.edit') }}">Mes informations</a>
+                        <a class="dropdown-item" href="{{ path('user.profile.show') }}">Mon profil</a>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="{{ path('user_tutorial') }}">Mes tutoriels</a>
-                        <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="{{ path('rent_index') }}">Mes Outils
                             {% if renderController.toValidate() > 0 %}
                                 <span title="Vous avez {{ renderController.toValidate() }} rendu à valider" class="badge badge-pill badge-danger"> {{ renderController.toValidate() }} </span>
                             {% endif %}
-                            </a>
-                            <div class="dropdown-divider"></div>
-                                {% if is_granted('ROLE_MODERATOR') %}
-                            <a class="dropdown-item" href="{{ path('moderation_index') }}">Mes Médiations</a>
-                            {% endif %}
+                        </a>
                         <div class="dropdown-divider"></div>
+                        {% if is_granted('ROLE_MODERATOR') %}
+                            <a class="dropdown-item" href="{{ path('moderation_index') }}">Mes Médiations</a>
+                            <div class="dropdown-divider"></div>
+                        {% endif %}
                         <a class="dropdown-item" href="{{ path('app_logout') }}">Déconnexion</a>
                     {% else %}
                         <a class="dropdown-item" href="{{ path('app_login') }}">Connexion</a>

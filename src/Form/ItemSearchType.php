@@ -4,6 +4,8 @@ namespace App\Form;
 
 use App\Entity\Event;
 use App\Entity\Place;
+use App\Entity\State;
+use App\Entity\ToolType;
 use App\Entity\User;
 use App\Entity\EventType as EType;
 use App\Form\Admin\VichImageField;
@@ -21,43 +23,31 @@ use Symfony\Component\Validator\Constraints\DateTime;
 use Vich\UploaderBundle\Form\Type\VichImageType;
 
 
-class EventSearchType extends AbstractType
+class ItemSearchType extends AbstractType
 {
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('eventAt', TextType::class, [
-                'label' => "Date",
-                'required' => false,
-
-                'label_attr' => [
-                    'class' => 'create_event_label'
-                ]
-            ])
-            ->add('eventType', EntityType::class, [
-                'label' => 'Type d\'évènement',
-                'class' => EType::class,
+            ->add('state', EntityType::class, [
+                'label' => 'État',
+                'class' => State::class,
                 'choice_label' => 'label',
                 'required' => false,
-                'multiple' => true,
-                'expanded' => true,
-                'label_attr' => [
-                    'class' => 'checkbox-label'
-                ]
+                'placeholder' => 'Tous les états',
             ])
-            ->add('place', EntityType::class, [
-                'label' => 'Emplacement',
-                'attr' => [
-                    'class' => 'select2'
-                ],
+            ->add('toolType', EntityType::class, [
+                'label' => 'Catégorie',
                 'required' => false,
-                'class' => Place::class,
-                'choice_label' => 'address',
-                'label_attr' => [
-                    'class' => 'create_event_label'
-                ]
-            ]);
+                'class' => ToolType::class,
+                'choice_label' => 'label',
+                'placeholder' => 'Tous les types',
+            ])
+            ->add('name', TextType::class, [
+                'label' => "Nom de l'outil",
+                'required' => false,
+            ])
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver)

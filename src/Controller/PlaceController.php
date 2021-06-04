@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\Place;
+use App\Form\EventSearchType;
+use App\Form\PlaceSearchType;
 use App\Form\PlaceType;
 use App\Repository\PlaceRepository;
 use App\Repository\TypeRepository;
@@ -19,11 +21,26 @@ class PlaceController extends AbstractController
 
     private $typeRepository;
     protected $searchService;
+    /**
+     * @var PlaceRepository
+     */
+    private PlaceRepository $placeRepository;
 
-    public function __construct(SearchService $searchService, TypeRepository $typeRepository)
+    /**
+     * PlaceController constructor.
+     * @param SearchService $searchService
+     * @param TypeRepository $typeRepository
+     * @param PlaceRepository $placeRepository
+     */
+    public function __construct(
+        SearchService $searchService,
+        TypeRepository $typeRepository,
+        PlaceRepository $placeRepository
+    )
     {
         $this->typeRepository = $typeRepository;
         $this->searchService = $searchService;
+        $this->placeRepository = $placeRepository;
     }
 
     /**
@@ -34,18 +51,34 @@ class PlaceController extends AbstractController
      */
     public function index(PlaceRepository $placeRepository, Request $request)
     {
-        $filters = $request->request->keys();
-        if ($filters)
-            $places = $placeRepository->findByType($filters);
-        else
-            $places = $placeRepository->findAll();
+        return $this->render("places/index.html.twig");
+    }
 
-        $types = $this->typeRepository->findAll();
-        return $this->render("places/index.html.twig", [
-            'types' => $types,
-            'places' => $places,
-            'filters' => $filters
+    /**
+     * @Route("/lieu/search", name="place_search")
+     * @param Request $request
+     * @return Response
+     */
+    public function search(Request $request)
+    {
+        $form = $this->createForm(PlaceSearchType::class);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid())
+            $places = $this->placeRepository->findByType($form->getData()['types']);
+        else
+            $places = $this->placeRepository->findAll();
+
+        return $this->json([
+            'form' => $this->render("components/_search_form.html.twig", [
+                'form' => $form->createView(),
+            ])->getContent(),
+            'content' => $this->render("places/components/_rows.html.twig", [
+                'places' => $places,
+            ])->getContent()
         ]);
+
     }
 
     /**
@@ -106,5 +139,5 @@ class PlaceController extends AbstractController
             "appId" => $this->getParameter('ALGOLIA_APP_ID')
         ]);
     }
-    
+
 }

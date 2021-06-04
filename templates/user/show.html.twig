@@ -63,9 +63,9 @@
 
                                     <div class="tab-pane fade" id="events" role="tabpanel" aria-labelledby="events-tab">
                                         <div class="row">
-                                            {% for event in user.events %}
+                                            {% for row in user.allEvents %}
                                                 <div class="col-12 col-md-4">
-                                                    {% include 'event/_event_card.html.twig' with {small: true} %}
+                                                    {% include 'event/_event_card.html.twig' with {small: true, event: row.event, type: row.type} %}
                                                 </div>
                                             {% else%}
                                                 <p class="mx-auto">

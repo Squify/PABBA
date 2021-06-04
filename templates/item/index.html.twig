@@ -6,77 +6,34 @@
 {% block body %}
 
 
-	<div
-		class="row" style="width:90%;margin:auto;">
-		{# <div class="row" id="itemFilters"> #}
-		<div class="col-2" id="itemFilters">
-			<div class="row">
-				<h5>Filtres</h5>
-			</div>
-			{# <div class="col-4"> #}
-			<div class="row">
-				<label for="state">Etat</label>
-				<select name="state" id="state" class="form-control">
-					<option value>-- Tous les états --</option>
-					{% for state in stateRepository.findAll() %}
-						<option value="{{ state.id }}">{{ state.label }}</option>
-					{% endfor %}
-				</select>
-			</div>
-			{# <div class="col-4"> #}
-			<div class="row">
-				<label for="toolType">Catégorie</label>
-				<select name="toolType" id="toolType" class="form-control">
-					<option value="">-- Toutes les catégories --</option>
-					{% for toolType in toolTypeRepository.findAll() %}
-						<option value="{{ toolType.id }}">{{ toolType.label }}</option>
-					{% endfor %}
-				</select>
-			</div>
-			{# <div class="col-4"> #}
-			<div class="row">
-				<label for="name">Nom de l'outil</label>
-				<input type="text" id="name" name="name" class="form-control">
-			</div>
-		</div>
+	<div class="container my-5">
+		<div class="row" >
+			<button id="open-filter" type="button" data-toggle="modal" data-target="#filterModal" class="btn filter-btn"><i
+					class="bi bi-filter"></i>Filtres
+			</button>
+			<div class="col-12" >
+				<div class="row" id="item-list">
 
-
-		<div class="col-8 offset-1 row" id="items">
-			{% for item in items %}
-				<div class="col-12 col-md-4 pt-4">
-					<div class="card rent-card shadow" data-id="{{ item.id }}">
-						<img src="{{ item.picture is not null ? vich_uploader_asset(item, 'imageFile') : asset('images/default_items.jpg') }}" class="card-img-top item-picture" alt="Image de l'outil {{ item.name }}">
-						<div class="card-body">
-							<h6 class="card-subtitle mb-2 text-muted">{{ item.owner.firstname ~ ' ' ~ item.owner.lastname }}</h6>
-							<h5 class="card-title">{{ item.name }}<small>
-									-
-									{{ item.category.label }}</small>
-							</h5>
-							<a href="{{ path('item_show', {'id': item.id}) }}" class="btn btn-primary">
-								<i class="fas fa-eye"></i>
-							</a>
-							{#                             <a href="{{ path('item_show', {'id': item.id}) }}" class="btn btn-primary"><i class="fas fa-edit"></i></a> #}
-							<a href="{{ path('item_borrow', {'id': item.id}) }}" class="btn btn-secondary">
-								<i class="fas fa-handshake"></i>
-							</a>
-						</div>
-					</div>
 				</div>
-			{% endfor %}
-		</div>
+			</div>
 
-		<button type="button" class="btn add-btn">
-			<a href="{{ path('item_create') }}">
-				<i class="bi bi-plus-circle-fill"></i>
-			</a>
-		</button>
+			<button type="button" class="btn add-btn">
+				<a href="{{ path('item_create') }}">
+					<i class="bi bi-plus-circle-fill"></i>
+				</a>
+			</button>
+		</div>
+	 </div>
+	<div class="modal right fade" id="filterModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog ">
+			<div class="modal-content" id="filter-content">
+
+			</div>
+		</div>
 	</div>
+
 {% endblock %}
 
 {% block javascripts %}
-	<script>
-		const pathToItemIndex = "{{ path('item_index') }}"
-	</script>
 	{{ encore_entry_script_tags('searchItem') }}
-
 {% endblock %}
