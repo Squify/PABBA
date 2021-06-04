@@ -565,6 +565,27 @@ class User implements UserInterface
         return $this;
     }
 
+    public function getAllEvents(){
+        $events = [];
+        foreach ($this->getEvents() as $event) {
+            if(!isset($events[$event->getId()])){
+                $events[$event->getId()] = [
+                    "type" => 'organize',
+                    'event' => $event
+                ];
+            }
+        }
+        foreach ($this->getEventsAsParticipant() as $event) {
+            if(!isset($events[$event->getId()])){
+                $events[$event->getId()] = [
+                    "type" => 'participate',
+                    'event' => $event
+                ];
+            }
+        }
+        return $events;
+    }
+
     /**
      * @return Collection|Event[]
      */

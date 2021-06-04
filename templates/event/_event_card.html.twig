@@ -18,8 +18,14 @@
 			{% endif %}
 			à
 			{{ event.eventAt | date('H:i') }}
-			{% if not small %}
-			| <span style="font-size:0.8em;">{{ event.participants | length }} participant(s)</span>
+			{% if small and type is defined%}
+				{% if type == 'participate' %}
+					<span class="badge badge-pills badge-warning">Participant</span>
+				{% else %}
+					<span class="badge badge-pills badge-success">Organisateur</span>
+				{% endif %}
+			{% else %}
+				| <span style="font-size:0.8em;">{{ event.participants | length }} participant(s)</span>
 				{{ (app.user and app.user in event.participants) ? '| <span class="badge badge-pills badge-success"><i class="fas fa-check"></i> Je participe</span>' : '' }}
 
 			{% endif %}
