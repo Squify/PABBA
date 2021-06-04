@@ -35,9 +35,6 @@ class ItemSearchType extends AbstractType
                 'choice_label' => 'label',
                 'required' => false,
                 'placeholder' => 'Tous les états',
-                'label_attr' => [
-                    'class' => 'checkbox-label'
-                ]
             ])
             ->add('toolType', EntityType::class, [
                 'label' => 'Catégorie',
@@ -45,9 +42,6 @@ class ItemSearchType extends AbstractType
                 'class' => ToolType::class,
                 'choice_label' => 'label',
                 'placeholder' => 'Tous les types',
-                'label_attr' => [
-                    'class' => 'create_event_label'
-                ]
             ])
             ->add('name', TextType::class, [
                 'label' => "Nom de l'outil",
