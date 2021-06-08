@@ -87,7 +87,6 @@ class EventType extends AbstractType
                 'download_uri' => false,
                 'download_label' => false,
                 'label' => "Photo de l'évènement",
-                'help' => "Une photo de l'évènement",
                 'attr' => [
                     'placeholder' => 'Ajouter une image',
                     'maxSize' => '2M',

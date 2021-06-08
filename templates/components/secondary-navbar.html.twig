@@ -61,14 +61,18 @@
 
                 {# Routes événement #}
             {% elseif route_name starts with 'event_index' %}
-                <li class="breadcrumb-item" aria-current="page">Evènements</li>
+                <li class="breadcrumb-item" aria-current="page">&Eacute;vènements</li>
+
             {% elseif route_name starts with 'event_create' %}
-                    <li class="breadcrumb-item" aria-current="page"><a href="{{ path('event_index') }}">Evènements</a></li>
+                    <li class="breadcrumb-item" aria-current="page"><a href="{{ path('event_index') }}">&Eacute;vènements</a></li>
                     <li class="breadcrumb-item" aria-current="page">Création d'un évènement</li>
             {% elseif route_name starts with 'event_details' %}
-                    <li class="breadcrumb-item" aria-current="page"><a href="{{ path('event_index') }}">Evènements</a></li>
+                    <li class="breadcrumb-item" aria-current="page"><a href="{{ path('event_index') }}">&Eacute;vènements</a></li>
                     <li class="breadcrumb-item" aria-current="page">Détails d'un évènement</li>
 
+            {% elseif route_name starts with 'event_update' %}
+                <li class="breadcrumb-item" aria-current="page"><a href="{{ path('event_index') }}">&Eacute;vènements</a></li>
+                <li class="breadcrumb-item" aria-current="page">Modification d'un évènement</li>
             {% else %}
                 <li class="breadcrumb-item"><a href="#">Home</a></li>
             {% endif %}

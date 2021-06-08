@@ -7,6 +7,7 @@ use App\Form\EventSearchType;
 use App\Form\EventType;
 use App\Repository\EventRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use mysql_xdevapi\Warning;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -184,6 +185,11 @@ class EventController extends AbstractController
      */
     public function update(Request $request, Event $event)
     {
+        if (!in_array($this->getUser(), $event->getOrganisers()->toArray()))
+        {
+            $this->addFlash('error', "Vous ne faites pas partis des organisateurs de l'évènement");
+            return $this->redirectToRoute('event_index');
+        }
         $form = $this->createForm(EventType::class, $event);
 
         $form->handleRequest($request);
