@@ -16,6 +16,12 @@
 					<div class="col-12 d-flex justify-content-center">
 						<span class="badge badge-pill badge-event-show">Organisateur</span>
 					</div>
+				</div>
+				<div class="col-9 d-flex flex-wrap">
+					<div class="col-9 mx-0 px-0 d-flex justify-content-left">
+						<h5 class="m-0 show-event-title" id="commentTitle">{{ comment.title }}</h5>
+					</div>
+					<div class="col-2 mx-0 px-0 d-flex">
 					{% for organisateur in event.organisers %}
 						{% if app.user == organisateur %}
 							<a class="btn text-warning js-event-comment-edit" data-toggle="modal" data-target="#modalComment" data-id={{ comment.id }}>
@@ -26,12 +32,8 @@
 							</a>
 						{% endif %}
 					{% endfor %}
-				</div>
-				<div class="col-9">
-					<div class="d-flex justify-content-center">
-						<h5 class="m-0 show-event-title" id="commentTitle">{{ comment.title }}</h5>
 					</div>
-					<p id="commentContent" class="show-event-text">{{ comment.content|raw }}</p>
+					<p id="commentContent" class="col-12 mx-0 px-0 show-event-text">{{ comment.content|raw }}</p>
 				</div>
 			</div>
 		</div>

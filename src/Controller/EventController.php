@@ -166,6 +166,7 @@ class EventController extends AbstractController
      *
      * @param Event $event
      * @return Response
+     * @IsGranted("ROLE_USER")
      */
     public function details(Event $event)
     {
@@ -179,6 +180,7 @@ class EventController extends AbstractController
      * @param Request $request
      * @param Event $event
      * @return RedirectResponse|Response
+     * @IsGranted("ROLE_USER")
      */
     public function update(Request $request, Event $event)
     {
