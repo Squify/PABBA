@@ -1,0 +1,43 @@
+{% for comment in event.commentEvents|reverse %}
+	<div class="card w-100 my-1">
+		<div class="card-body" data-id={{ comment.id }}>
+			<div class="row">
+				<div class="col-3 ">
+                    <div class="col-12 d-flex justify-content-center">
+						<p>Le {{ comment.createdAt|date('d/m/Y à H:i') }}</p>
+					</div>
+					<div class="col-12 d-flex justify-content-center">
+						<img src="{{ asset('/images/default_profile.jpg') }}" class="rounded-circle col-3 p-0" alt="Photo de profil de {{ comment.auteur.firstname }}">
+					</div>
+												
+					<div class="col-12 d-flex justify-content-center">
+						<p class="m-0 show-event-title">{{ comment.auteur.name }}</p>
+					</div>
+					<div class="col-12 d-flex justify-content-center">
+						<span class="badge badge-pill badge-event-show">Organisateur</span>
+					</div>
+				</div>
+				<div class="col-9 d-flex flex-wrap">
+					<div class="col-9 mx-0 px-0 d-flex justify-content-left">
+						<h5 class="m-0 show-event-title" id="commentTitle">{{ comment.title }}</h5>
+					</div>
+					<div class="col-2 mx-0 px-0 d-flex">
+					{% for organisateur in event.organisers %}
+						{% if app.user == organisateur %}
+							<a class="btn text-warning js-event-comment-edit" data-toggle="modal" data-target="#modalComment" data-id={{ comment.id }}>
+								<i class="bi bi-pencil-square h2"></i>
+							</a>
+							<a class="btn text-danger js-event-comment-delete" data-toggle="modal" data-target="#modalDelete" data-id={{ comment.id }}>
+								<i class="bi bi-file-earmark-x-fill h2"></i>
+							</a>
+						{% endif %}
+					{% endfor %}
+					</div>
+					<p id="commentContent" class="col-12 mx-0 px-0 show-event-text">{{ comment.content|raw }}</p>
+				</div>
+			</div>
+		</div>
+	</div>
+
+{% else %}
+<p class="no-result">Il n'y a rien ici pour le moment</p>{% endfor %}

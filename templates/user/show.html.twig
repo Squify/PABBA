@@ -1,0 +1,90 @@
+{% extends "base.html.twig" %}
+
+{% block title %}
+    PABBA - Utilisateur
+{% endblock %}
+
+{% block body %}
+    <div class="container my-5" style="height: 70vh;">
+        <div class="row h-100">
+            <div class="col-12 col-lg-4 mx-auto mt-5">
+                <div class="card h-100">
+                    <div class="card-body shadow rounded">
+                        <div class="row">
+                            <div class="col-12 text-center">
+                                <img
+                                    src="{{ user.picture ?  vich_uploader_asset(user, 'pictureFile') : 'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%3Fid%3DOIP.1Dt68EbjfxuFnc06IjNUzwAAAA%26pid%3DApi&f=1' }}"
+                                    alt=""
+                                    class="img-fluid w-50"
+                                    style="border-radius: 90px"
+                                >
+                                <h4 class="text-primary">{{ user.name }}</h4>
+                            </div>
+                            <div class="col-12 mt-4">
+                                <p class="text-muted">
+                                    Adresse mail : {{ user.email }} <br>
+                                    Téléphone : {{ user.phone }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-lg-8 mx-auto mt-5">
+                <div class="card h-100">
+                    <div class="card-body shadow rounded">
+                        <div class="row">
+                            <div class="col-12">
+                                <ul class="nav nav-pills nav-fill mb-3 mx-auto" id="pills-tab" role="tablist">
+                                    <li class="nav-item  border rounded" style="border:none;" role="places">
+                                        <a class="nav-link active" id="places-tab" data-toggle="pill" href="#places" role="tab" aria-controls="places" aria-selected="true">
+                                            Jardins dont il est membre
+                                        </a>
+                                    </li>
+                                    <li class="nav-item  border rounded ml-3" style="border:none;" role="events">
+                                        <a class="nav-link" id="events-tab" data-toggle="pill" href="#events" role="tab" aria-controls="events" aria-selected="false">
+                                            Historique des événements
+                                        </a>
+                                    </li>
+                                    <li class="nav-item  border rounded ml-3" style="border:none;" role="tutorials">
+                                        <a class="nav-link" id="tutorials-tab" data-toggle="pill" href="#tutorials" role="tab" aria-controls="tutorials" aria-selected="false">
+                                            Tutotiels créés
+                                        </a>
+                                    </li>
+                                </ul>
+
+                            </div>
+                            <div class="col-12">
+                                <div class="tab-content px-4">
+                                    <div class="tab-pane fade active show" id="places" role="tabpanel" aria-labelledby="places-tab">
+                                        car
+
+                                    </div>
+
+                                    <div class="tab-pane fade" id="events" role="tabpanel" aria-labelledby="events-tab">
+                                        <div class="row">
+                                            {% for row in user.allEvents %}
+                                                <div class="col-12 col-md-4">
+                                                    {% include 'event/_event_card.html.twig' with {small: true, event: row.event, type: row.type} %}
+                                                </div>
+                                            {% else%}
+                                                <p class="mx-auto">
+                                                    Aucun événement
+                                                </p>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="tutorials" role="tabpanel" aria-labelledby="tutorials-tab">
+                                        todo
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

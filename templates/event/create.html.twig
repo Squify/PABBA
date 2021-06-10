@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}PABBA - Nouvel évènement{% endblock %}
+
+{% block body %}
+
+
+    <div class="container">
+{#        <h1>Formulaire de création d'évènement</h1>#}
+        {{ form_start(form) }}
+
+        <div class="row">
+            <div class="col-4">
+                <div class="card p-1">
+                    <div class="col-12">
+                        {{ form_row(form.title) }}
+                    </div>
+                    <div class="col-12">
+                        {{ form_row(form.eventType) }}
+                    </div>
+                    <div class="col-12">
+                        {{ form_row(form.imageFile) }}
+                    </div>
+                    <div class="col-12">
+                        {{ form_row(form.place) }}
+                    </div>
+                    <div class="col-12">
+                        {{ form_row(form.eventAt) }}
+                    </div>
+                </div>
+            </div>
+            <div class="col-8 h-100">
+                <div class="card p-1">
+                    <div class="col-12">
+                        {{ form_row(form.description) }}
+                    </div>
+                    <div class="col-12">
+                        {{ form_row(form.organisers) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <button type="submit" class="btn add-btn-event" >
+                <i class="bi bi-arrow-right-circle-fill" ></i>
+        </button>
+
+
+        {{ form_end(form) }}
+    </div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('event_create') }}
+{% endblock %}

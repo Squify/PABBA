@@ -6,52 +6,18 @@
 {% block body %}
 
 	<div class="container">
+		<button id="open-filter" type="button" data-toggle="modal" data-target="#filterModal" class="btn filter-btn"><i
+				class="bi bi-filter"></i>Filtres
+		</button>
+		<div class="modal right fade" id="filterModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog ">
+				<div class="modal-content" id="filter-content">
 
-		{{ form_start(form) }}
-		<div class="row justify-content-end w-100 mb-3 mt-2">
-
-			<div class="col-3 align-self-center">
-				{{ form_widget(form.videoName) }}
-			</div>
-			<div class="col-4 align-self-center">
-				{{ form_widget(form.type) }}
-			</div>
-			<div class="col-4 align-self-center">
-				{{ form_widget(form.title) }}
-			</div>
-			<div class="col-1 align-self-center">
-				<button type="submit" class="btn btn-secondary">
-					<i class="fas fa-search"></i>
-				</button>
-			</div>
-
-		</div>
-		{{ form_end(form) }}
-
-		<div class="row">
-			{% for tutorial in tutorials %}
-				<div class="col-12 col-md-3 pt-3">
-					<div class="card" data-id="{{ tutorial.id }}">
-						<img src="{{ tutorial.imageName is not null ? vich_uploader_asset(tutorial, 'imageFile') : asset('images/default_tuto.jpg') }}" class="card-img-top" alt="Image du tutoriel {{ tutorial.title }}">
-						<div class="card-body">
-							<h5 class="card-title">{{ tutorial.title }}</h5>
-							<p class="card-text">
-								{% if tutorial.rate %}
-								{% for i in range(1,tutorial.rate) %}
-									<i class="fas fa-star"></i>
-								{% endfor %}
-								{% if  tutorial.rate < 5 %}
-									{% for i in range(5, tutorial.rate + 1) %}
-										<i class="far fa-star"></i>
-									{% endfor %}
-								{% endif %}
-							{% endif %}
-							</p>
-							<a href="{{ path('tutorial_details', {'id': tutorial.id}) }}" class="btn btn-primary">Consulter</a>
-						</div>
-					</div>
 				</div>
-			{%  endfor %}
+			</div>
+		</div>
+		<div class="row" id="tutorial-list">
+
 		</div>
 	</div>
 	<button type="button" class="btn add-btn">

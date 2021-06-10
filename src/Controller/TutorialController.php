@@ -3,7 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\Tutorial;
-use App\Form\SearchType;
+use App\Form\ItemSearchType;
+use App\Form\TutorialSearchType;
 use App\Form\TutorialType;
 use App\Entity\CommentTutorial;
 use App\Form\CommentTutorialType;
@@ -42,25 +43,37 @@ class TutorialController extends AbstractController
      * @param Request $request
      * @return Response
      */
-    public function index(Request $request)
+    public function index()
     {
-        $searchForm = $this->createForm(SearchType::class);
+        return $this->render("tutorials/index.html.twig");
+    }
 
-        $searchForm->handleRequest($request);
+    /**
+     * @Route("/tutorial/search", name="tutorial_search")
+     * @param Request $request
+     * @return Response
+     */
+    public function search(Request $request)
+    {
+        $form = $this->createForm(TutorialSearchType::class);
 
-        if ($searchForm->isSubmitted()) {
-            return $this->render("tutorials/index.html.twig", [
-                "tutorials" => $this->tutorialRepository->findSearchResults($searchForm->getData()),
-                "form" => $searchForm->createView()
-            ]);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()){
+            $tutorials = $this->tutorialRepository->findSearchResults($form->getData());
+        }else{
+            $tutorials = $this->tutorialRepository->findByDisable(0);
         }
 
-        return $this->render("tutorials/index.html.twig", [
-            'tutorials' => $this->tutorialRepository->findby(
-                ['disable' => 0]
-            ),
-            "form" => $searchForm->createView()
+        return $this->json([
+            'form' => $this->render("components/_search_form.html.twig", [
+                'form' => $form->createView(),
+            ])->getContent(),
+            'content' => $this->render("tutorials/components/_rows.html.twig", [
+                'tutorials' => $tutorials
+            ])->getContent()
         ]);
+
     }
 
     /**

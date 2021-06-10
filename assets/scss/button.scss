@@ -1,3 +1,5 @@
+@import '~bootstrap/scss/mixins/_breakpoints.scss';
+
 .add-btn {
   position: fixed;
   bottom: 40px;
@@ -9,10 +11,59 @@
   }
 }
 
+.add-btn-event {
+  position: fixed;
+  top: 60px;
+  right: 40px;
+  font-size: 50px;
+  z-index: 2 !important;
+  color: #1D7590 !important;
+}
+
+.add-btn-event-comment {
+  position: relative;
+  top: -30px;
+  font-size: 35px;
+  color: #B9B9B9 !important;
+}
+
+.btn-edit-event
+{
+  padding: 0.25rem 0.5rem;
+  background-color: #859FD6;
+  font-size: 0.70rem;
+  font-weight: bold;
+  color: white;
+}
+
+.btn-join-event
+{
+  padding: 0.25rem 0.5rem;
+  background-color: #044154;
+  font-size: 0.70rem;
+  font-weight: bold;
+  color: white;
+}
+
+.btn-quit-event
+{
+  padding: 0.25rem 0.5rem;
+  background-color: #E65B48;
+  font-size: 0.70rem;
+  font-weight: bold;
+  color: white;
+}
+
 .filter-btn {
   z-index: 3;
   position: fixed;
-  right: 130px;
+  @include media-breakpoint-down(sm){
+    right: 10px;
+    margin-bottom: 50px;
+  }
+  @include media-breakpoint-up(sm){
+    right: 130px;
+  }
   top: 118px;
   width: 150px;
   background: #FFFFFF;
@@ -21,6 +72,7 @@
   box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 50px;
 }
+
 
 .apply-filter-btn {
   background: #1D7591;

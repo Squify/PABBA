@@ -29,4 +29,6 @@ yarn-error.log
 /public/images
 !/public/images/default_tuto.jpg
 !/public/images/default_items.jpg
+!/public/images/default_event.png
+!/public/images/default_profile.jpg
 /public/videos

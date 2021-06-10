@@ -2,6 +2,8 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Event;
+use App\Entity\EventType;
 use Faker\Factory;
 use App\Entity\Item;
 use App\Entity\Type;
@@ -28,6 +30,9 @@ class AppFixtures extends Fixture
     public function load(ObjectManager $manager)
     {
         $faker = Factory::create();
+
+        $users = [];
+
 //      User Fixture
         $user = new User();
         $user->setEmail("user@user.fr")
@@ -36,7 +41,8 @@ class AppFixtures extends Fixture
             ->setRoles(["ROLE_USER"])
             ->setFirstname('user');
         $manager->persist($user);
-
+        $users[] = $user;
+        
         $admin = new User();
         $admin->setEmail("admin@admin.fr")
             ->setEnable(1)
@@ -44,7 +50,28 @@ class AppFixtures extends Fixture
             ->setRoles(["ROLE_ADMIN"])
             ->setFirstname('admin');
         $manager->persist($admin);
+        $users[] = $admin;
+        
+        $moderator = new User();
+        $moderator->setEmail("moderator@moderator.fr")
+            ->setEnable(1)
+            ->setPassword($this->encoder->encodePassword($moderator, "moderator"))
+            ->setRoles(["ROLE_MODERATOR"])
+            ->setFirstname('moderator');
+        $manager->persist($moderator);
+        $users[] = $moderator;
 
+        for ($i=0; $i < 50; $i++) {
+            $user = new User();
+            $user->setEmail("user$i@user.fr")
+                ->setEnable(1)
+                ->setPassword($this->encoder->encodePassword($user, "user"))
+                ->setRoles(["ROLE_USER"])
+                ->setFirstname("user$i");
+            $manager->persist($user);
+            $users[] = $user;
+        }
+        
 //      Place Type Fixtures
         $typeLabels = ["Jardin", "Événement", "Recyclage", "Point de collecte"];
         foreach ($typeLabels as $label) {
@@ -55,6 +82,7 @@ class AppFixtures extends Fixture
         }
 
 //      Place Fixtures
+        $places = [];
         for($i=0; $i<15; $i++) {
             $place = new Place();
             $place->setUser($admin)
@@ -67,6 +95,7 @@ class AppFixtures extends Fixture
                 ->setLongitude($faker->longitude(1.70, 2.10));
                 // ([47.843601, 1.939258])
             $manager->persist($place);
+            $places[] = $place;
         }
 
 //      Tutorial Type Fixtures
@@ -114,16 +143,52 @@ class AppFixtures extends Fixture
 
         // Item fixtures
         $items = [];
-        for ($i=0; $i < 10; $i++) { 
+        for ($i=0; $i < 30; $i++) { 
             $item = new Item();
             $item->setName($faker->name())
                 ->setOwner($admin)
                 ->setState($faker->randomElement($tabStates))
-                ->setPicture("https://via.placeholder.com/250x150")
                 ->setStatus(0)
                 ->setCategory($faker->randomElement($tabToolType));
             $manager->persist($item);
-            $items = $item;
+            $items[] = $item;
+        }
+
+        // EventType Fixtures
+        $eventTypes = [];
+        for ($i=0; $i < 5; $i++){
+            $eventType = new EventType();
+            $eventType->setLabel($faker->word);
+            $manager->persist($eventType);
+            $eventTypes[] = $eventType;
+        }
+        
+        // Event Fixtures
+        $events = [];
+        for ($i=0; $i < 50; $i++) { 
+            $event = new Event();
+            $event
+                ->setTitle($faker->sentence())
+                ->setDescription($faker->paragraph())
+                ->setEventAt($faker->dateTimeBetween('-2 days', '+1 week'))
+                ->setIsPublished($faker->boolean(75))
+                ->setPlace($faker->randomElement($places))
+                ->setEventType($faker->randomElement($eventTypes))
+            ;
+            // Ajout des participants
+            $participants = $faker->randomElements($users, rand(2,8));
+            foreach ($participants as $participant) {
+                $event->addParticipant($participant);
+            }
+
+            $organisers = $faker->randomElements($event->getParticipants(), rand(2, $event->getParticipants()->count()/2 ));
+            foreach ($organisers as $organiser) {
+                $event->addOrganiser($organiser);
+            }
+
+            $events[] = $event;
+            $manager->persist($event);
+
         }
 
         $manager->flush();

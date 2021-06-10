@@ -2,6 +2,7 @@
 
 namespace App\Controller\Admin;
 
+use App\Entity\Event;
 use App\Entity\Item;
 use App\Entity\Moderation;
 use App\Entity\Place;
@@ -35,6 +36,7 @@ class AdminDashboardController extends AbstractDashboardController
     {
         yield MenuItem::linkToCrud('Utilisateurs', 'fas fa-users', User::class);
         yield MenuItem::linkToCrud('Lieux', 'fas fa-map-marker-alt', Place::class);
+        yield MenuItem::linkToCrud('&Eacutevénements', 'fas fa-calendar-alt', Event::class);
         yield MenuItem::linkToCrud('Tutoriels', 'fab fa-youtube', Tutorial::class);
         yield MenuItem::linkToCrud('Outils', 'fas fa-tools', Item::class);
         yield MenuItem::linkToCrud('Modérations', 'fas fa-comment', Moderation::class);

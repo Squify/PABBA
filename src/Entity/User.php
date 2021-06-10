@@ -8,12 +8,16 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
  * @ORM\Table(name="`user__user`")
  * @UniqueEntity(fields={"email"}, message="Ce compte existe déjà", entityClass=User::class)
+ * @Vich\Uploadable
  */
 class User implements UserInterface
 {
@@ -110,6 +114,41 @@ class User implements UserInterface
      */
     private $items;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Event::class, mappedBy="organisers")
+     */
+    private $events;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Event::class, mappedBy="participants")
+     */
+    private $eventsAsParticipant;
+
+    /**
+     * @ORM\OneToMany(targetEntity=CommentEvent::class, mappedBy="auteur")
+     */
+    private $commentEvents;
+
+    /**
+     * NOTE: This is not a mapped field of entity metadata, just a simple property.
+     *
+     * @Vich\UploadableField(mapping="user_image", fileNameProperty="picture")
+     * @Assert\File(maxSize="2M", mimeTypes="image/*")
+     * @var File|null
+     */
+    private $pictureFile;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * @var string|null
+     */
+    private $picture;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $updatedAt;
+
     public function __construct()
     {
         $this->places = new ArrayCollection();
@@ -119,6 +158,9 @@ class User implements UserInterface
         $this->myRents = new ArrayCollection();
         $this->moderations = new ArrayCollection();
         $this->items = new ArrayCollection();
+        $this->events = new ArrayCollection();
+        $this->eventsAsParticipant = new ArrayCollection();
+        $this->commentEvents = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -127,7 +169,7 @@ class User implements UserInterface
     }
 
     public function getName(){
-        return $this->getFirstname() . ' ' . $this->getLastname();
+        return ucfirst($this->getFirstname()) . ' ' . ucfirst($this->getLastname());
     }
 
     public function getEmail(): ?string
@@ -519,6 +561,160 @@ class User implements UserInterface
                 $item->setOwner(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getAllEvents(){
+        $events = [];
+        foreach ($this->getEvents() as $event) {
+            if(!isset($events[$event->getId()])){
+                $events[$event->getId()] = [
+                    "type" => 'organize',
+                    'event' => $event
+                ];
+            }
+        }
+        foreach ($this->getEventsAsParticipant() as $event) {
+            if(!isset($events[$event->getId()])){
+                $events[$event->getId()] = [
+                    "type" => 'participate',
+                    'event' => $event
+                ];
+            }
+        }
+        return $events;
+    }
+
+    /**
+     * @return Collection|Event[]
+     */
+    public function getEvents(): Collection
+    {
+        return $this->events;
+    }
+
+    public function addEvent(Event $event): self
+    {
+        if (!$this->events->contains($event)) {
+            $this->events[] = $event;
+            $event->addOrganiser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEvent(Event $event): self
+    {
+        if ($this->events->removeElement($event)) {
+            $event->removeOrganiser($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Event[]
+     */
+    public function getEventsAsParticipant(): Collection
+    {
+        return $this->eventsAsParticipant;
+    }
+
+    public function addEventsAsParticipant(Event $eventsAsParticipant): self
+    {
+        if (!$this->eventsAsParticipant->contains($eventsAsParticipant)) {
+            $this->eventsAsParticipant[] = $eventsAsParticipant;
+            $eventsAsParticipant->addParticipant($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEventsAsParticipant(Event $eventsAsParticipant): self
+    {
+        if ($this->eventsAsParticipant->removeElement($eventsAsParticipant)) {
+            $eventsAsParticipant->removeParticipant($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|CommentEvent[]
+     */
+    public function getCommentEvents(): Collection
+    {
+        return $this->commentEvents;
+    }
+
+    public function addCommentEvent(CommentEvent $commentEvent): self
+    {
+        if (!$this->commentEvents->contains($commentEvent)) {
+            $this->commentEvents[] = $commentEvent;
+            $commentEvent->setAuteur($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCommentEvent(CommentEvent $commentEvent): self
+    {
+        if ($this->commentEvents->removeElement($commentEvent)) {
+            // set the owning side to null (unless already changed)
+            if ($commentEvent->getAuteur() === $this) {
+                $commentEvent->setAuteur(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getPicture(): ?string
+    {
+        return $this->picture;
+    }
+
+    /**
+     * @param string|null $picture
+     */
+    public function setPicture(?string $picture): void
+    {
+        $this->picture = $picture;
+    }
+
+
+
+    /**
+     * @param File|null $pictureFile
+     */
+    public function setPictureFile(?File $pictureFile = null): void
+    {
+        $this->pictureFile = $pictureFile;
+
+        if (null !== $pictureFile) {
+            // It is required that at least one field changes if you are using doctrine
+            // otherwise the event listeners won't be called and the file is lost
+            $this->updatedAt = new \DateTimeImmutable();
+        }
+    }
+
+    public function getPictureFile(): ?File
+    {
+        return $this->pictureFile;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeInterface
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
+    {
+        $this->updatedAt = $updatedAt;
 
         return $this;
     }

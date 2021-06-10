@@ -1,0 +1,208 @@
+{% extends "base.html.twig" %}
+
+{% block title %}PABBA -
+    {{ event.title }}
+{% endblock %}
+
+{% block body %}
+    <div class="col-12">
+        <div class="container my-5">
+            <div class="row">
+                <div class="col-lg-4 col-12">
+                    <div class="card p-3">
+                        {% if app.user in event.organisers %}
+                            <div class="row mb-2">
+                                <div class="col-6">
+                                    <a href="{{ path('event_update', { 'id' : event.id}) }}" class="btn btn-edit-event w-100">
+                                        <i class="fas fa-edit"></i>
+                                        Editer
+                                    </a>
+                                </div>
+                                {% if isToday(event.eventAt) == 1 %}
+                                    <div class="col-6">
+                                        <a href="{{ path('event_delete', { 'id' : event.id}) }}" class="btn btn-quit-event  w-100">
+                                            <i class="fas fa-trash"></i>
+                                            Supprimer
+                                        </a>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        {% endif %}
+
+                        <img
+                                src="{{ (event.imageName) ? vich_uploader_asset(event, 'imageFile') : asset('images/default_event.png') }}"
+                                alt="Image de l'évènement {{ event.title }}"
+                                class="w-100"
+                        >
+
+                        <p class="show-event-title">Informations</p>
+
+                        {% if isToday(event.eventAt) == 1 %}
+
+                            <p>Aura lieu le :
+                                <i>{{ event.eventAt | date('d/m/Y') }}</i>
+                                à
+                                <i>{{ event.eventAt | date('H:i') }}</i>
+                                {% if app.user in event.participants %}
+                                    <span class="badge badge-pill badge-success">
+									<i class="fas fa-check"></i>
+									J'y participe</span>
+                                {% endif %}
+                            </p>
+
+                        {% elseif isToday(event.eventAt) == 2 %}
+
+                            <p>A eu lieu le :
+                                <i>{{ event.eventAt | date('d/m/Y') }}</i>
+                                à
+                                <i>{{ event.eventAt | date('H:i') }}</i>
+                                {% if app.user in event.participants %}
+                                    <span class="badge badge-pill badge-success">
+									<i class="fas fa-check"></i>
+									J'y participe</span>
+                                {% endif %}
+                            </p>
+
+                        {% else %}
+
+                            <p>A lieu aujourd'hui à
+                                <i>{{ event.eventAt | date('H:i') }}</i>
+                                {% if app.user in event.participants %}
+                                    <span class="badge badge-pill badge-success">
+									<i class="fas fa-check"></i>
+									J'y participe</span>
+                                {% endif %}
+                            </p>
+
+                        {% endif %}
+
+
+                        <a target="_blank" href="https://www.google.com/maps/search/?api=1&query={{ event.place.address|url_encode }}" class="text-decoration-none event-place show-event-text">
+                            {{ event.place.address }}
+                        </a>
+
+                        <p>
+                            <span class="badge badge-pill badge-event-show">{{ event.eventType.label | capitalize }}</span>
+                        </p>
+
+                        {% if app.user %}
+                            {% if app.user in event.participants %}
+                                <a href="{{ path('event_quit', { 'event' : event.id } ) }}" class="btn btn-quit-event col-4 mb-3">
+                                    <i class="fas fa-sign-out-alt"></i>
+                                    Quitter
+                                </a>
+                            {% else %}
+                                <a href="{{ path('event_join', { 'event' : event.id } ) }}" class="btn btn-primary btn-join-event col-4 mb-3">
+                                    <i class="fas fa-sign-in-alt"></i>
+                                    Rejoindre
+                                </a>
+                            {% endif %}
+                        {% endif %}
+
+
+                        <p class="show-event-title">Description</p>
+
+                        <p class="show-event-text">
+                            {{ event.description }}
+                        </p>
+
+
+                    </div>
+                </div>
+
+                <div class="col-lg-8 col-12 mt-3 mt-lg-0">
+
+                    <div class="card">
+
+                        <ul class="nav nav-pills nav-fill mb-3 border-0" id="pills-tab" role="tablist">
+                            <li class="nav-item rounded bord" role="presentation">
+                                <a class="nav-link active" id="news-tab" data-toggle="pill" href="#news" role="tab" aria-controls="news" aria-selected="false">
+                                    Actualités
+                                </a>
+                            </li>
+                            <li class="nav-item rounded"  role="presentation">
+                                <a class="nav-link" id="participants-tab" data-toggle="pill" href="#participants" role="tab" aria-controls="participants" aria-selected="true">
+                                    Participants
+                                </a>
+                            </li>
+                        </ul>
+
+                        <div
+                                class="tab-content p-4" id="pills-tabContent">
+
+                            {# Onglet des actualités et commentaires #}
+                            <div class="tab-pane fade show active" id="news" role="tabpanel" aria-labelledby="news-tab">
+
+                                <div class="row justify-content-center">
+                                    {% for organisateur in event.organisers %}
+                                        {% if app.user == organisateur %}
+                                            <a id="add_comment" type="button" class="btn" data-toggle="modal" data-target="#modalComment" data-event="{{ event.id }}">
+                                                <i class="bi bi-plus-circle-fill h1"></i>
+                                            </a>
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+
+                                <div id="event_comments" class="row justify-content-center">
+                                    {% include "event/_comments.html.twig" %}
+                                </div>
+
+                            </div>
+
+                            {# Onglet des participants #}
+                            <div class="tab-pane fade" id="participants" role="tabpanel" aria-labelledby="participants-tab">
+
+                                <div class="row row-cols-2 justify-content-center">
+                                    {% for participant in event.participants %}
+
+                                        <div class="col-6 mb-4">
+                                            <div class="card rounded">
+                                                <a
+                                                        target="_blank"
+                                                        href="{{ path('user.profile.show', {id: participant.id}) }}"
+                                                        class="row no-gutters {{ (participant in event.organisers) ? '' : 'align-items-center' }}">
+                                                    {# <div class="col-3"> #}
+                                                    <img
+                                                            src="{{ asset('/images/default_profile.jpg') }}" class="rounded-circle col-2 p-2" alt="Photo de profil de {{ participant.firstname }}">
+                                                    {# </div> #}
+                                                    <div class="col-9 align-self-center">
+                                                        <div class="col-12 event-participant">
+                                                            {{ participant.firstname | capitalize ~ ' ' ~ participant.lastname | capitalize }}
+                                                        </div>
+                                                        <div class="col-12">
+                                                            {% if participant in event.organisers %}
+                                                                <span class="badge badge-pill badge-event-show">Organisateur</span>
+
+                                                            {% endif %}
+                                                            {% if participant == event.place.user %}
+                                                                <span class="badge badge-pill badge-event-show">Manager du jardin</span>
+                                                            {% endif %}
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        </div>
+
+
+                                    {% else %}
+                                        <p class="no-result">Il n'y a aucun participants !</p>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    {% include "event/_commentModal.html.twig" %}
+    {% include "event/_commentModalDeleteForm.html.twig" %}
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('commentEvent') }}
+{% endblock %}

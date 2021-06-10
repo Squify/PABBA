@@ -9,4 +9,16 @@ require('select2/dist/css/select2.min.css')
 
 $(document).ready(function() {
     $('.select2').select2();
+
+    document.querySelectorAll('input[type=file]').forEach((input) => {
+        input.addEventListener('change', (e) => {
+            let label = document.querySelector(`label[for=${input.id}]`)
+            console.log(label);
+            if (input.files.length > 0){
+                label.innerHTML = input.files[0].name
+            }else{
+                label.innerHTML = 'Choisir un fichier'
+            }
+        })
+    })
 });

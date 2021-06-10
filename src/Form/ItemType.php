@@ -14,6 +14,7 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class ItemType extends AbstractType
 {
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -50,6 +51,7 @@ class ItemType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver)
     {
+        
         $resolver->setDefaults([
             'data_class' => Item::class,
         ]);
