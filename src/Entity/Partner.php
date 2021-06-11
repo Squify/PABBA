@@ -39,6 +39,11 @@ class Partner
      */
     private $rewards;
 
+    public function __toString()
+    {
+        return $this->getName();
+    }
+
     public function __construct()
     {
         $this->rewards = new ArrayCollection();

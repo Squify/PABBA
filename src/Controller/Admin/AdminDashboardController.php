@@ -7,6 +7,7 @@ use App\Entity\Item;
 use App\Entity\Moderation;
 use App\Entity\Partner;
 use App\Entity\Place;
+use App\Entity\Reward;
 use App\Entity\Tutorial;
 use App\Entity\User;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
@@ -42,5 +43,6 @@ class AdminDashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('Outils', 'fas fa-tools', Item::class);
         yield MenuItem::linkToCrud('Modérations', 'fas fa-comment', Moderation::class);
         yield MenuItem::linkToCrud('Partenaires', 'fas fa-handshake', Partner::class);
+        yield MenuItem::linkToCrud('Récompenses', 'fas fa-medal', Reward::class);
     }
 }
