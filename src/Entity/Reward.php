@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\RewardRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -37,6 +39,21 @@ class Reward
      * @ORM\Column(type="text")
      */
     private $link;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $isActive;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Goal::class, mappedBy="reward", orphanRemoval=true)
+     */
+    private $goals;
+
+    public function __construct()
+    {
+        $this->goals = new ArrayCollection();
+    }
 
     public function __toString()
     {
@@ -92,6 +109,48 @@ class Reward
     public function setLink(string $link): self
     {
         $this->link = $link;
+
+        return $this;
+    }
+
+    public function getIsActive(): ?bool
+    {
+        return $this->isActive;
+    }
+
+    public function setIsActive(?bool $isActive): self
+    {
+        $this->isActive = $isActive;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Goal[]
+     */
+    public function getGoals(): Collection
+    {
+        return $this->goals;
+    }
+
+    public function addGoal(Goal $goal): self
+    {
+        if (!$this->goals->contains($goal)) {
+            $this->goals[] = $goal;
+            $goal->setReward($this);
+        }
+
+        return $this;
+    }
+
+    public function removeGoal(Goal $goal): self
+    {
+        if ($this->goals->removeElement($goal)) {
+            // set the owning side to null (unless already changed)
+            if ($goal->getReward() === $this) {
+                $goal->setReward(null);
+            }
+        }
 
         return $this;
     }
