@@ -4,6 +4,7 @@ namespace App\DataFixtures;
 
 use App\Entity\Event;
 use App\Entity\EventType;
+use App\Entity\Partner;
 use Faker\Factory;
 use App\Entity\Item;
 use App\Entity\Type;
@@ -42,7 +43,7 @@ class AppFixtures extends Fixture
             ->setFirstname('user');
         $manager->persist($user);
         $users[] = $user;
-        
+
         $admin = new User();
         $admin->setEmail("admin@admin.fr")
             ->setEnable(1)
@@ -51,7 +52,7 @@ class AppFixtures extends Fixture
             ->setFirstname('admin');
         $manager->persist($admin);
         $users[] = $admin;
-        
+
         $moderator = new User();
         $moderator->setEmail("moderator@moderator.fr")
             ->setEnable(1)
@@ -71,7 +72,7 @@ class AppFixtures extends Fixture
             $manager->persist($user);
             $users[] = $user;
         }
-        
+
 //      Place Type Fixtures
         $typeLabels = ["Jardin", "Événement", "Recyclage", "Point de collecte"];
         foreach ($typeLabels as $label) {
@@ -143,7 +144,7 @@ class AppFixtures extends Fixture
 
         // Item fixtures
         $items = [];
-        for ($i=0; $i < 30; $i++) { 
+        for ($i=0; $i < 30; $i++) {
             $item = new Item();
             $item->setName($faker->name())
                 ->setOwner($admin)
@@ -162,10 +163,10 @@ class AppFixtures extends Fixture
             $manager->persist($eventType);
             $eventTypes[] = $eventType;
         }
-        
+
         // Event Fixtures
         $events = [];
-        for ($i=0; $i < 50; $i++) { 
+        for ($i=0; $i < 50; $i++) {
             $event = new Event();
             $event
                 ->setTitle($faker->sentence())
@@ -189,6 +190,13 @@ class AppFixtures extends Fixture
             $events[] = $event;
             $manager->persist($event);
 
+        }
+
+        foreach (["Bricorama", 'Leroy Merlin', 'Brico dépôt'] as $item) {
+            $p = new Partner();
+            $p->setName($item)
+                ->setIsActive(true);
+            $manager->persist($p);
         }
 
         $manager->flush();
