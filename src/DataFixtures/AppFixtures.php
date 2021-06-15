@@ -10,6 +10,7 @@ use App\Entity\Item;
 use App\Entity\Type;
 use App\Entity\User;
 use App\Entity\Place;
+use App\Entity\Rank;
 use App\Entity\State;
 use App\Entity\ToolType;
 use App\Entity\Tutorial;
@@ -197,6 +198,15 @@ class AppFixtures extends Fixture
             $p->setName($item)
                 ->setIsActive(true);
             $manager->persist($p);
+        }
+
+        // Rank Fixtures
+        for ($i=1; $i < 6; $i++){
+            $rank = new Rank();
+            $rank->setName('niveau '. $i)
+                ->setStart(($i * 150) - 150)
+                ->setEnd($i * 150);
+            $manager->persist($rank);
         }
 
         $manager->flush();

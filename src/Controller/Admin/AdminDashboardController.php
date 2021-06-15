@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Event;
+use App\Entity\Goal;
 use App\Entity\Item;
 use App\Entity\Moderation;
 use App\Entity\Partner;
@@ -46,5 +47,6 @@ class AdminDashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('Partenaires', 'fas fa-handshake', Partner::class);
         yield MenuItem::linkToCrud('Récompenses', 'fas fa-medal', Reward::class);
         yield MenuItem::linkToCrud('Grades', 'fas fa-graduation-cap', Rank::class);
+        yield MenuItem::linkToCrud('Objectifs', 'fas fa-bullseye', Goal::class);
     }
 }
