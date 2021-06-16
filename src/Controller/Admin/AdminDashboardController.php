@@ -10,6 +10,7 @@ use App\Entity\Partner;
 use App\Entity\Place;
 use App\Entity\Rank;
 use App\Entity\Reward;
+use App\Entity\ToCount;
 use App\Entity\Tutorial;
 use App\Entity\User;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
@@ -47,6 +48,7 @@ class AdminDashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('Partenaires', 'fas fa-handshake', Partner::class);
         yield MenuItem::linkToCrud('Récompenses', 'fas fa-medal', Reward::class);
         yield MenuItem::linkToCrud('Grades', 'fas fa-graduation-cap', Rank::class);
+        yield MenuItem::linkToCrud('à compter', 'fa fa-dot-circle-o', ToCount::class);
         yield MenuItem::linkToCrud('Objectifs', 'fas fa-bullseye', Goal::class);
     }
 }

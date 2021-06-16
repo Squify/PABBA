@@ -4,6 +4,7 @@ namespace App\DataFixtures;
 
 use App\Entity\Event;
 use App\Entity\EventType;
+use App\Entity\Goal;
 use App\Entity\Partner;
 use Faker\Factory;
 use App\Entity\Item;
@@ -11,7 +12,9 @@ use App\Entity\Type;
 use App\Entity\User;
 use App\Entity\Place;
 use App\Entity\Rank;
+use App\Entity\Reward;
 use App\Entity\State;
+use App\Entity\ToCount;
 use App\Entity\ToolType;
 use App\Entity\Tutorial;
 
@@ -193,10 +196,13 @@ class AppFixtures extends Fixture
 
         }
 
+        // Partner Fixtures
+        $partners = [];
         foreach (["Bricorama", 'Leroy Merlin', 'Brico dépôt'] as $item) {
             $p = new Partner();
             $p->setName($item)
                 ->setIsActive(true);
+            $partners[] = $p;
             $manager->persist($p);
         }
 
@@ -208,6 +214,39 @@ class AppFixtures extends Fixture
                 ->setEnd($i * 150);
             $manager->persist($rank);
         }
+
+        // ToCount Fixtures
+        $toCounts = [];
+        foreach (['tutorials seen', 'tutorials created', 'places shared', 'events created', 'events participated', 'tools shared'] as $libelle) {
+            $toCount = new ToCount();
+            $toCount->setLibelle($libelle);
+            $toCounts[] = $toCount;
+            $manager->persist($toCount);
+        }
+
+        // Reward Fixtures
+        $rewards = [];
+        for ($i=0; $i < 5; $i++) {
+            $reward = new Reward();
+            $reward->setIsActive(true)
+                ->setLink($faker->words(3, true))
+                ->setName($faker->word())
+                ->setPartner($faker->randomElement($partners))
+                ->setDescription($faker->paragraph());
+            $rewards[] = $reward;
+            $manager->persist($reward);
+        }
+
+        // Goal Fixtures
+        for ($i=0; $i < 5; $i++) {
+            $goal = new Goal();
+            $goal->setLibelle($faker->name())
+                ->setToCount($faker->randomElement($toCounts))
+                ->setReward($faker->randomElement($rewards))
+                ->setObjective($faker->randomDigitNot([0, null]))
+                ->setDescription($faker->paragraph());
+            $manager->persist($goal);
+        }        
 
         $manager->flush();
     }

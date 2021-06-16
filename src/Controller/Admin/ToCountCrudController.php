@@ -4,6 +4,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Goal;
+use App\Entity\ToCount;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
@@ -14,28 +15,23 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 
-class GoalCrudController extends AbstractCrudController
+class ToCountCrudController extends AbstractCrudController
 {
 
     public static function getEntityFqcn(): string
     {
-        return Goal::class;
+        return ToCount::class;
     }
 
     public function configureCrud(Crud $crud): Crud
     {
-        return $crud->setEntityLabelInPlural('Objectifs')->setEntityLabelInSingular('Objectif');
+        return $crud->setEntityLabelInPlural('à compter')->setEntityLabelInSingular('à compter');
     }
 
     public function configureFields(string $pageName): iterable
     {
         return [
             TextField::new('libelle', 'Libellé'),
-            IntegerField::new('objective', 'Objectif'),
-            AssociationField::new('toCount', "à compter"),
-            TextareaField::new('description', 'Description'),
-            ImageField::new("image", "Image")->setBasePath("/images/goals")->hideOnForm(),
-            AssociationField::new('reward', "Récompence"),
         ];
     }
 

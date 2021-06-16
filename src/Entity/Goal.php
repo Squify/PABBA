@@ -33,10 +33,7 @@ class Goal
      */
     private $image;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $toCount;
+    
 
     /**
      * @ORM\Column(type="integer")
@@ -47,6 +44,12 @@ class Goal
      * @ORM\Column(type="text")
      */
     private $description;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=ToCount::class, inversedBy="goals")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $toCount;
 
     public function getId(): ?int
     {
@@ -89,18 +92,6 @@ class Goal
         return $this;
     }
 
-    public function getToCount(): ?string
-    {
-        return $this->toCount;
-    }
-
-    public function setToCount(string $toCount): self
-    {
-        $this->toCount = $toCount;
-
-        return $this;
-    }
-
     public function getObjective(): ?int
     {
         return $this->objective;
@@ -121,6 +112,18 @@ class Goal
     public function setDescription(string $description): self
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    public function getToCount(): ?ToCount
+    {
+        return $this->toCount;
+    }
+
+    public function setToCount(?ToCount $toCount): self
+    {
+        $this->toCount = $toCount;
 
         return $this;
     }
