@@ -25,7 +25,7 @@ class ToCountCrudController extends AbstractCrudController
 
     public function configureCrud(Crud $crud): Crud
     {
-        return $crud->setEntityLabelInPlural('à compter')->setEntityLabelInSingular('à compter');
+        return $crud->setEntityLabelInPlural('À compter')->setEntityLabelInSingular('À compter');
     }
 
     public function configureFields(string $pageName): iterable

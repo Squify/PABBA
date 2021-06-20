@@ -32,10 +32,10 @@ class GoalCrudController extends AbstractCrudController
         return [
             TextField::new('libelle', 'Libellé'),
             IntegerField::new('objective', 'Objectif'),
-            AssociationField::new('toCount', "à compter"),
+            AssociationField::new('toCount', "À compter"),
             TextareaField::new('description', 'Description'),
             ImageField::new("image", "Image")->setBasePath("/images/goals")->hideOnForm(),
-            AssociationField::new('reward', "Récompence"),
+            AssociationField::new('reward', "Récompense"),
         ];
     }
 

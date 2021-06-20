@@ -48,7 +48,7 @@ class AdminDashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('Partenaires', 'fas fa-handshake', Partner::class);
         yield MenuItem::linkToCrud('Récompenses', 'fas fa-medal', Reward::class);
         yield MenuItem::linkToCrud('Grades', 'fas fa-graduation-cap', Rank::class);
-        yield MenuItem::linkToCrud('à compter', 'fa fa-dot-circle-o', ToCount::class);
+        yield MenuItem::linkToCrud('À compter', 'fa fa-dot-circle-o', ToCount::class);
         yield MenuItem::linkToCrud('Objectifs', 'fas fa-bullseye', Goal::class);
     }
 }
