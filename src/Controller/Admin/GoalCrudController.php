@@ -4,6 +4,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Goal;
+use App\Form\Admin\VichImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
@@ -35,6 +36,7 @@ class GoalCrudController extends AbstractCrudController
             AssociationField::new('toCount', "à compter"),
             TextareaField::new('description', 'Description'),
             ImageField::new("image", "Image")->setBasePath("/images/goals")->hideOnForm(),
+            VichImageField::new('imageFile', 'Image')->onlyOnForms(),
             AssociationField::new('reward', "Récompence"),
         ];
     }
