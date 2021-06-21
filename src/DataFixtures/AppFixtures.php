@@ -211,7 +211,8 @@ class AppFixtures extends Fixture
             $rank = new Rank();
             $rank->setName('niveau '. $i)
                 ->setStart(($i * 150) - 150)
-                ->setEnd($i * 150);
+                ->setEnd($i * 150)
+                ->setIsActive(1);
             $manager->persist($rank);
         }
 

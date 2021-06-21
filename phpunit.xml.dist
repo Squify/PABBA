@@ -13,6 +13,18 @@
         <server name="SHELL_VERBOSITY" value="-1" />
         <server name="SYMFONY_PHPUNIT_REMOVE" value="" />
         <server name="SYMFONY_PHPUNIT_VERSION" value="8.5" />
+
+        <!-- ###+ algolia/search-bundle ### -->
+        <!-- Create a free account on www.algolia.com -->
+        <!-- and get your credentials from the API Keys tab. -->
+        <env name="ALGOLIA_APP_ID" value="..."/>
+        <env name="ALGOLIA_API_KEY" value="..."/>
+        <!-- ###- algolia/search-bundle ### -->
+
+        <!-- ###+ mailjet/mailjet-bundle ### -->
+        <env name="MAILJET_APIKEY_PUBLIC" value="your-api_key"/>
+        <env name="MAILJET_APIKEY_PRIVATE" value="@@your-secret_key"/>
+        <!-- ###- mailjet/mailjet-bundle ### -->
     </php>
 
     <testsuites>

@@ -32,6 +32,11 @@ class Rank
      */
     private $end;
 
+    /**
+     * @ORM\Column(type="boolean", options={"default" : true})
+     */
+    private $isActive;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -69,6 +74,18 @@ class Rank
     public function setEnd(int $end): self
     {
         $this->end = $end;
+
+        return $this;
+    }
+
+    public function getIsActive(): ?bool
+    {
+        return $this->isActive;
+    }
+
+    public function setIsActive(bool $isActive): self
+    {
+        $this->isActive = $isActive;
 
         return $this;
     }
