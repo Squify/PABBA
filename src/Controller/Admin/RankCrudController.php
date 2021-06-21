@@ -32,6 +32,7 @@ class RankCrudController extends AbstractCrudController
             TextField::new('name', 'Nom'),
             IntegerField::new('start', 'Début'),
             IntegerField::new('end', 'Fin'),
+            BooleanField::new('isActive', 'Actif')
         ];
     }
 
