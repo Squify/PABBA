@@ -5,6 +5,7 @@ namespace App\Controller\Admin;
 
 use App\Entity\Goal;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
+use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
@@ -24,7 +25,10 @@ class GoalCrudController extends AbstractCrudController
 
     public function configureCrud(Crud $crud): Crud
     {
-        return $crud->setEntityLabelInPlural('Objectifs')->setEntityLabelInSingular('Objectif');
+        return $crud
+            ->setEntityLabelInPlural('Objectifs')
+            ->setEntityLabelInSingular('Objectif')
+            ;
     }
 
     public function configureFields(string $pageName): iterable
@@ -36,6 +40,8 @@ class GoalCrudController extends AbstractCrudController
             TextareaField::new('description', 'Description'),
             ImageField::new("image", "Image")->setBasePath("/images/goals")->hideOnForm(),
             AssociationField::new('reward', "Récompense"),
+            BooleanField::new('active', 'Actif')->onlyOnIndex()
+
         ];
     }
 

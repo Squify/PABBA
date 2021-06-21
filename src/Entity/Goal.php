@@ -51,6 +51,11 @@ class Goal
      */
     private $toCount;
 
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $active;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -124,6 +129,18 @@ class Goal
     public function setToCount(?ToCount $toCount): self
     {
         $this->toCount = $toCount;
+
+        return $this;
+    }
+
+    public function getActive(): ?bool
+    {
+        return $this->active;
+    }
+
+    public function setActive(?bool $active): self
+    {
+        $this->active = $active;
 
         return $this;
     }
