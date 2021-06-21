@@ -1,6 +1,6 @@
 {% if entity.instance.goals|length > 0 %}
     <span class="badge {{ field.value == true ? 'badge-boolean-true' : 'badge-boolean-false' }} disabled">
-        {{ (field.value == true ? 'Oui' : 'Non') }}
+       {{ entity.instance.goals|length }} objectif(s)
     </span>
 {% else %}
     {# @var ea \EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext #}
