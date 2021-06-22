@@ -10,7 +10,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=GoalRepository::class)
- * @Vich\Uploadable
  */
 class Goal
 {
@@ -38,19 +37,6 @@ class Goal
      */
     private $libelle;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $image;
-
-    /**
-     * NOTE: This is not a mapped field of entity metadata, just a simple property.
-    *
-    * @Vich\UploadableField(mapping="goal_image", fileNameProperty="image")
-    * @Assert\File(maxSize="2M", mimeTypes="image/*")
-    * @var File|null
-     */
-    private $imageFile;
 
     /**
      * @ORM\Column(type="integer")
@@ -68,22 +54,9 @@ class Goal
     private $active;
 
     /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
-    private $updatedAt;
-
-    /**
      * @ORM\Column(type="text", nullable=true)
      */
     private $type;
-
-    /**
-     * Goal constructor.
-     */
-    public function __construct()
-    {
-        $this->updatedAt = new \DateTime();
-    }
 
     public function getId(): ?int
     {
@@ -110,18 +83,6 @@ class Goal
     public function setLibelle(string $libelle): self
     {
         $this->libelle = $libelle;
-
-        return $this;
-    }
-
-    public function getImage(): ?string
-    {
-        return $this->image;
-    }
-
-    public function setImage(?string $image): self
-    {
-        $this->image = $image;
 
         return $this;
     }
@@ -163,56 +124,22 @@ class Goal
     }
 
     /**
-     * If manually uploading a file (i.e. not using Symfony Form) ensure an instance
-     * of 'UploadedFile' is injected into this setter to trigger the update. If this
-     * bundle's configuration parameter 'inject_on_load' is set to 'true' this setter
-     * must be able to accept an instance of 'File' as the bundle will inject one here
-     * during Doctrine hydration.
-     *
-     * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile|null $imageFile
-     */
-    public function setImageFile(?File $imageFile = null): void
-    {
-        $this->imageFile = $imageFile;
-
-        if (null !== $imageFile) {
-            // It is required that at least one field changes if you are using doctrine
-            // otherwise the event listeners won't be called and the file is lost
-            $this->updatedAt = new \DateTimeImmutable();
-        }
-    }
-
-    public function getImageFile(): ?File
-    {
-        return $this->imageFile;
-    }
-
-    /**
      * @return mixed
      */
-    public function getUpdatedAt()
-    {
-        return $this->updatedAt;
-    }
-
-    /**
-     * @param mixed $updatedAt
-     */
-    public function setUpdatedAt($updatedAt): void
-    {
-        $this->updatedAt = $updatedAt;
-    }
-
-    public function getType(): ?string
+    public function getType()
     {
         return $this->type;
     }
 
-    public function setType(?string $type): self
+    /**
+     * @param mixed $type
+     */
+    public function setType($type): void
     {
         $this->type = $type;
-
-        return $this;
     }
+
+
+
 
 }

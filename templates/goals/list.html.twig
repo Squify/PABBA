@@ -1,0 +1,36 @@
+{% extends "base.html.twig" %}
+
+{% block title %}
+    PABBA - Objectifs
+{% endblock %}
+
+{% block body %}
+    <div class="container my-5">
+        <div class="row">
+            <div class="col-12 mx-auto mt-5">
+              <div class="row">
+                  {% for goal in goals %}
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-body rounded shadow">
+                                    <div class="row">
+                                        <div class="col-12 col-md-4 text-center">
+                                            <img src="{{ vich_uploader_asset(goal.reward, 'imageFile')|imagine_filter('reward') }}" alt="" class="img-fluid">
+                                        </div>
+                                        <div class="col-12 col-md-8">
+                                            <h3>{{ goal.reward.name }}</h3>
+                                            <p>{{ goal.goal.libelle }}</p>
+                                            <div class="progress">
+                                                <div class="progress-bar bg-secondary" role="progressbar" style="width: {{ goal.percentage }}%;" aria-valuenow="{{ goal.percentage }}" aria-valuemin="0" aria-valuemax="100">{{ goal.advance ~ '/' ~ goal.goal.objective }}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                             </div>
+                        </div>
+                  {% endfor %}
+              </div>
+            </div>
+        </div>
+     </div>
+{% endblock %}

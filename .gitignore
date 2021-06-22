@@ -32,3 +32,7 @@ yarn-error.log
 !/public/images/default_event.png
 !/public/images/default_profile.jpg
 /public/videos
+
+###> liip/imagine-bundle ###
+/public/media/cache/
+###< liip/imagine-bundle ###

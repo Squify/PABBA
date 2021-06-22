@@ -39,8 +39,6 @@ class GoalCrudController extends AbstractCrudController
             TextField::new('libelle', 'Libellé'),
             IntegerField::new('objective', 'Objectif'),
             TextareaField::new('description', 'Description'),
-            ImageField::new("image", "Image")->setBasePath("/images/goals")->hideOnForm(),
-            VichImageField::new('imageFile', 'Image')->onlyOnForms(),
             AssociationField::new('reward', "Récompense"),
             ChoiceField::new('type', 'Type')->setChoices([
                  'Événements organisés' => Goal::TYPE_EVENT_ORGANIZED,

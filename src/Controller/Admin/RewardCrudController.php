@@ -4,12 +4,14 @@ namespace App\Controller\Admin;
 
 use App\Entity\Partner;
 use App\Entity\Reward;
+use App\Form\Admin\VichImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\UrlField;
@@ -35,6 +37,8 @@ class RewardCrudController extends AbstractCrudController
     {
         return [
             TextField::new('name', 'Nom'),
+            ImageField::new("image", "Image")->setBasePath("/images/goals")->hideOnForm(),
+            VichImageField::new('imageFile', 'Image')->onlyOnForms(),
             TextEditorField::new('description','Description'),
             AssociationField::new('partner','Partenaire')->setQueryBuilder(function ($q) {
                 $q->andWhere('entity.isActive = 1');

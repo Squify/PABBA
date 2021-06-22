@@ -10,6 +10,7 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method Goal|null find($id, $lockMode = null, $lockVersion = null)
  * @method Goal|null findOneBy(array $criteria, array $orderBy = null)
  * @method Goal[]    findAll()
+ * @method Goal[]    findByActive(bool $active)
  * @method Goal[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 class GoalRepository extends ServiceEntityRepository
