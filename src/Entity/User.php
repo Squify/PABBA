@@ -149,6 +149,11 @@ class User implements UserInterface
      */
     private $updatedAt;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Reward::class)
+     */
+    private $rewards;
+
     public function __construct()
     {
         $this->places              = new ArrayCollection();
@@ -161,6 +166,7 @@ class User implements UserInterface
         $this->events              = new ArrayCollection();
         $this->eventsAsParticipant = new ArrayCollection();
         $this->commentEvents       = new ArrayCollection();
+        $this->rewards = new ArrayCollection();
     }
 
     public function getXp()
@@ -731,6 +737,30 @@ class User implements UserInterface
     public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Reward[]
+     */
+    public function getRewards(): Collection
+    {
+        return $this->rewards;
+    }
+
+    public function addReward(Reward $reward): self
+    {
+        if (!$this->rewards->contains($reward)) {
+            $this->rewards[] = $reward;
+        }
+
+        return $this;
+    }
+
+    public function removeReward(Reward $reward): self
+    {
+        $this->rewards->removeElement($reward);
 
         return $this;
     }
