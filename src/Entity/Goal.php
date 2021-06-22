@@ -14,6 +14,12 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Goal
 {
+    const TYPE_EVENT_ORGANIZED = 'getEvents';
+    const TYPE_EVENT_PARTICIPATED = 'getEventsAsParticipant';
+    const TYPE_TUTORIAL = 'getTutorials';
+    const TYPE_PLACES = 'getPlaces';
+    const TYPE_RENTS = 'getRents';
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -57,12 +63,6 @@ class Goal
     private $description;
 
     /**
-     * @ORM\ManyToOne(targetEntity=ToCount::class, inversedBy="goals")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $toCount;
-
-    /**
      * @ORM\Column(type="boolean", nullable=true)
      */
     private $active;
@@ -71,6 +71,11 @@ class Goal
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $updatedAt;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $type;
 
     /**
      * Goal constructor.
@@ -145,18 +150,6 @@ class Goal
         return $this;
     }
 
-    public function getToCount(): ?ToCount
-    {
-        return $this->toCount;
-    }
-
-    public function setToCount(?ToCount $toCount): self
-    {
-        $this->toCount = $toCount;
-
-        return $this;
-    }
-
     public function getActive(): ?bool
     {
         return $this->active;
@@ -208,6 +201,18 @@ class Goal
     public function setUpdatedAt($updatedAt): void
     {
         $this->updatedAt = $updatedAt;
+    }
+
+    public function getType(): ?string
+    {
+        return $this->type;
+    }
+
+    public function setType(?string $type): self
+    {
+        $this->type = $type;
+
+        return $this;
     }
 
 }

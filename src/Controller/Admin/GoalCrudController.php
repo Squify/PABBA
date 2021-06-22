@@ -7,6 +7,7 @@ use App\Entity\Goal;
 use App\Form\Admin\VichImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
@@ -37,11 +38,17 @@ class GoalCrudController extends AbstractCrudController
         return [
             TextField::new('libelle', 'Libellé'),
             IntegerField::new('objective', 'Objectif'),
-            AssociationField::new('toCount', "À compter"),
             TextareaField::new('description', 'Description'),
             ImageField::new("image", "Image")->setBasePath("/images/goals")->hideOnForm(),
             VichImageField::new('imageFile', 'Image')->onlyOnForms(),
             AssociationField::new('reward', "Récompense"),
+            ChoiceField::new('type', 'Type')->setChoices([
+                 'Événements organisés' => Goal::TYPE_EVENT_ORGANIZED,
+                 'Événements suivis' => Goal::TYPE_EVENT_PARTICIPATED,
+                 'Lieux proposés' => Goal::TYPE_PLACES,
+                 'Objets loués' => Goal::TYPE_RENTS,
+                 'Tutoriels ajoutés' => Goal::TYPE_TUTORIAL
+            ]),
             BooleanField::new('active', 'Actif')->onlyOnIndex()
 
         ];

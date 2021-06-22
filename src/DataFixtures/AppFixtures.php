@@ -14,7 +14,6 @@ use App\Entity\Place;
 use App\Entity\Rank;
 use App\Entity\Reward;
 use App\Entity\State;
-use App\Entity\ToCount;
 use App\Entity\ToolType;
 use App\Entity\Tutorial;
 
@@ -216,15 +215,6 @@ class AppFixtures extends Fixture
             $manager->persist($rank);
         }
 
-        // ToCount Fixtures
-        $toCounts = [];
-        foreach (['tutorials seen', 'tutorials created', 'places shared', 'events created', 'events participated', 'tools shared'] as $libelle) {
-            $toCount = new ToCount();
-            $toCount->setLibelle($libelle);
-            $toCounts[] = $toCount;
-            $manager->persist($toCount);
-        }
-
         // Reward Fixtures
         $rewards = [];
         for ($i=0; $i < 5; $i++) {
@@ -242,12 +232,12 @@ class AppFixtures extends Fixture
         for ($i=0; $i < 5; $i++) {
             $goal = new Goal();
             $goal->setLibelle($faker->name())
-                ->setToCount($faker->randomElement($toCounts))
+                ->setType(Goal::TYPE_EVENT_ORGANIZED)
                 ->setReward($faker->randomElement($rewards))
                 ->setObjective($faker->randomDigitNot([0, null]))
                 ->setDescription($faker->paragraph());
             $manager->persist($goal);
-        }        
+        }
 
         $manager->flush();
     }
