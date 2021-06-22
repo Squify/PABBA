@@ -150,9 +150,9 @@ class User implements UserInterface
     private $updatedAt;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Reward::class)
+     * @ORM\ManyToMany(targetEntity=Goal::class)
      */
-    private $rewards;
+    private $goals;
 
     public function __construct()
     {
@@ -166,7 +166,7 @@ class User implements UserInterface
         $this->events              = new ArrayCollection();
         $this->eventsAsParticipant = new ArrayCollection();
         $this->commentEvents       = new ArrayCollection();
-        $this->rewards = new ArrayCollection();
+        $this->goals = new ArrayCollection();
     }
 
     public function getXp()
@@ -742,25 +742,25 @@ class User implements UserInterface
     }
 
     /**
-     * @return Collection|Reward[]
+     * @return Collection|Goal[]
      */
-    public function getRewards(): Collection
+    public function getGoals(): Collection
     {
-        return $this->rewards;
+        return $this->goals;
     }
 
-    public function addReward(Reward $reward): self
+    public function addGoal(Goal $goal): self
     {
-        if (!$this->rewards->contains($reward)) {
-            $this->rewards[] = $reward;
+        if (!$this->goals->contains($goal)) {
+            $this->goals[] = $goal;
         }
 
         return $this;
     }
 
-    public function removeReward(Reward $reward): self
+    public function removeGoal(Goal $goal): self
     {
-        $this->rewards->removeElement($reward);
+        $this->goals->removeElement($goal);
 
         return $this;
     }
