@@ -149,18 +149,35 @@ class User implements UserInterface
      */
     private $updatedAt;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Goal::class)
+     */
+    private $goals;
+
     public function __construct()
     {
-        $this->places = new ArrayCollection();
-        $this->tutorials = new ArrayCollection();
-        $this->commentTutorials = new ArrayCollection();
-        $this->rents = new ArrayCollection();
-        $this->myRents = new ArrayCollection();
-        $this->moderations = new ArrayCollection();
-        $this->items = new ArrayCollection();
-        $this->events = new ArrayCollection();
+        $this->places              = new ArrayCollection();
+        $this->tutorials           = new ArrayCollection();
+        $this->commentTutorials    = new ArrayCollection();
+        $this->rents               = new ArrayCollection();
+        $this->myRents             = new ArrayCollection();
+        $this->moderations         = new ArrayCollection();
+        $this->items               = new ArrayCollection();
+        $this->events              = new ArrayCollection();
         $this->eventsAsParticipant = new ArrayCollection();
-        $this->commentEvents = new ArrayCollection();
+        $this->commentEvents       = new ArrayCollection();
+        $this->goals = new ArrayCollection();
+    }
+
+    public function getXp()
+    {
+        return
+            10
+            + ($this->getTutorials()->count() * 10)
+            + ($this->getPlaces()->count() * 10)
+            + ($this->getEvents()->count() * 5)
+            + ($this->getEventsAsParticipant()->count() * 2)
+            + ($this->getRents()->count() * 10);
     }
 
     public function getId(): ?int
@@ -168,7 +185,8 @@ class User implements UserInterface
         return $this->id;
     }
 
-    public function getName(){
+    public function getName()
+    {
         return ucfirst($this->getFirstname()) . ' ' . ucfirst($this->getLastname());
     }
 
@@ -191,7 +209,7 @@ class User implements UserInterface
      */
     public function getUsername(): string
     {
-        return (string) $this->email;
+        return (string)$this->email;
     }
 
     /**
@@ -218,7 +236,7 @@ class User implements UserInterface
      */
     public function getPassword(): string
     {
-        return (string) $this->password;
+        return (string)$this->password;
     }
 
     public function setPassword(string $password): self
@@ -259,6 +277,7 @@ class User implements UserInterface
     public function setLastname($lastname): self
     {
         $this->lastname = $lastname;
+
         return $this;
     }
 
@@ -277,7 +296,8 @@ class User implements UserInterface
     public function setToken($token): self
     {
         $this->token = $token;
-        return  $this;
+
+        return $this;
     }
 
     /**
@@ -295,6 +315,7 @@ class User implements UserInterface
     public function setEnable($enable): self
     {
         $this->enable = $enable;
+
         return $this;
     }
 
@@ -313,6 +334,7 @@ class User implements UserInterface
     public function setLastLogin($lastLogin): self
     {
         $this->lastLogin = $lastLogin;
+
         return $this;
     }
 
@@ -565,24 +587,26 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getAllEvents(){
+    public function getAllEvents()
+    {
         $events = [];
         foreach ($this->getEvents() as $event) {
-            if(!isset($events[$event->getId()])){
+            if (!isset($events[$event->getId()])) {
                 $events[$event->getId()] = [
-                    "type" => 'organize',
+                    "type"  => 'organize',
                     'event' => $event
                 ];
             }
         }
         foreach ($this->getEventsAsParticipant() as $event) {
-            if(!isset($events[$event->getId()])){
+            if (!isset($events[$event->getId()])) {
                 $events[$event->getId()] = [
-                    "type" => 'participate',
+                    "type"  => 'participate',
                     'event' => $event
                 ];
             }
         }
+
         return $events;
     }
 
@@ -686,8 +710,6 @@ class User implements UserInterface
         $this->picture = $picture;
     }
 
-
-
     /**
      * @param File|null $pictureFile
      */
@@ -719,5 +741,28 @@ class User implements UserInterface
         return $this;
     }
 
+    /**
+     * @return Collection|Goal[]
+     */
+    public function getGoals(): Collection
+    {
+        return $this->goals;
+    }
+
+    public function addGoal(Goal $goal): self
+    {
+        if (!$this->goals->contains($goal)) {
+            $this->goals[] = $goal;
+        }
+
+        return $this;
+    }
+
+    public function removeGoal(Goal $goal): self
+    {
+        $this->goals->removeElement($goal);
+
+        return $this;
+    }
 
 }

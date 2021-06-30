@@ -4,11 +4,15 @@ namespace App\DataFixtures;
 
 use App\Entity\Event;
 use App\Entity\EventType;
+use App\Entity\Goal;
+use App\Entity\Partner;
 use Faker\Factory;
 use App\Entity\Item;
 use App\Entity\Type;
 use App\Entity\User;
 use App\Entity\Place;
+use App\Entity\Rank;
+use App\Entity\Reward;
 use App\Entity\State;
 use App\Entity\ToolType;
 use App\Entity\Tutorial;
@@ -42,7 +46,7 @@ class AppFixtures extends Fixture
             ->setFirstname('user');
         $manager->persist($user);
         $users[] = $user;
-        
+
         $admin = new User();
         $admin->setEmail("admin@admin.fr")
             ->setEnable(1)
@@ -51,7 +55,7 @@ class AppFixtures extends Fixture
             ->setFirstname('admin');
         $manager->persist($admin);
         $users[] = $admin;
-        
+
         $moderator = new User();
         $moderator->setEmail("moderator@moderator.fr")
             ->setEnable(1)
@@ -71,7 +75,7 @@ class AppFixtures extends Fixture
             $manager->persist($user);
             $users[] = $user;
         }
-        
+
 //      Place Type Fixtures
         $typeLabels = ["Jardin", "Événement", "Recyclage", "Point de collecte"];
         foreach ($typeLabels as $label) {
@@ -143,7 +147,7 @@ class AppFixtures extends Fixture
 
         // Item fixtures
         $items = [];
-        for ($i=0; $i < 30; $i++) { 
+        for ($i=0; $i < 30; $i++) {
             $item = new Item();
             $item->setName($faker->name())
                 ->setOwner($admin)
@@ -162,10 +166,10 @@ class AppFixtures extends Fixture
             $manager->persist($eventType);
             $eventTypes[] = $eventType;
         }
-        
+
         // Event Fixtures
         $events = [];
-        for ($i=0; $i < 50; $i++) { 
+        for ($i=0; $i < 50; $i++) {
             $event = new Event();
             $event
                 ->setTitle($faker->sentence())
@@ -189,6 +193,50 @@ class AppFixtures extends Fixture
             $events[] = $event;
             $manager->persist($event);
 
+        }
+
+        // Partner Fixtures
+        $partners = [];
+        foreach (["Bricorama", 'Leroy Merlin', 'Brico dépôt'] as $item) {
+            $p = new Partner();
+            $p->setName($item)
+                ->setIsActive(true);
+            $partners[] = $p;
+            $manager->persist($p);
+        }
+
+        // Rank Fixtures
+        for ($i=1; $i < 6; $i++){
+            $rank = new Rank();
+            $rank->setName('niveau '. $i)
+                ->setStart(($i * 150) - 150)
+                ->setEnd($i * 150)
+                ->setIsActive(1);
+            $manager->persist($rank);
+        }
+
+        // Reward Fixtures
+        $rewards = [];
+        for ($i=0; $i < 5; $i++) {
+            $reward = new Reward();
+            $reward->setIsActive(true)
+                ->setLink($faker->words(3, true))
+                ->setName($faker->word())
+                ->setPartner($faker->randomElement($partners))
+                ->setDescription($faker->paragraph());
+            $rewards[] = $reward;
+            $manager->persist($reward);
+        }
+
+        // Goal Fixtures
+        for ($i=0; $i < 5; $i++) {
+            $goal = new Goal();
+            $goal->setLibelle($faker->name())
+                ->setType(Goal::TYPE_EVENT_ORGANIZED)
+                ->setReward($faker->randomElement($rewards))
+                ->setObjective($faker->randomDigitNot([0, null]))
+                ->setDescription($faker->paragraph());
+            $manager->persist($goal);
         }
 
         $manager->flush();

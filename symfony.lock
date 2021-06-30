@@ -1,4 +1,49 @@
 {
+    "algolia/algoliasearch-client-php": {
+        "version": "3.0.1"
+    },
+    "algolia/search-bundle": {
+        "version": "3.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "master",
+            "version": "3.0",
+            "ref": "e4763dc0b1cb323ae78d414ded0cd1ae914fe205"
+        },
+        "files": [
+            "./config/packages/algolia_search.yaml"
+        ]
+    },
+    "doctrine/data-fixtures": {
+        "version": "1.5.0"
+    },
+    "doctrine/deprecations": {
+        "version": "v0.5.3"
+    },
+    "doctrine/doctrine-fixtures-bundle": {
+        "version": "3.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "3.0",
+            "ref": "e5b542d4ef47d8a003c91beb35650c76907f7e53"
+        },
+        "files": [
+            "./src/DataFixtures/AppFixtures.php"
+        ]
+    },
+    "easycorp/easyadmin-bundle": {
+        "version": "3.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "3.0",
+            "ref": "b131e6cbfe1b898a508987851963fff485986285"
+        }
+    },
+    "fakerphp/faker": {
+        "version": "v1.14.1"
+    },
     "friendsofsymfony/ckeditor-bundle": {
         "version": "2.0",
         "recipe": {
@@ -11,8 +56,51 @@
             "./config/packages/fos_ckeditor.yaml"
         ]
     },
+    "guzzlehttp/guzzle": {
+        "version": "7.3.0"
+    },
+    "guzzlehttp/promises": {
+        "version": "1.4.1"
+    },
+    "guzzlehttp/psr7": {
+        "version": "1.8.2"
+    },
+    "imagine/imagine": {
+        "version": "1.2.4"
+    },
     "jms/metadata": {
         "version": "2.5.0"
+    },
+    "liip/imagine-bundle": {
+        "version": "1.8",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "master",
+            "version": "1.8",
+            "ref": "5a5bdc2d0e2533ed6935d5ae562f2b318a8fc1ee"
+        },
+        "files": [
+            "config/packages/liip_imagine.yaml",
+            "config/routes/liip_imagine.yaml"
+        ]
+    },
+    "mailjet/mailjet-apiv3-php": {
+        "version": "v1.5.1"
+    },
+    "mailjet/mailjet-bundle": {
+        "version": "1.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "master",
+            "version": "1.0",
+            "ref": "48a7f92015372654b5056855da5e94d54bd8d948"
+        },
+        "files": [
+            "./config/packages/mailjet.yaml"
+        ]
+    },
+    "mailjet/mailjet-swiftmailer": {
+        "version": "1.0.6"
     },
     "mobiledetect/mobiledetectlib": {
         "version": "2.8.37"
@@ -20,8 +108,66 @@
     "php": {
         "version": "7.4"
     },
+    "php-flasher/flasher": {
+        "version": "v0.1.15"
+    },
+    "php-flasher/flasher-symfony": {
+        "version": "v0.1.15"
+    },
+    "psr/http-client": {
+        "version": "1.0.1"
+    },
+    "psr/http-message": {
+        "version": "1.0.1"
+    },
+    "psr/simple-cache": {
+        "version": "1.0.1"
+    },
+    "ralouphie/getallheaders": {
+        "version": "3.0.3"
+    },
+    "swiftmailer/swiftmailer": {
+        "version": "v5.4.12"
+    },
+    "symfony/debug": {
+        "version": "v4.4.20"
+    },
+    "symfony/inflector": {
+        "version": "v4.4.21"
+    },
+    "symfony/polyfill-php72": {
+        "version": "v1.22.1"
+    },
+    "symfony/polyfill-uuid": {
+        "version": "v1.22.1"
+    },
     "symfony/profiler-pack": {
         "version": "v1.0.5"
+    },
+    "symfony/uid": {
+        "version": "v5.2.6"
+    },
+    "symfony/webpack-encore-bundle": {
+        "version": "1.9",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "1.9",
+            "ref": "9399a0bfc6ee7a0c019f952bca46d6a6045dd451"
+        },
+        "files": [
+            "./assets/app.js",
+            "./assets/bootstrap.js",
+            "./assets/controllers.json",
+            "./assets/controllers/hello_controller.js",
+            "./assets/styles/app.css",
+            "./config/packages/assets.yaml",
+            "./config/packages/prod/webpack_encore.yaml",
+            "./config/packages/test/webpack_encore.yaml",
+            "./config/packages/webpack_encore.yaml",
+            "./package.json",
+            "./webpack.config.js"
+        ]
     },
     "vich/uploader-bundle": {
         "version": "1.5",

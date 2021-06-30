@@ -2,8 +2,10 @@
 
 namespace App\Services;
 
+use App\Entity\Goal;
 use App\Entity\Moderation;
 use App\Entity\Rent;
+use App\Entity\Reward;
 use App\Entity\Tutorial;
 use App\Entity\User;
 use App\Repository\UserRepository;
@@ -111,6 +113,9 @@ class MailerService
     /**
      * @param Tutorial $tutorial
      * @return Response
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
     public function sendAlertTutorial(Tutorial $tutorial)
     {
@@ -138,6 +143,22 @@ class MailerService
                 [
                     'subject' => "Un nouveau message vous a été adressé",
                     'moderation' => $moderation,
+                    'user' => $user,
+                ])
+        ];
+
+        return $this->client->post(Resources::$Email, ['body' => $config]);
+    }
+
+    public function sendReward(Goal $goal, User $user){
+        $config  = [
+            'FromEmail' => $this->noreply,
+            'To'     => $user->getEmail(),
+            'Subject'   => "Une nouvelle récompense est disponible",
+            'Html-part' => $this->environment->render('emails/reward.html.twig',
+                [
+                    'subject' => "Une nouvelle récompense est disponible",
+                    'goal' => $goal,
                     'user' => $user,
                 ])
         ];
