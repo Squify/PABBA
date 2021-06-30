@@ -42,6 +42,6 @@ class EventTypeFixtures extends Fixture
         $this->addReference(self::EVENT_TYPE_SPECIAL, $special);
         $this->addReference(self::EVENT_TYPE_PRODUCT, $product);
         $this->addReference(self::EVENT_TYPE_GARDEN_PARTY, $garden);
-        $this->addReference(self::EVENT_TYPE_GARDEN_PARTY, $demonstrate);
+        $this->addReference(self::EVENT_TYPE_DEMONSTRATION, $demonstrate);
     }
 }

@@ -134,9 +134,10 @@ class Goal
     /**
      * @param mixed $type
      */
-    public function setType($type): void
+    public function setType($type): self
     {
         $this->type = $type;
+        return $this;
     }
 
 

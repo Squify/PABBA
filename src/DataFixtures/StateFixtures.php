@@ -5,6 +5,7 @@ namespace App\DataFixtures;
 use App\Entity\State;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\Collections\ArrayCollection;
 
 class StateFixtures extends Fixture
 {
@@ -22,6 +23,6 @@ class StateFixtures extends Fixture
 
         $manager->flush();
 
-        $this->addReference(self::TOOL_STATES, $tabStates);
+        $this->addReference(self::TOOL_STATES, new ArrayCollection($tabStates));
     }
 }

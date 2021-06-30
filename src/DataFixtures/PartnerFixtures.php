@@ -3,8 +3,10 @@
 namespace App\DataFixtures;
 
 use App\Entity\Partner;
+use App\Repository\PartnerRepository;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\Collections\ArrayCollection;
 
 class PartnerFixtures extends Fixture
 {
@@ -22,6 +24,6 @@ class PartnerFixtures extends Fixture
 
         $manager->flush();
 
-        $this->addReference(self::PARTNERS, $partners);
+        $this->addReference(self::PARTNERS, new ArrayCollection($partners));
     }
 }

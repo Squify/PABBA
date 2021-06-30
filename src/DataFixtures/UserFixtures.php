@@ -6,9 +6,16 @@ use Faker\Factory;
 use App\Entity\User;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class UserFixtures extends Fixture
 {
+    public function __construct(UserPasswordEncoderInterface $encoder)
+    {
+        $this->encoder = $encoder;
+    }
+
     public const ADMIN = 'admin';
     public const MODERATOR = 'moderator';
     public const USERS = 'users';
@@ -46,7 +53,7 @@ class UserFixtures extends Fixture
             $manager->persist($user);
             $users[] = $user;
         }
-        $this->addReference(self::USERS, $users);
+        $this->addReference(self::USERS, new ArrayCollection($users));
 
         $manager->flush();
     }

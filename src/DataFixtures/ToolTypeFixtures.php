@@ -38,7 +38,7 @@ class ToolTypeFixtures extends Fixture
         $tailleHaie = new ToolType();
         $tailleHaie->setLabel("taille haie");
         $manager->persist($tailleHaie);
-        $this->addReference(self::SPATULE, $tailleHaie);
+        $this->addReference(self::TAILLE_HAIE, $tailleHaie);
         
         $spatule = new ToolType();
         $spatule->setLabel("spatule");

@@ -5,6 +5,7 @@ namespace App\DataFixtures;
 use App\Entity\Type;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\Collections\ArrayCollection;
 
 class PlaceTypeFixtures extends Fixture
 {
@@ -27,7 +28,7 @@ class PlaceTypeFixtures extends Fixture
         
         $manager->flush();
 
-        $this->addReference(self::PLACE_TYPES, $types);
+        $this->addReference(self::PLACE_TYPES, new ArrayCollection($types));
         $this->addReference(self::PLACE_TYPES_EVENT, $placeEvent);
     }
 }
