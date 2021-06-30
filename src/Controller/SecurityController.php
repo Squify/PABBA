@@ -21,9 +21,9 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 class SecurityController extends AbstractController
 {
-    private UserRepository $userRepository;
-    private EntityManagerInterface $em;
-    private EventDispatcherInterface $eventDispatcher;
+    private UserRepository               $userRepository;
+    private EntityManagerInterface       $em;
+    private EventDispatcherInterface     $eventDispatcher;
     private UserPasswordEncoderInterface $userPasswordEncoder;
 
     /**
@@ -38,11 +38,10 @@ class SecurityController extends AbstractController
         EntityManagerInterface $em,
         EventDispatcherInterface $eventDispatcher,
         UserPasswordEncoderInterface $userPasswordEncoder
-    )
-    {
-        $this->userRepository = $userRepository;
-        $this->em = $em;
-        $this->eventDispatcher = $eventDispatcher;
+    ) {
+        $this->userRepository      = $userRepository;
+        $this->em                  = $em;
+        $this->eventDispatcher     = $eventDispatcher;
         $this->userPasswordEncoder = $userPasswordEncoder;
     }
 
@@ -152,13 +151,14 @@ class SecurityController extends AbstractController
      * @param Request $request
      * @return Response
      */
-    public function register(Request $request){
+    public function register(Request $request)
+    {
         $user = new User();
         $form = $this->createForm(UserProfileType::class, $user);
 
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid()){
+        if ($form->isSubmitted() && $form->isValid()) {
             $user
                 ->setRoles(['ROLE_USER'])
                 ->setToken(md5(uniqid()))
@@ -169,8 +169,8 @@ class SecurityController extends AbstractController
             $this->eventDispatcher->dispatch(new UserChangePasswordEvent($user));
             $user->setPictureFile(null);
 
-            $this->addFlash("success", "Félicitation, c'est presque terminé. Un email vient d'être envoyé à " . $user->getEmail() . " pour créer votre mot de passe");
-
+            $this->addFlash("success",
+                "Félicitation, c'est presque terminé. Un email vient d'être envoyé à " . $user->getEmail() . " pour créer votre mot de passe");
         }
 
         return $this->render('security/register.html.twig', [
