@@ -55,11 +55,6 @@ class Place
     private $type;
 
     /**
-     * @ORM\Column(type="text", nullable=true)
-     */
-    private $open;
-
-    /**
      * @ORM\OneToMany(targetEntity=Event::class, mappedBy="place")
      */
     private $events;
@@ -154,18 +149,6 @@ class Place
     public function setType(?Type $type): self
     {
         $this->type = $type;
-
-        return $this;
-    }
-
-    public function getOpen(): ?string
-    {
-        return $this->open;
-    }
-
-    public function setOpen(?string $open): self
-    {
-        $this->open = $open;
 
         return $this;
     }
